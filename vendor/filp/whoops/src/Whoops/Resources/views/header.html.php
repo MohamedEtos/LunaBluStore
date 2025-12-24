@@ -41,7 +41,8 @@
     <ul class="search-for-help">
       <?php if (!empty($docref_url)): ?>
       <li>
-        <a rel="noopener noreferrer" target="_blank" href="<?php echo $docref_url; ?>" title="Search for help in the PHP manual.">
+        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+ href="<?php echo $docref_url; ?>" title="Search for help in the PHP manual.">
           <!-- PHP icon by Icons Solid -->
           <!-- https://www.iconfinder.com/icons/322421/book_icon -->
           <!-- Free for commercial use -->
@@ -50,7 +51,8 @@
       </li>
       <?php endif ?>
       <li>
-        <a rel="noopener noreferrer" target="_blank" href="https://google.com/search?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on Google.">
+        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+ href="https://google.com/search?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on Google.">
           <!-- Google icon by Alfredo H, from https://www.iconfinder.com/alfredoh -->
           <!-- Creative Commons (Attribution 3.0 Unported) -->
           <!-- http://creativecommons.org/licenses/by/3.0/ -->
@@ -60,7 +62,8 @@
         </a>
       </li>
       <li>
-        <a rel="noopener noreferrer" target="_blank" href="https://duckduckgo.com/?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on DuckDuckGo.">
+        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+ href="https://duckduckgo.com/?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on DuckDuckGo.">
           <!-- DuckDuckGo icon by IconBaandar Team, from https://www.iconfinder.com/iconbaandar -->
           <!-- Creative Commons (Attribution 3.0 Unported) -->
           <!-- http://creativecommons.org/licenses/by/3.0/ -->
@@ -74,7 +77,8 @@
         </a>
       </li>
       <li>
-        <a rel="noopener noreferrer" target="_blank" href="https://stackoverflow.com/search?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on Stack Overflow.">
+        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+ href="https://stackoverflow.com/search?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on Stack Overflow.">
           <!-- Stack Overflow icon by Picons.me, from https://www.iconfinder.com/Picons -->
           <!-- Free for commercial use -->
           <svg class="stackoverflow" height="16" viewBox="-1163 1657.697 56.693 56.693" width="16" xmlns="http://www.w3.org/2000/svg">
