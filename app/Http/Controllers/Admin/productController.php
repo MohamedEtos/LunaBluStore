@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Prodimg;
 use App\Models\FabricType;
-use App\Models\category;
+use App\Models\Category;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +24,7 @@ class ProductController extends Controller
 
         $Productlist = Product::get();
         $fabrics = FabricType::get();
-        $categories = category::get();
+        $categories = Category::get();
 
         return view('admin.product.productlist',[
             'Productlist' => $Productlist,
@@ -40,7 +40,7 @@ class ProductController extends Controller
         // dd($request->all());
         $request->validate([
             'name'=>'required|string',
-            'cat' => 'required|numeric|exists:App\Models\category,id',
+            'cat' => 'required|numeric|exists:App\Models\Category,id',
             'fabric_type'=>'required|string',
             'price'=>'required|numeric',
             'stock'=>'required|numeric',
@@ -237,7 +237,7 @@ class ProductController extends Controller
 
         $request->validate([
             'name'=>'required|string',
-            'cat' => 'required|numeric|exists:App\Models\category,id',
+            'cat' => 'required|numeric|exists:App\Models\Category,id',
             'fabric_type'=>'required|string',
             'price'=>'required|numeric',
             'stock'=>'required|numeric',

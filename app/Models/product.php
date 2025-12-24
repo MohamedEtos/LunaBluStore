@@ -42,7 +42,7 @@ protected static function booted()
 }
 
 
-    public function category()
+    public function Category()
     {
         return $this->belongsTo(Category::class);
     }
