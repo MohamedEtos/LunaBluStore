@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('cat_id');
-            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('cat_id')->references('id')->on('Categories')->onDelete('cascade');
             $table->unsignedBigInteger('fabric_id');
             $table->foreign('fabric_id')->references('id')->on('fabric_types')->onDelete('cascade');
             $table->string('productDetalis',200);

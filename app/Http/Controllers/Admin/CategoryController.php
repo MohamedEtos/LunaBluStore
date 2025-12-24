@@ -17,7 +17,7 @@ class CategoryController extends Controller
      public function index(Request $request)
     {
 
-        $Categorylist = category::get();
+        $Categorylist = Category::get();
 
         return view('admin.Category.Categorylist',[
             'Categorylist' => $Categorylist,
@@ -57,7 +57,7 @@ class CategoryController extends Controller
                 $main_image = '';
             };
 
-            $Category = category::create([
+            $Category = Category::create([
                 "name" => $request->name,
                 "catimg" =>$main_image,
                 "meta_title" => $request->meta_title,
