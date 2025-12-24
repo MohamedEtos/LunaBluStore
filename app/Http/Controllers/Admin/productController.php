@@ -24,7 +24,7 @@ class ProductController extends Controller
 
         $Productlist = Product::get();
         $fabrics = FabricType::get();
-        $categories = Category::get();
+        $categories =  Category::get();
 
         return view('admin.product.productlist',[
             'Productlist' => $Productlist,
