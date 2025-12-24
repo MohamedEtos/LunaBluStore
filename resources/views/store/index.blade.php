@@ -105,9 +105,9 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
-								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
 									طرحتك… لمستك الخاصة كل يوم
-								</h2>
+                                </h1>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
@@ -130,10 +130,10 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
-								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
 									{{-- Jackets & Coats --}}
 									اكتشفي أحدث صيحات الطرح
-								</h2>
+								</h1>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
@@ -156,9 +156,9 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
-								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
 									ضيفي لمسة فريدة لإطلالتك
-								</h2>
+                                </h1>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">

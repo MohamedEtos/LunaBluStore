@@ -41,7 +41,7 @@
     <ul class="search-for-help">
       <?php if (!empty($docref_url)): ?>
       <li>
-        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+        <a rel="noopener noreferrer" target="_blank" rel="noopener noreferrer"
  href="<?php echo $docref_url; ?>" title="Search for help in the PHP manual.">
           <!-- PHP icon by Icons Solid -->
           <!-- https://www.iconfinder.com/icons/322421/book_icon -->
@@ -51,7 +51,7 @@
       </li>
       <?php endif ?>
       <li>
-        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+        <a rel="noopener noreferrer" target="_blank" rel="noopener noreferrer"
  href="https://google.com/search?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on Google.">
           <!-- Google icon by Alfredo H, from https://www.iconfinder.com/alfredoh -->
           <!-- Creative Commons (Attribution 3.0 Unported) -->
@@ -62,7 +62,7 @@
         </a>
       </li>
       <li>
-        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+        <a rel="noopener noreferrer" target="_blank" rel="noopener noreferrer"
  href="https://duckduckgo.com/?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on DuckDuckGo.">
           <!-- DuckDuckGo icon by IconBaandar Team, from https://www.iconfinder.com/iconbaandar -->
           <!-- Creative Commons (Attribution 3.0 Unported) -->
@@ -77,7 +77,7 @@
         </a>
       </li>
       <li>
-        <a rel="noopener noreferrer" target="_blank " rel="noopener noreferrer"
+        <a rel="noopener noreferrer" target="_blank" rel="noopener noreferrer"
  href="https://stackoverflow.com/search?q=<?php echo urlencode(implode('\\', $name).' '.$message) ?>" title="Search for help on Stack Overflow.">
           <!-- Stack Overflow icon by Picons.me, from https://www.iconfinder.com/Picons -->
           <!-- Free for commercial use -->
