@@ -17,6 +17,36 @@
 	box-sizing: border-box;
 }
 
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: #F0287D;
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  pointer-events: none;
+  animation: hideLoader 0.3s ease forwards;
+  animation-delay: 0.6s; /* أقل من ثانية */
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #eee;
+  border-top-color: #111;
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hideLoader {
+  to { opacity: 0; visibility: hidden; }
+}
+
+
 body, html {
 	/* font-family: Arial, sans-serif; */
 	font-size: 15px;

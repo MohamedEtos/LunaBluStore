@@ -14,6 +14,9 @@
 </script>
 </head>
 <body class="animsition">
+<div id="page-loader" aria-hidden="true">
+  <span class="spinner"></span>
+</div>
 
     @include('store.layouts.navbar')
     @include('store.layouts.aside')
