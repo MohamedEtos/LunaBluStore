@@ -11,6 +11,7 @@
 				</span>
 
 				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                      <span class="sr-only">close </span>
 					<i class="zmdi zmdi-close"></i>
 				</div>
 			</div>
@@ -94,7 +95,7 @@
 	<section class="section-slide">
 		<div class="wrap-slick1 rs2-slick1">
 			<div class="slick1">
-				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-05.avif') }}');" role="img"
+				<div class="item-slick1 bg-overlay1"  style="background-image: url('{{ asset('store/images/slide-05.avif') }}');"     role="img"
   aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-01.avif') }}" data-caption="إطلالات الموسم الباردة">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
@@ -119,7 +120,7 @@
 					</div>
 				</div>
 
-				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-06.avif') }}');" role="img"
+				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-06.avif') }}');"  role="img"
   aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-02.avif') }}" data-caption="  تكسر حاجز المألوف.">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
@@ -130,10 +131,10 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
-								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
 									{{-- Jackets & Coats --}}
 									اكتشفي أحدث صيحات الطرح
-								</h1>
+                                </h2>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
@@ -145,7 +146,7 @@
 					</div>
 				</div>
 
-				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-07.avif') }}');" role="img"
+				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-07.avif') }}');"  role="img"
   aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-03.avif') }}" data-caption="كوني الأجمل.. باختلاف.">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
@@ -156,9 +157,9 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
-								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
+								<h2 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
 									ضيفي لمسة فريدة لإطلالتك
-                                </h1>
+                                </h2>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
@@ -318,9 +319,9 @@
 	<section class="bg0 p-t-23 p-b-130 arabic_section">
 		<div class="container">
 			<div class="p-b-10">
-				<h3 class="ltext-103 cl5">
+				<h2 class="ltext-103 cl5">
 				اكتشفي جمال التفاصيل...
-				</h3>
+                </h2>
 			</div>
 
 			<div class="flex-w flex-sb-m p-b-52">
@@ -339,13 +340,20 @@
 
 				<div class="flex-w flex-c-m m-tb-10">
 					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+                          <span class="sr-only">filter</span>
 						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+                          <span class="sr-only">close filter</span>
+
 						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 						 Filter
 					</div>
 
 					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+                          <span class="sr-only">search</span>
+
 						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+                          <span class="sr-only">close search</span>
+
 						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 						Search
 					</div>
@@ -354,7 +362,8 @@
 				<!-- Search product -->
 				<div class="dis-none panel-search w-full p-t-10 p-b-15">
 					<div class="bor8 dis-flex p-l-15">
-						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04" aria-label="Open search">
+                          <span class="sr-only">search</span>
 							<i class="zmdi zmdi-search"></i>
 						</button>
 
@@ -461,7 +470,8 @@
 							<ul>
 								<li class="p-b-6">
 									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
+                                        <span class="sr-only">cirlce</span>
+                                        <i class="zmdi zmdi-circle"></i>
 									</span>
 
 									<a href="#" class="filter-link stext-106 trans-04">
@@ -471,7 +481,8 @@
 
 								<li class="p-b-6">
 									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
+                                        <span class="sr-only">cirlce</span>
+                                        <i class="zmdi zmdi-circle"></i>
 									</span>
 
 									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
@@ -481,7 +492,8 @@
 
 								<li class="p-b-6">
 									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
+                                        <span class="sr-only">cirlce</span>
+                                        <i class="zmdi zmdi-circle"></i>
 									</span>
 
 									<a href="#" class="filter-link stext-106 trans-04">
@@ -491,7 +503,8 @@
 
 								<li class="p-b-6">
 									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
+                                        <span class="sr-only">cirlce</span>
+                                        <i class="zmdi zmdi-circle"></i>
 									</span>
 
 									<a href="#" class="filter-link stext-106 trans-04">
@@ -501,7 +514,8 @@
 
 								<li class="p-b-6">
 									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
+                                        <span class="sr-only">cirlce</span>
+                                        <i class="zmdi zmdi-circle"></i>
 									</span>
 
 									<a href="#" class="filter-link stext-106 trans-04">
@@ -511,7 +525,8 @@
 
 								<li class="p-b-6">
 									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
+                                        <span class="sr-only">cirlce</span>
+                                        <i class="zmdi zmdi-circle-o"></i>
 									</span>
 
 									<a href="#" class="filter-link stext-106 trans-04">
@@ -672,6 +687,22 @@
         }
     });
 })(jQuery);
+
+
+// seo friendly dots for slider
+
+$('.slick1').slick({
+  dots: true,
+  customPaging: function(slider, i) {
+    return `<button type="button" aria-label="Go to slide ${i+1}"></button>`;
+  }
+});
+$('.slick-active').slick({
+  dots: true,
+  customPaging: function(slider, i) {
+    return `<button type="button" aria-label="Go to slide ${i+1}"></button>`;
+  }
+});
 
     </script>
 
