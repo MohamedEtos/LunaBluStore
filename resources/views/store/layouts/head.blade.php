@@ -30,23 +30,14 @@
     }
     </style>
 
-    {{-- <!-- ===== GOOGLE FONTS (render-safe) ===== --> --}}
-    {{-- <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Noto+Sans+Arabic:wght@100..900&display=swap"> --}}
-
-    <!-- ===== CRITICAL CSS ===== -->
-    {{-- <link rel="stylesheet" href="{{ asset('store/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('store/css/util.css') }}">
-    <link rel="stylesheet" href="{{ asset('store/css/main.css') }}"> --}}
-
     <link rel="preload" href="{{ asset('store/vendor/bootstrap/css/bootstrap.min.css') }}" as="style" onload="this.rel='stylesheet'">
-    <link rel="preload" href="{{ asset('store/css/util.css') }}" as="style" onload="this.rel='stylesheet'">
     <link rel="preload" href="{{ asset('store/css/main.css') }}" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('store/css/util.css') }}" as="style" onload="this.rel='stylesheet'">
 
     <noscript>
     <link rel="stylesheet" href="{{ asset('store/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('store/css/util.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('store/css/util.css') }}">
     </noscript>
 
     <link rel="stylesheet" href="{{ asset('store/vendor/slick/slick.css') }}">
@@ -55,8 +46,8 @@
     <link rel="stylesheet" href="{{ asset('store/fonts/iconic/css/material-design-iconic-font.min.css') }}">
 
     <!-- ===== DEFERRED CSS (non-critical) ===== -->
-    <link rel="stylesheet" href="{{ asset('store/vendor/animate/animate.css') }}"
-        media="print" onload="this.media='all'">
+    {{-- <link rel="stylesheet" href="{{ asset('store/vendor/animate/animate.css') }}"
+        media="print" onload="this.media='all'"> --}}
 
     <link rel="stylesheet" href="{{ asset('store/vendor/css-hamburgers/hamburgers.min.css') }}"
         media="print" onload="this.media='all'">

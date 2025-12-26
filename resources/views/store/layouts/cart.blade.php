@@ -17,7 +17,7 @@
 				<ul class="header-cart-wrapitem w-full" id="sideCartItems">
 					<li class="header-cart-item flex-w flex-t m-b-12">
 						<div class="header-cart-item-img">
-							<img src="{{ asset('store/images/item-cart-01.avif') }}" alt="IMG">
+							<img src="" alt="IMG">
 						</div>
 
 

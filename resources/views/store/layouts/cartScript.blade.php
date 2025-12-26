@@ -18,7 +18,7 @@ $(document).on('click', '.add_cart', function (e) {
     .done(function (res) {
             refreshSideCart();
 
-        $("#cartCount").attr("data-notify", res.cart.count); // Change the href
+        $(".cartCount").attr("data-notify", res.cart.count); // Change the href
 
       console.log(res.cart);
     })
@@ -37,7 +37,7 @@ $(document).on('change', '.cart_qty', function () {
     type: "PATCH",
     data: { product_id: productId, qty: qty },
     success: function (res) {
-    $("#cartCount").attr("data-notify", res.cart.count); // Change the href
+    $(".cartCount").attr("data-notify", res.cart.count); // Change the href
 
       console.log(res.cart);
     }
@@ -54,7 +54,7 @@ $(document).on('click', '.remove_item', function () {
     type: "DELETE",
     data: { product_id: productId },
     success: function (res) {
-    $("#cartCount").attr("data-notify", res.cart.count); // Change the href
+    $(".cartCount").attr("data-notify", res.cart.count); // Change the href
 
     }
   });
@@ -67,7 +67,7 @@ $(document).on('click', '#clearCart', function () {
     url: "{{ route('cart.clear') }}",
     type: "DELETE",
     success: function (res) {
-          $("#cartCount").attr("data-notify", '0'); // Change the href
+          $(".cartCount").attr("data-notify", '0'); // Change the href
 
     }
   });
@@ -76,7 +76,7 @@ $(document).on('click', '#clearCart', function () {
 
 $(document).ready(function () {
   $.get("{{ route('cart.show') }}", function (res) {
-    $('#cartCount').attr('data-notify', res.count);
+    $('.cartCount').attr('data-notify', res.count);
 
   });
 });
@@ -104,7 +104,7 @@ function refreshSideCart() {
       ul.append(`<li class="p-t-20 p-b-20 text-center">السلة فاضية</li>`);
       $('#sideCartTotal').text('اجمالي: ج.م0.00');
       // عداد الأيقونة لو عندك
-      $('#cartCount').attr('data-notify', 0);
+      $('.cartCount').attr('data-notify', 0);
       return;
     }
 
@@ -141,7 +141,7 @@ function refreshSideCart() {
     $('#sideCartTotal').text(`اجمالي: ج.م${formatMoney(res.subtotal)}`);
 
     // 3) تحديث عداد أيقونة السلة (لو عندك)
-    $('#cartCount').attr('data-notify', res.count);
+    $('.cartCount').attr('data-notify', res.count);
   });
 }
 
