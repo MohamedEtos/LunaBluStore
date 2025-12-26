@@ -5,7 +5,7 @@
 
     RewriteEngine On
 
-    # 🔁 تحويل www إلى non-www
+    # ✅ تحويل www إلى non-www
     RewriteCond %{HTTP_HOST} ^www\.lunablu\.store$ [NC]
     RewriteRule ^(.*)$ https://lunablu.store/$1 [L,R=301]
 
@@ -13,11 +13,11 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Remove trailing slash
+    # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
-    # Laravel Front Controller
+    # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

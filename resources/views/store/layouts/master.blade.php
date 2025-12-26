@@ -6,8 +6,10 @@
 @include('store.layouts.head')
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPZ3P2T6KM"></script>
-
+{{-- bing --}}
 <meta name="msvalidate.01" content="7250B913D4CB255075A09A239EE816C1" />
+{{-- yandex --}}
+<meta name="yandex-verification" content="c9c7a3de33a4aae9" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
