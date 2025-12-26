@@ -13,6 +13,9 @@
 
   gtag('config', 'G-RPZ3P2T6KM');
 </script>
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body class="animsition">
   <main id="main-content">
