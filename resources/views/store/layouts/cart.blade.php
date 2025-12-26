@@ -14,7 +14,7 @@
 			</div>
 
 			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
+				<ul class="header-cart-wrapitem w-full" id="sideCartItems">
 					<li class="header-cart-item flex-w flex-t m-b-12">
 						<div class="header-cart-item-img">
 							<img src="{{ asset('store/images/item-cart-01.avif') }}" alt="IMG">
@@ -41,9 +41,9 @@
 				</ul>
 
 				<div class="w-full">
-					<div class="header-cart-total w-full p-tb-40">
-						اجمالي: ج.م75.00
-					</div>
+                    <div class="header-cart-total w-full p-tb-40" id="sideCartTotal">
+                        اجمالي: ج.م0.00
+                    </div>
 
 					<div class="header-cart-buttons flex-w w-full">
 						<button id="clearCart" class="  flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">

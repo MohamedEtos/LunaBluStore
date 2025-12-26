@@ -115,7 +115,7 @@ class CartController extends Controller
             // $p = $products->get((int)$pid);
             $p = $products->get($pid);
             $image = $p->product_img_p
-                ? asset('storage/' . $p->product_img_p->mainImage)
+                ? asset( $p->product_img_p->mainImage)
                 : null;
             if (!$p) continue;
 
