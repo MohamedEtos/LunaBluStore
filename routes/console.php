@@ -55,6 +55,6 @@ Artisan::command('generate:sitemap', function () {
 
 
 // ✅ نفس اسم الأمر بالظبط
-// Schedule::command('generate:sitemap')->daily()->at('03:00');
-Schedule::command('generate:sitemap')->everyMinute();
+Schedule::command('generate:sitemap')->daily()->at('03:00');
+// Schedule::command('generate:sitemap')->everyMinute();
 
