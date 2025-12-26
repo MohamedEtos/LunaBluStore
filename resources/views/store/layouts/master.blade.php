@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ar">
 <head>
+    @yield('head')
 <!-- Head -->
 @include('store.layouts.head')
 <!-- Google tag (gtag.js) -->

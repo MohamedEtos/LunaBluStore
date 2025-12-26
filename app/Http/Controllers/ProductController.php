@@ -24,10 +24,16 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $products = Product::with(['Category', 'FabricType'])->get();
+
         return view('store.productshow',[
             'product' => $product,
+            'products' => $products,
             'title' => $product->name . ' | LunaBlu',
             'description' => 'اكتشف ' . $product->name . ' في متجر تسوق الآن للحصول على أفضل العروض على منتجاتنا عالية الجودة.',
         ]);
+
     }
+
+    
 }

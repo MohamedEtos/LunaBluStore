@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\VisitorController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FabrictypeController;
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController as StoreProductController;
@@ -18,7 +19,13 @@ use Illuminate\Support\Facades\Route;
 
     Route::get('shopingcart', [IndexController::class, 'shopingcart'])->name('shopingcart');
 
-
+Route::prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'show'])->name('show');              // GET  /cart
+    Route::post('/add', [CartController::class, 'add'])->name('add');            // POST /cart/add
+    Route::patch('/update', [CartController::class, 'update'])->name('update');  // PATCH /cart/update
+    Route::delete('/remove', [CartController::class, 'remove'])->name('remove'); // DELETE /cart/remove
+    Route::delete('/clear', [CartController::class, 'clear'])->name('clear');    // DELETE /cart/clear
+});
 
 // Addmin Routes
 
