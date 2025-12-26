@@ -1,42 +1,52 @@
-<!-- <?php
+<?php
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
- use Illuminate\Support\Facades\Schedule;
-use App\Models\Product; // لو عندك منتجات
-use App\Models\Category; // لو عندك أقسام
+use Spatie\Sitemap\Tags\Image;
+
+use App\Models\Product;
+
 Artisan::command('generate:sitemap', function () {
 
     $sitemap = Sitemap::create();
 
-    // صفحات ثابتة
-    $sitemap->add(Url::create('/')->setPriority(1.0));
-    $sitemap->add(Url::create('/product')->setPriority(0.9));
-    $sitemap->add(Url::create('/shopingcart')->setPriority(0.6));
-    $sitemap->add(Url::create('/cart')->setPriority(0.2));
+    // الصفحة الرئيسية
+    $sitemap->add(Url::create(url('/'))->setPriority(1.0));
 
-    // منتجات (اختياري، لو عندك Model Product)
-        if (class_exists(Product::class)) {
-            foreach (Product::all() as $product) {
-                $sitemap->add(
-                    Url::create("/product/{$product->name}")
-                        ->setPriority(0.8)
-                );
+    // صفحة المنتجات
+    $sitemap->add(Url::create(url('/product'))->setPriority(0.9));
+
+    // المنتجات + الصور
+    Product::with('product_img_p')
+        ->where('append', 1) // ✅ بدل is_active
+        ->cursor()
+        ->each(function ($product) use ($sitemap) {
+
+            // ✅ اختار واحد من دول حسب مشروعك:
+            // لو عندك slug:
+            $productUrl = url("/product/{$product->slug}");
+
+            // لو ماعندكش slug وبتستخدم id:
+            // $productUrl = url("/product/{$product->id}");
+
+            $urlTag = Url::create($productUrl)
+                ->setPriority(0.8)
+                ->setLastModificationDate($product->updated_at);
+
+            foreach ($product->product_img_p as $img) {
+                if (!empty($img->mainImage)) {
+                    $urlTag->addImage(
+                        Image::create(asset('storage/' . $img->mainImage))
+                            ->setTitle($product->name)
+                    );
+                }
             }
-        }
 
-    // أقسام (اختياري، لو عندك Model Category)
-    if (class_exists(Category::class)) {
-        foreach (Category::all() as $category) {
-            $sitemap->add(
-                Url::create("/category/{$category->name}")
-                    ->setPriority(0.7)
-            );
-        }
-    }
+            $sitemap->add($urlTag);
+        });
 
-    // حفظ الملف في public/sitemap.xml
     $sitemap->writeToFile(public_path('sitemap.xml'));
 
     $this->info('Sitemap generated successfully!');
@@ -44,8 +54,7 @@ Artisan::command('generate:sitemap', function () {
 })->purpose('Generate sitemap.xml for the website');
 
 
+// ✅ نفس اسم الأمر بالظبط
+// Schedule::command('generate:sitemap')->daily()->at('03:00');
+Schedule::command('generate:sitemap')->everyMinute();
 
-
-Schedule::command('sitemap:generate')
-    ->daily()
-    ->at('03:00');
