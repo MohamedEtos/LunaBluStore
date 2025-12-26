@@ -114,7 +114,8 @@
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-			<button class="flex-c-m btn-hide-modal-search trans-04">
+			<button class="flex-c-m btn-hide-modal-search trans-04" aria-label="Close Modal Search">
+                  <span class="sr-only">close</span>
 				<i class="zmdi zmdi-close"></i>
 			</button>
 
@@ -122,7 +123,7 @@
 				<div class="wrap-search-header">
 					<input class="plh0" type="text" name="search" placeholder="Search...">
 
-					<button class="flex-c-m trans-04">
+					<button class="flex-c-m trans-04" aria-label="Close Modal Search">
 						<i class="zmdi zmdi-search"></i>
 					</button>
 				</div>

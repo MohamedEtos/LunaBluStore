@@ -3,7 +3,7 @@
 	<script src="{{ asset('store/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 	{{-- <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js') }}"></script> --}}
 <!--===============================================================================================-->
-	<script src="{{ asset('store/vendor/animsition/js/animsition.min.js') }}"></script>
+	{{-- <script src="{{ asset('store/vendor/animsition/js/animsition.min.js') }}"></script> --}}
 	{{-- <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js') }}"></script> --}}
 <!--===============================================================================================-->
 	<script src="{{ asset('store/vendor/bootstrap/js/popper.js') }}"></script>

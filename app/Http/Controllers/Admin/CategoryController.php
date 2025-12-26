@@ -31,7 +31,7 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
 
-        dd($request->all());
+        // dd($request->all());
         $request->validate([
             'name'=>'required|string',
             'catimg'=>'required|mimes:jpeg,png,jpg,gif,webp|max:51200',

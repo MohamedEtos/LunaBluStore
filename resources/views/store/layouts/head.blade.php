@@ -61,8 +61,8 @@
     <link rel="stylesheet" href="{{ asset('store/vendor/css-hamburgers/hamburgers.min.css') }}"
         media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="{{ asset('store/vendor/animsition/css/animsition.min.css') }}"
-        media="print" onload="this.media='all'">
+    {{-- <link rel="stylesheet" href="{{ asset('store/vendor/animsition/css/animsition.min.css') }}"
+        media="print" onload="this.media='all'"> --}}
 
     <link rel="stylesheet" href="{{ asset('store/vendor/select2/select2.min.css') }}"
         media="print" onload="this.media='all'">

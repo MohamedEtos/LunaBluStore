@@ -3,9 +3,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
+					<h2 class="h4 stext-301 cl0 p-b-30">
 						الاقسام
-					</h4>
+					</h2>
 
 					<ul>
 						<li class="p-b-10">
@@ -35,25 +35,25 @@
 				</div>
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
+					<h2 class="h4 stext-301 cl0 p-b-30">
 						تواصل معنا
-					</h4>
+					</h2>
 
 					<ul>
 						<li class="p-b-10">
-							<a href="https://www.instagram.com/luna.blustore/" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="https://www.instagram.com/luna.blustore/"  aria-label="Visit our instragram page" class="stext-107 cl7 hov-cl1 trans-04">
 								instagram
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="https://www.facebook.com/profile.php?id=61583415522354" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="https://www.facebook.com/profile.php?id=61583415522354" aria-label="Visit our Facebook page" class="stext-107 cl7 hov-cl1 trans-04">
 								FaceBook
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="https://wa.me/01554063260" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="https://wa.me/01554063260" aria-label="Visit our WhatsApp" class="stext-107 cl7 hov-cl1 trans-04">
 								WhatsApp
 							</a>
 						</li>
@@ -63,33 +63,33 @@
 				</div>
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
+					<h2 class="h4 stext-301 cl0 p-b-30">
 						اذا كان لديك مشكله
-					</h4>
+					</h2>
 
 					<p class="stext-107 cl7 size-201">
 						تواصل معنا علي 01554063260
 					</p>
 
 					<div class="p-t-27">
-						<a href="https://www.facebook.com/profile.php?id=61583415522354" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://www.facebook.com/profile.php?id=61583415522354" aria-label="Visit our Facebook page" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-facebook"></i>
 						</a>
 
-						<a href="https://www.instagram.com/luna.blustore/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://www.instagram.com/luna.blustore/" aria-label="Visit our Instagram page" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-instagram"></i>
 						</a>
 
-						<a href="https://wa.me/01554063260" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://wa.me/01554063260" aria-label="Visit our WhatsApp" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-whatsapp"></i>
 						</a>
 					</div>
 				</div>
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
+					<h2 class="h4 stext-301 cl0 p-b-30">
 						اترك لنا رساله
-					</h4>
+					</h2>
 
 					<form>
 						<div class="wrap-input1 w-full p-b-4">
@@ -182,9 +182,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 					<div class="col-md-6 col-lg-5 p-b-30">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+							<h2 class="h4 mtext-105 cl2 js-name-detail p-b-14">
 								Lightweight Jacket
-							</h4>
+							</h2>
 
 							<span class="mtext-106 cl2">
 								$58.79
@@ -259,20 +259,24 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
 									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-										<i class="zmdi zmdi-favorite"></i>
+                                        <span class="sr-only">favorite</span>
+                                        <i class="zmdi zmdi-favorite"></i>
 									</a>
 								</div>
 
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+                                    <span class="sr-only">facebook</span>
 									<i class="fa fa-facebook"></i>
 								</a>
 
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-									<i class="fa fa-twitter"></i>
+                                    <span class="sr-only">twitter</span>
+                                    <i class="fa fa-twitter"></i>
 								</a>
 
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-									<i class="fa fa-google-plus"></i>
+                                    <span class="sr-only">google-puls</span>
+                                    <i class="fa fa-google-plus"></i>
 								</a>
 							</div>
 						</div>
