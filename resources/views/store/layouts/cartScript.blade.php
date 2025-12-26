@@ -157,7 +157,18 @@ $(document).on('click', '.js-remove-sidecart', function () {
   });
 });
 
+// ✅ تفريغ السلة
+$(document).on('click', '#clearCart', function (e) {
+  e.preventDefault();
 
+  $.ajax({
+    url: "{{ route('cart.clear') }}",
+    type: "DELETE",
+    success: function () {
+      refreshSideCart();
+    }
+  });
+});
 
 // Helpers
 function formatMoney(val) {
