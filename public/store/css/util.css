@@ -3798,3 +3798,29 @@ iframe {border: none;}
     padding: 0 6px;
     font-weight: 700;
 }
+
+
+
+
+
+.item-slick1 {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* أو الارتفاع اللي انت محتاجه */
+    overflow: hidden;
+}
+
+.item-slick1 img.slick-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.item-slick1 .container {
+    position: relative;
+    z-index: 2;
+}

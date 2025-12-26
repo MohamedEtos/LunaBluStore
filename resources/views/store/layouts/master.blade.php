@@ -10,6 +10,9 @@
 <meta name="msvalidate.01" content="7250B913D4CB255075A09A239EE816C1" />
 {{-- yandex --}}
 <meta name="yandex-verification" content="c9c7a3de33a4aae9" />
+{{-- seo google meta  --}}
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="noai, noimageai">
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}

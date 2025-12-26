@@ -5,12 +5,13 @@
 	<section class="section-slide">
 		<div class="wrap-slick1 rs2-slick1">
 			<div class="slick1">
+
 				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-05.avif') }}');" role="img"
   aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-01.avif') }}" data-caption="إطلالات الموسم الباردة">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2">
+								<span class="ltext-202 txt-center cl0 respon2 alt_1">
 إطلالات الموسم الباردة
 								</span>
 							</div>
@@ -35,7 +36,7 @@
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2">
+								<span class="ltext-202 txt-center cl0 respon2 alt_2">
 تفرّدي بستايلك: طرح حصرية تكسر حاجز المألوف.
 								</span>
 							</div>
@@ -61,7 +62,7 @@
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2">
+								<span class="ltext-202 txt-center cl0 respon2 alt_3">
 كوني الأجمل.. باختلاف.
 								</span>
 							</div>

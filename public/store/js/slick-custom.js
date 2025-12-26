@@ -40,6 +40,8 @@
                 showDot = true;
             }
 
+            let alt_1 = $('.alt_1').text();
+
             $(slick1).slick({
                 pauseOnFocus: false,
                 pauseOnHover: false,
@@ -60,7 +62,7 @@
                 customPaging: function(slick, index) {
                     var linkThumb = $(slick.$slides[index]).data('thumb');
                     var caption = $(slick.$slides[index]).data('caption');
-                    return  '<img src="' + linkThumb + '">' +
+                    return  '<img alt="' + alt_1 + '"  src="' + linkThumb + '">' +
                             '<span class="caption-dots-slick1">' + caption + '</span>';
                 },
             });
@@ -160,7 +162,10 @@
                 dotsClass:'slick3-dots',
                 customPaging: function(slick, index) {
                     var portrait = $(slick.$slides[index]).data('thumb');
-                    return '<img src=" ' + portrait + ' "/><div class="slick3-dot-overlay"></div>';
+                    let alt_2 = $('.alt_2').text();
+
+                    return '<img alt="' + alt_2 + '"" src=" ' + portrait + ' "/><div class="slick3-dot-overlay"></div>';
+
                 },
             });
         });
