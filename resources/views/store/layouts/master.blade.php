@@ -30,7 +30,7 @@
 
     @include('store.layouts.footer')
     @include('store.layouts.scripts')
-
+    @include('store.layouts.cartScript')
     @yield('script')
   </main>
 </body>
