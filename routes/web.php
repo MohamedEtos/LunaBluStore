@@ -13,7 +13,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController as StoreProductController;
 use Illuminate\Support\Facades\Route;
 
-    Route::get('/', [IndexController::class, 'index']);
+    Route::get('/', [IndexController::class, 'index'])->name('home');
     Route::get('/product', [StoreProductController::class, 'index'])->name('product');
     Route::get('/product/{product:slug}', [StoreProductController::class, 'show'])->name('product.show');
 

@@ -9,20 +9,33 @@
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/shopingcart</loc>
-    <priority>0.6</priority>
-            </url>
-    <url>
-    <loc>http://localhost/cart</loc>
-    <priority>0.2</priority>
-            </url>
-    <url>
-    <loc>http://localhost/product/123</loc>
+    <loc>http://localhost/product/kelsey-york</loc>
+    <lastmod>2025-12-25T20:16:40+00:00</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://localhost/Category/طرح</loc>
-    <priority>0.7</priority>
+    <loc>http://localhost/product/trhh-shyfon-kryb-mtboaah-marfyl</loc>
+    <lastmod>2025-12-25T21:07:32+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
             </url>
-
+    <url>
+    <loc>http://localhost/product/wayne-mcdonald</loc>
+    <lastmod>2025-12-25T21:24:07+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost/product/aidan-pollard</loc>
+    <lastmod>2025-12-25T21:28:13+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://localhost/product/bianca-espinoza</loc>
+    <lastmod>2025-12-25T21:28:56+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+            </url>
 </urlset>

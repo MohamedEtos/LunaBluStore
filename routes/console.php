@@ -1,8 +1,9 @@
-<?php
+<!-- <?php
 
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+ use Illuminate\Support\Facades\Schedule;
 use App\Models\Product; // لو عندك منتجات
 use App\Models\Category; // لو عندك أقسام
 Artisan::command('generate:sitemap', function () {
@@ -43,3 +44,8 @@ Artisan::command('generate:sitemap', function () {
 })->purpose('Generate sitemap.xml for the website');
 
 
+
+
+Schedule::command('sitemap:generate')
+    ->daily()
+    ->at('03:00');

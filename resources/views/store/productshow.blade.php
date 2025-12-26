@@ -418,6 +418,26 @@
         $(headerDesktop).addClass('fix-menu-desktop');
     })(jQuery);
 
+    @push('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ $product->name }}",
+  "image": "{{ $product->seo_image }}",
+  "description": "{{ $product->seo_description }}",
+  "sku": "{{ $product->id }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ $product->price }}",
+    "priceCurrency": "EGP",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ url()->current() }}"
+  }
+}
+</script>
+@endpush
+
 
 
 </script>
