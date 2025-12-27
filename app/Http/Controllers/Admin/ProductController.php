@@ -76,7 +76,7 @@ class ProductController extends Controller
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })
-                        ->encode('webp', 85);
+                        ->encode('webp', 70);
 
                     $fileName = "{$imageName}-{$width}.webp";
                     $path = "storage/images/{$fileName}";
@@ -111,7 +111,7 @@ class ProductController extends Controller
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })
-                        ->encode('webp', 85);
+                        ->encode('webp', 70);
 
                     $fileName = "{$imageName}-{$width}.webp";
                     $path = "storage/images/{$fileName}";
@@ -146,7 +146,7 @@ class ProductController extends Controller
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })
-                        ->encode('webp', 85);
+                        ->encode('webp', 70);
 
                     $fileName = "{$imageName}-{$width}.webp";
                     $path = "storage/images/{$fileName}";
@@ -181,7 +181,7 @@ class ProductController extends Controller
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })
-                        ->encode('webp', 85);
+                        ->encode('webp', 70);
 
                     $fileName = "{$imageName}-{$width}.webp";
                     $path = "storage/images/{$fileName}";

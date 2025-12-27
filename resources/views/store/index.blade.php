@@ -94,6 +94,7 @@
 			<div class="row">
 				<div class="col-md-6 p-b-30 m-lr-auto">
 					<!-- Block1 -->
+
 					<div class="block1 wrap-pic-w">
 						<img
      src="{{ asset('store/images/banner-04.avif') }}" alt="IMG-BANNER">
