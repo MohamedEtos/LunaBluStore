@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
     Route::get('/product', [StoreProductController::class, 'index'])->name('product');
     Route::get('/product/{product:slug}', [StoreProductController::class, 'show'])->name('product.show');
 
-    Route::get('shopingcart', [IndexController::class, 'shopingcart'])->name('shopingcart');
 
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'show'])->name('show');              // GET  /cart
@@ -26,6 +25,7 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::delete('/remove', [CartController::class, 'remove'])->name('remove'); // DELETE /cart/remove
     Route::delete('/clear', [CartController::class, 'clear'])->name('clear');    // DELETE /cart/clear
 });
+Route::get('shopingcart', [CartController::class, 'shopingcart'])->name('shopingcart');
 
 // Addmin Routes
 

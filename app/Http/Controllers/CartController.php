@@ -142,4 +142,20 @@ class CartController extends Controller
             'count' => (int) $count,
         ];
     }
+
+
+
+
+
+    public function shopingcart()
+    {
+        $cartData = $this->buildCart(session($this->key, []));
+        return view('store.shoping-cart', [
+            'cartData' => $cartData,
+            'title' => 'LunaBlu | سلة التسوق',
+            'description' => 'استعرض محتويات سلة التسوق الخاصة بك وتحقق من المنتجات التي قمت بإضافتها قبل إتمام عملية الشراء في متجرنا الإلكتروني.',
+        ]);
+    }
+
+
 }
