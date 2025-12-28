@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\FabricType;
+use App\Models\Categotry;
 class ProductController extends Controller
 {
 
@@ -12,7 +13,7 @@ class ProductController extends Controller
     {
         $products = Product::with(['Category', 'FabricType'])->paginate(12);
         $fabrics = FabricType::get();
-        
+
         return view('store.product', [
             'products' => $products,
             'fabrics' => $fabrics,
@@ -33,8 +34,8 @@ class ProductController extends Controller
             'product' => $product,
             'products' => $products,
             'title' => $product->name . ' | LunaBlu',
-            'description' => 'اكتشف ' . $product->name . ' في متجر تسوق الآن للحصول على أفضل العروض على منتجاتنا عالية الجودة.',
-            'image' =>  asset('store/images/icons/favicon.png'),
+            'description' =>$product->slug . '||' . $product->productDetalis,
+            'image' =>  $product->product_img_p->mainImage,
             'url' => url()->current(),
         ]);
 

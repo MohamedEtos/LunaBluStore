@@ -44,7 +44,7 @@ protected static function booted()
 
     public function Category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'cat_id');
     }
 
 

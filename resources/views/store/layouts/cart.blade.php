@@ -46,11 +46,11 @@
                     </div>
 
 					<div class="header-cart-buttons flex-w w-full">
-						<button id="clearCart" class="  flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						<button id="clearCart" class="  flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10 ">
 							تفريغ السله
 						</button>
 
-						<a href="{{ route('shopingcart') }}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="{{ route('shopingcart') }}" class="flex-c-m stext-101 cl0 size-107 bg1 bor2  p-lr-15  m-b-10 cl0   bor1 hov-btn1 trans-04">
 							الدفع
 						</a>
 					</div>

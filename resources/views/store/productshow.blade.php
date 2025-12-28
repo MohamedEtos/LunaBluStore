@@ -9,7 +9,7 @@
 	<!-- Product Detail -->
 	<section class="sec-product-detail bg0 p-t-65 p-b-60 m-t-100  " >
 		<div class="container">
-			<div class="row">
+			<div class="row ">
 				<div class="col-md-6 col-lg-7 p-b-30">
 					<div class="p-l-25 p-r-30 p-lr-0-lg">
 						<div class="wrap-slick3 flex-sb flex-w">
@@ -19,7 +19,7 @@
 							<div class="slick3 gallery-lb">
 								<div class="item-slick3" data-thumb="{{ asset($product->product_img_p->mainImage) }}">
 									<div class="wrap-pic-w pos-relative">
-										<img src="{{ asset($product->product_img_p->mainImage) }}" alt="IMG-PRODUCT">
+										<img src="{{ asset($product->product_img_p->mainImage) }}" alt="{{ $product->name }}">
 
 										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset($product->product_img_p->mainImage) }}">
 											<i class="fa fa-expand"></i>
@@ -29,7 +29,7 @@
 
 								<div class="item-slick3" data-thumb="{{ asset($product->product_img_p->img2) }}">
 									<div class="wrap-pic-w pos-relative">
-										<img src="{{ asset($product->product_img_p->img2) }}" alt="IMG-PRODUCT">
+										<img src="{{ asset($product->product_img_p->img2) }}" alt="{{ $product->name }}">
 
 										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset($product->product_img_p->img2) }}">
 											<i class="fa fa-expand"></i>
@@ -39,7 +39,7 @@
 
 								<div class="item-slick3" data-thumb="{{ asset($product->product_img_p->img3) }}">
 									<div class="wrap-pic-w pos-relative">
-										<img src="{{ asset($product->product_img_p->img3) }}" alt="IMG-PRODUCT">
+										<img src="{{ asset($product->product_img_p->img3) }}" alt="{{ $product->name }}">
 
 										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset($product->product_img_p->img3) }}">
 											<i class="fa fa-expand"></i>
@@ -49,7 +49,7 @@
 								</div>
 								<div class="item-slick3" data-thumb="{{ asset($product->product_img_p->img4) }}">
 									<div class="wrap-pic-w pos-relative">
-										<img src="{{ asset($product->product_img_p->img4) }}" alt="IMG-PRODUCT">
+										<img src="{{ asset($product->product_img_p->img4) }}" alt="{{ $product->name }}">
 
 										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset($product->product_img_p->img4) }}">
 											<i class="fa fa-expand"></i>
@@ -60,7 +60,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6 col-lg-5 p-b-30">
+				<div class="col-md-6 col-lg-5 p-b-30" dir="rtl">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<h1 class="mtext-105 h4 cl2 js-name-detail p-b-14">
 							{{ $product->name }}
@@ -123,25 +123,28 @@
 										</div>
 									</div>
 
-									<button data-product-id="{{ $product->id }}"  class="  flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 add_cart js-addcart-detail">
-										Add to cart
+									<button data-product-id="{{ $product->id }}"  class="  flex-c-m stext-101 cl0 size-101 bg1 mr-3 bor1 hov-btn1 p-lr-15 trans-04 add_cart js-addcart-detail">
+										اضف  الي السله
 									</button>
 								</div>
 							</div>
 						</div>
 
 						<!--  -->
+                    <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+                        شارك المنتج مع اصدقائك
+                    </div>
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 
-							<a href="https://www.facebook.com/profile.php?id=61583415522354" data-tooltip="facebook" aria-label="Visit our Facebook page" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://www.facebook.com/profile.php?id=61583415522354" data-tooltip="facebook" aria-label="Visit our Facebook page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">facebook</span>
                                 <i class="fa fa-facebook"></i>
 							</a>
-							<a href="https://www.instagram.com/luna.blustore/" data-tooltip="instagram" aria-label="Visit our instagram page" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://www.instagram.com/luna.blustore/" data-tooltip="instagram" aria-label="Visit our instagram page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">instagram</span>
                                 <i class="fa fa-instagram"></i>
 							</a>
-							<a href="https://wa.me/01554063260" data-tooltip="whatsapp" aria-label="Visit our whatsapp " class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://wa.me/01554063260" data-tooltip="whatsapp" aria-label="Visit our whatsapp " class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">whatsapp</span>
                                 <i class="fa fa-whatsapp"></i>
 							</a>
@@ -152,7 +155,7 @@
 				</div>
 			</div>
 
-			{{-- <div class="bor10 m-t-50 p-t-43 p-b-40">
+			<div class="bor10 m-t-50 p-t-43 p-b-40">
 				<!-- Tab01 -->
 				<div class="tab01 " dir="rtl">
 					<!-- Nav tabs -->
@@ -188,53 +191,47 @@
 									<ul class="p-lr-28 p-lr-15-sm">
 										<li class="flex-w flex-t p-b-7">
 											<span class="stext-102 cl3 size-205">
-                                                الوزن
+												القسم
 											</span>
 
 											<span class="stext-102 cl6 size-206">
-												0.79 kg
+												{{ $product->Category->name }}
+											</span>
+										</li>
+
+                                        <li class="flex-w flex-t p-b-7">
+											<span class="stext-102 cl3 size-205">
+												Brand
+											</span>
+
+											<span class="stext-102 cl6 size-206">
+												Luna Blu
 											</span>
 										</li>
 
 										<li class="flex-w flex-t p-b-7">
 											<span class="stext-102 cl3 size-205">
-												Dimensions
+												المقاس
 											</span>
 
 											<span class="stext-102 cl6 size-206">
-												110 x 33 x 100 cm
+												180*73
 											</span>
 										</li>
 
 										<li class="flex-w flex-t p-b-7">
 											<span class="stext-102 cl3 size-205">
-												Materials
+												الخامه
 											</span>
 
 											<span class="stext-102 cl6 size-206">
-												60% cotton
+												{{ $product->fabricType->name }}
 											</span>
 										</li>
 
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Color
-											</span>
 
-											<span class="stext-102 cl6 size-206">
-												Black, Blue, Grey, Green, Red, White
-											</span>
-										</li>
 
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Size
-											</span>
 
-											<span class="stext-102 cl6 size-206">
-												XL, L, M, S
-											</span>
-										</li>
 									</ul>
 								</div>
 							</div>
@@ -324,7 +321,7 @@
 						</div>
 					</div>
 				</div>
-			</div> --}}
+			</div>
 		</div>
 
 		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
@@ -374,7 +371,7 @@
                                                     decoding="async"
                                                 >
 
-                                        <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                        <a href="{{ route('product.show', $product->slug) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                                             نظره سريعة
                                         </a>
                                     </div>
