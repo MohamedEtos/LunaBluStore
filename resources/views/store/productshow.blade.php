@@ -136,7 +136,7 @@
                     </div>
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 
-							<a href="https://www.facebook.com/profile.php?id=61583415522354" data-tooltip="facebook" aria-label="Visit our Facebook page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"   target="_blank"  data-tooltip="facebook" aria-label="Visit our Facebook page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">facebook</span>
                                 <i class="fa fa-facebook"></i>
 							</a>

@@ -19,6 +19,21 @@
 <meta name="twitter:description" content="{{ $description }}">
 <meta name="twitter:image" content="{{ $image ?? '' }}">
 
+
+<!-- Facebook -->
+<meta property="fb:app_id" content="1882574705681621">
+
+<script>
+    FB.api(
+  '/me',
+  'GET',
+  {"fields":"id,short_name"},
+  function(response) {
+      // Insert your code here
+  }
+);
+    </script>
+
 {{-- icons --}}
 <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('store/images/icons/apple-touch-icon.png') }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('store/images/icons/favicon-32x32.png') }}">

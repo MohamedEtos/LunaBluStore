@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->ipAddress('ip_address');
             $table->text('user_agent');
-            $table->string('url');
+            $table->longText('url');
             $table->string('referrer')->nullable();
             $table->string('session_id', 100);
             $table->string('device_type', 20);
