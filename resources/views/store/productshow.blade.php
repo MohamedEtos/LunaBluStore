@@ -195,7 +195,7 @@
 											</span>
 
 											<span class="stext-102 cl6 size-206">
-												{{ $product->Category->name }}
+												{{-- {{ $product->Category->name }} --}}
 											</span>
 										</li>
 
