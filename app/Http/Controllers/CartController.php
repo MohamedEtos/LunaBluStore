@@ -125,10 +125,11 @@ class CartController extends Controller
             $items[] = [
                 'product_id' => $p->id,
                 'name' => $p->name,
+                'slug' => $p->slug,
                 'price' => (float) $p->price,
                 'qty' => $qty,
                 'line_total' => $line,
-                 'image' => $image,
+                'image' => $image,
                 'stock_available' => (int) $p->stock,
             ];
 

@@ -24,12 +24,12 @@
 
 								@foreach($cartData['items'] as $it)
 									<tr class="table_row" data-product-id="{{ $it['product_id'] }}">
+
 										<td class="column-1">
-											<div class="how-itemcart1 remove_item"
-                                                 data-product-id="{{ $it['product_id'] }}"
-                                                 title="حذف المنتج">
-												<img src="{{ $it['image'] ?: asset('store/images/placeholder.jpg') }}" alt="IMG">
-											</div>
+											<a class="how-itemcart1 mt-2 hov3 trans-04" href="{{ route('product.show', $it['slug']) }}"
+                                                 data-product-id="{{ $it['product_id'] }}">
+												    <img src="{{ $it['image'] ?: asset('store/images/placeholder.jpg') }}" alt="{{ $it['name'] }}">
+                                            </a>
 										</td>
 
 										<td class="column-2">{{ $it['name'] }}</td>
@@ -61,6 +61,7 @@
                                                 </small>
                                             @endif
 										</td>
+
 
 										<td class="column-5 row_total">
                                             ج.م {{ number_format($it['line_total'], 2) }}
@@ -128,6 +129,7 @@
                                 يتم التوصيل عاده خلال 5-7 أيام عمل. يرجى إدخال عنوانك لتقدير وقت الشحن.
 							</p>
 
+
 							<div class="p-t-15">
 								<span class="stext-112 cl8">رقم الهاتف</span>
 
@@ -169,47 +171,6 @@
                                     رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
                                     </div>
                                 </div>
-								<span class="stext-112 cl8">رقم الهاتف</span>
-
-								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-                                    <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    class="form-control"
-                                    placeholder="مثال: 01012345678 أو +201012345678"
-                                    inputmode="numeric"
-                                    autocomplete="tel"
-                                    maxlength="11"
-                                    pattern="^(?:\+20|0020|0)?1[0125]\d{8}$"
-                                    required
-                                    />
-
-                                    <div class="invalid-feedback">
-                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
-                                    </div>
-                                </div>
-								<span class="stext-112 cl8">رقم الهاتف</span>
-
-								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-                                    <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    class="form-control"
-                                    placeholder="مثال: 01012345678 أو +201012345678"
-                                    inputmode="numeric"
-                                    autocomplete="tel"
-                                    maxlength="11"
-                                    pattern="^(?:\+20|0020|0)?1[0125]\d{8}$"
-                                    required
-                                    />
-
-                                    <div class="invalid-feedback">
-                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
-                                    </div>
-                                </div>
-
 
 							</div>
 						</div>
@@ -277,6 +238,24 @@ $(document).on('click', '.js-qty-minus', function () {
   const row = $(this).closest('tr.table_row');
   const input = row.find('.cart_qty');
   let qty = parseInt(input.val() || 1);
+
+  if (qty <= 1) {
+    // حذف المنتج بدلاً من تخفيض الكمية تحت 1
+    const productId = row.data('product-id') || input.data('product-id');
+    $.ajax({
+      url: "{{ route('cart.remove') }}",
+      type: "DELETE",
+      data: { product_id: productId },
+      success: function (res) {
+        $(".cartCount").attr("data-notify", res.cart.count);
+        row.remove();
+        updatePageTotals(res.cart);
+        refreshSideCart();
+      }
+    });
+    return;
+  }
+
   qty = Math.max(1, qty - 1);
   input.val(qty).trigger('change');
 });
