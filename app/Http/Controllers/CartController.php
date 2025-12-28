@@ -155,6 +155,8 @@ class CartController extends Controller
             'cartData' => $cartData,
             'title' => 'LunaBlu | سلة التسوق',
             'description' => 'استعرض محتويات سلة التسوق الخاصة بك وتحقق من المنتجات التي قمت بإضافتها قبل إتمام عملية الشراء في متجرنا الإلكتروني.',
+            'image' =>  asset('store/images/icons/favicon.png'),
+            'url' => url()->current(),
         ]);
     }
 

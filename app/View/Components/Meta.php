@@ -19,12 +19,12 @@ class Meta extends Component
     ) {
         $this->title = $title ?: config('app.name');
         $this->description = $description ?: 'وصف افتراضي للموقع';
-        $this->image = $image ?: asset('assets/images/og.jpg');
+        $this->image = $image ?: asset('store/images/icons/favicon.png');
         $this->url = $url ?: url()->current();
     }
 
     public function render()
     {
-        return view('components.meta');
+        return view('store.layouts.meta');
     }
 }

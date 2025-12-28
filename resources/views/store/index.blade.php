@@ -1,4 +1,8 @@
 @extends('store.layouts.master')
+
+@section('head')
+
+@endsection
 @section('content')
 
 	<!-- Slider -->
