@@ -140,15 +140,7 @@
                                 <span class="sr-only">facebook</span>
                                 <i class="fa fa-facebook"></i>
 							</a>
-                            <button onclick="shareProduct()">Share</button>
-                            <script>
-                                function shareProduct() {
-                                FB.ui({
-                                    method: 'share',
-                                    href: '{{ urlencode(url()->current()) }}',
-                                });
-                                }
-                            </script>
+
 							<a href="https://www.instagram.com/luna.blustore/" data-tooltip="instagram" aria-label="Visit our instagram page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">instagram</span>
                                 <i class="fa fa-instagram"></i>
