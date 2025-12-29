@@ -21,7 +21,16 @@
 
 
 <!-- Facebook -->
+
+
 <meta property="fb:app_id" content="1882574705681621">
+
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0&appId=1882574705681621">
+</script>
+
 
 <script>
     FB.api(
