@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Orders;
+use App\Models\Order_items;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -155,10 +158,95 @@ class CartController extends Controller
             'cartData' => $cartData,
             'title' => 'LunaBlu | سلة التسوق',
             'description' => 'استعرض محتويات سلة التسوق الخاصة بك وتحقق من المنتجات التي قمت بإضافتها قبل إتمام عملية الشراء في متجرنا الإلكتروني.',
-            'image' =>  asset('store/images/icons/favicon.png'),
+            'image' =>  asset('store/images/icons/favicon.ico'),
             'url' => url()->current(),
         ]);
     }
 
+public function prossesCart(Request $request)
+{
+    $request->validate([
+        'items' => ['required','array','min:1'],
+        'items.*.id'  => ['required','integer','exists:products,id'],
+        'items.*.qty' => ['required','integer','min:1'],
+    ]);
+
+    return DB::transaction(function () use ($request) {
+
+        // 1) جمّع الكميات لنفس المنتج: [product_id => qty]
+        $items = collect($request->items)
+            ->groupBy('id')
+            ->map(fn($g) => (int) $g->sum('qty'))
+            ->toArray();
+
+        // 2) هات الأسعار: [id => price] + اقفل الصفوف للخصم الآمن
+        $prices = Product::whereIn('id', array_keys($items))
+            ->lockForUpdate()
+            ->pluck('price', 'id')
+            ->toArray();
+
+        // (اختياري) تأكد المخزون يكفي
+        $stocks = Product::whereIn('id', array_keys($items))
+            ->pluck('stock', 'id')
+            ->toArray();
+
+        foreach ($items as $pid => $qty) {
+            if (($stocks[$pid] ?? 0) < $qty) {
+                abort(422, "Insufficient stock for product id: $pid");
+            }
+        }
+
+        // 3) احسب subtotal من الداتا
+        $subtotal = 0;
+        foreach ($items as $pid => $qty) {
+            $subtotal += ((float)($prices[$pid] ?? 0)) * $qty;
+        }
+
+        $shipping = 50; // عدّلها حسب نظامك
+        $total = $subtotal + $shipping;
+
+        // 4) أنشئ الأوردر
+        $order = Orders::create([
+            'user_ip' => $request->ip(),
+            'order_number' => 'ORD' . time(),
+            'subtotal' => $subtotal,
+            'shipping_cost' => $shipping,
+            'total' => $total,
+            'status' => 'done',
+            'payment_method' => 'COD',
+            'payment_status' => 'accepted',
+        ]);
+
+        // 5) جهّز الـ order items دفعة واحدة
+        $rows = [];
+        foreach ($items as $pid => $qty) {
+            $price = (float)($prices[$pid] ?? 0);
+
+            $rows[] = [
+                'order_id'   => $order->id,
+                'product_id' => (int)$pid,
+                'quantity'   => (int)$qty,
+                'price'      => $price,
+                'total'      => $price * $qty,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            // 6) خصم المخزون
+            Product::where('id', $pid)->decrement('stock', $qty);
+        }
+
+        // إدخال مرة واحدة بدل create داخل loop
+        Order_items::insert($rows);
+
+        return response()->json([
+            'message' => 'Order created',
+            'order_id' => $order->id,
+            'subtotal' => $subtotal,
+            'shipping' => $shipping,
+            'total' => $total,
+        ], 201);
+    });
+}
 
 }

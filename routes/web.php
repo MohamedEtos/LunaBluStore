@@ -25,6 +25,7 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::delete('/remove', [CartController::class, 'remove'])->name('remove'); // DELETE /cart/remove
     Route::delete('/clear', [CartController::class, 'clear'])->name('clear');    // DELETE /cart/clear
 });
+Route::post('/prossesCart', [CartController::class, 'prossesCart'])->name('prossesCart');    // DELETE /cart/clear
 Route::get('shopingcart', [CartController::class, 'shopingcart'])->name('shopingcart');
 
 // Addmin Routes

@@ -2,7 +2,8 @@
 
 @section('content')
 
-<form class="bg0 p-t-100 mt-5 p-b-85" id="cartPage">
+<form class="bg0 p-t-100 mt-5 p-b-85" id="cartPage" method="POST" action="{{ route('prossesCart') }}">
+    @csrf
 	<div class="container">
 		<div class="row">
 
@@ -23,12 +24,15 @@
 							@if(!empty($cartData['items']) && count($cartData['items']) > 0)
 
 								@foreach($cartData['items'] as $it)
+
 									<tr class="table_row" data-product-id="{{ $it['product_id'] }}">
 
 										<td class="column-1">
 											<a class="how-itemcart1 mt-2 hov3 trans-04" href="{{ route('product.show', $it['slug']) }}"
                                                  data-product-id="{{ $it['product_id'] }}">
 												    <img src="{{ $it['image'] ?: asset('store/images/placeholder.jpg') }}" alt="{{ $it['name'] }}">
+                                            <input type="hidden" name="items[{{ $loop->index }}][id]" value="{{ $it['product_id'] }}">
+                                            <input type="hidden" name="items[{{ $loop->index }}][qty]" value="{{ $it['qty'] }}" class="cart_qty" data-product-id="{{ $it['product_id'] }}">
                                             </a>
 										</td>
 
@@ -129,7 +133,7 @@
                                 يتم التوصيل عاده خلال 5-7 أيام عمل. يرجى إدخال عنوانك لتقدير وقت الشحن.
 							</p>
 
-
+{{--
 							<div class="p-t-15">
 								<span class="stext-112 cl8">رقم الهاتف</span>
 
@@ -172,7 +176,7 @@
                                     </div>
                                 </div>
 
-							</div>
+							</div> --}}
 						</div>
 					</div>
 
@@ -188,9 +192,9 @@
 						</div>
 					</div>
 
-					<button type="button" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-						Proceed to Checkout
-					</button>
+					<button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                        اتمام الطلب
+                    </button>
 
                     <a href="#" id="clearCart" class="d-block text-center p-t-20 stext-101 cl2 hov-cl1">
                         تفريغ السلة

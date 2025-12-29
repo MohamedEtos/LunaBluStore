@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->integer('quantity');
             $table->decimal('price', 10, 2); // سعر القطعة وقت الشراء
+            $table->decimal('total', 10, 2); // إجمالي السعر للمنتج
             $table->timestamps();
         });
     }
