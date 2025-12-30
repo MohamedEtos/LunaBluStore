@@ -1,3 +1,7 @@
+@section('head')
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/extensions/toastr.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/plugins/extensions/toastr.css') }}">
+@endsection
 @extends('store.layouts.master') {{-- أو layout بتاعك --}}
 
 @section('content')
@@ -61,7 +65,7 @@
 
                                             @if(isset($it['stock_available']))
                                                 <small class="stext-111 cl6 d-block p-t-5">
-                                                    المتاح: {{ (int)$it['stock_available'] }}
+                                                    متبقي في المخزن: {{ (int)$it['stock_available'] }}
                                                 </small>
                                             @endif
 										</td>
@@ -133,8 +137,8 @@
                                 يتم التوصيل عاده خلال 5-7 أيام عمل. يرجى إدخال عنوانك لتقدير وقت الشحن.
 							</p>
 
-{{--
-							<div class="p-t-15">
+
+							<div class="p-t-8">
 								<span class="stext-112 cl8">رقم الهاتف</span>
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
@@ -143,27 +147,7 @@
                                     id="phone"
                                     name="phone"
                                     class="form-control"
-                                    placeholder="مثال: 01012345678 أو +201012345678"
-                                    inputmode="numeric"
-                                    autocomplete="tel"
-                                    maxlength="11"
-                                    pattern="^(?:\+20|0020|0)?1[0125]\d{8}$"
-                                    required
-                                    />
-
-                                    <div class="invalid-feedback">
-                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
-                                    </div>
-                                </div>
-								<span class="stext-112 cl8">رقم الهاتف</span>
-
-								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-                                    <input
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    class="form-control"
-                                    placeholder="مثال: 01012345678 أو +201012345678"
+                                    placeholder="مثال: 01012345678 "
                                     inputmode="numeric"
                                     autocomplete="tel"
                                     maxlength="11"
@@ -176,7 +160,72 @@
                                     </div>
                                 </div>
 
-							</div> --}}
+
+							</div>
+							<div class="p-t-8">
+								<span class="stext-112 cl8">الاسم الكامل</span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="name"
+                                    name="name"
+                                    class="form-control"
+                                    placeholder='مثال: أحمد محمد علي'
+                                    autocomplete="name"
+                                    required
+                                    />
+
+                                    {{-- <div class="invalid-feedback">
+                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
+                                    </div> --}}
+                                </div>
+
+
+							</div>
+
+
+
+							<div class="p-t-8">
+								<span class="stext-112 cl8">المحافظة </span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="city"
+                                    name="city"
+                                    class="form-control"
+                                    placeholder='مثال: القاهرة'
+                                    autocomplete="city"
+                                    required
+                                    />
+
+                                    {{-- <div class="invalid-feedback">
+                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
+                                    </div> --}}
+                                </div>
+
+
+							</div>
+
+                            							<div class="p-t-8">
+								<span class="stext-112 cl8">العنوان</span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="address"
+                                    name="address"
+                                    class="form-control"
+                                    placeholder='مثال: 123 شارع النيل، القاهرة، مصر'
+                                    autocomplete="address"
+                                    required
+                                    />
+
+                                    {{-- <div class="invalid-feedback">
+                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
+                                    </div> --}}
+                                </div>
+
+
+							</div>
 						</div>
 					</div>
 
@@ -345,4 +394,14 @@ $(document).on('click', '#btnUpdateCart', function () {
 });
 
 </script>
+
+    <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
+    @if(Session::has('success'))
+        <script>toastr.success('{{ session('success') }}', 'تمت العمليه ');</script>
+        @endif
+
+    <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
+    @if(Session::has('error'))
+        <script>toastr.error('{{ session('error') }}', ' error ');</script>
+        @endif
 @endsection

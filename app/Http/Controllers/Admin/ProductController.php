@@ -203,6 +203,8 @@ class ProductController extends Controller
             $product = Product::create([
                 "name" => $request->name,
                 "cat_id" => $request->cat,
+                'width' => '75',
+                'height' => '180',
                 "productDetalis" => $request->desc,
                 "price" => $request->price,
                 "stock" => $request->stock,

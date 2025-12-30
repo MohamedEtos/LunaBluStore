@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('fabric_id');
             $table->foreign('fabric_id')->references('id')->on('fabric_types')->onDelete('cascade');
             $table->string('productDetalis',200);
+            $table->string('width')->defult('75');
+            $table->string('height')->defult('180');
             $table->decimal('price',9,2);
             $table->string('discount')->nullable();
             $table->decimal('ThePriceAfterDiscount',9,2)->nullable();

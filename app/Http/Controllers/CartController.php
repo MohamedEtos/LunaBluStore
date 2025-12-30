@@ -192,7 +192,8 @@ public function prossesCart(Request $request)
 
         foreach ($items as $pid => $qty) {
             if (($stocks[$pid] ?? 0) < $qty) {
-                abort(422, "Insufficient stock for product id: $pid");
+                // abort(422, "Insufficient stock for product id: $pid");
+                return redirect()->back()->with(['error'=>' الكمية المطلوبة غير متوفرة في المخزون من المنتج رقم: ' . $pid . ' ']);
             }
         }
 
@@ -238,6 +239,8 @@ public function prossesCart(Request $request)
 
         // إدخال مرة واحدة بدل create داخل loop
         Order_items::insert($rows);
+
+            return redirect()->back()->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
 
         return response()->json([
             'message' => 'Order created',
