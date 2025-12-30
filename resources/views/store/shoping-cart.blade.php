@@ -488,11 +488,11 @@ $(document).on('click', '#btnUpdateCart', function () {
 </script>
 
     <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
+
     @if(Session::has('success'))
         <script>toastr.success('{{ session('success') }}', 'تمت العمليه ');</script>
         @endif
 
-    <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
     @if(Session::has('error'))
         <script>toastr.error('{{ session('error') }}', ' error ');</script>
     @endif

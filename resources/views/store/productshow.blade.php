@@ -404,7 +404,7 @@
 		</div>
 	</section>
 
-    <button onclick="shareProduct()">Share</button>
+    {{-- <button onclick="shareProduct()">Share</button> --}}
 
 
 

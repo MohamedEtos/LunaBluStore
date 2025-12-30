@@ -1,3 +1,7 @@
+@section('head')
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/extensions/toastr.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/plugins/extensions/toastr.css') }}">
+@endsection
 @extends('store.layouts.master')
 @section('content')
 
@@ -303,6 +307,10 @@
 @endsection
 
 @section('script')
+
+
+
+
 <script>
     (function ($) {
     "use strict";

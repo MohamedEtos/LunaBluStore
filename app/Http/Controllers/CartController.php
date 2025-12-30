@@ -277,7 +277,8 @@ public function prossesCart(Request $request)
         // إدخال مرة واحدة بدل create داخل loop
         Order_items::insert($rows);
         session()->forget($this->key); // ازاله السيشن عند اكمال الطلب
-            return redirect('product')->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
+            return redirect('/')->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
+            // return redirect('product')->back()->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
 
     });
 }

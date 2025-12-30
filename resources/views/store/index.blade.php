@@ -555,7 +555,33 @@
 
 @section('script')
 
-<script>
+{{-- Great after order celebration script --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
+
+    <script>
+        function celebrateOrder() {
+            confetti({ particleCount: 140, spread: 70, origin: { y: 0.6 } });
+            setTimeout(() => confetti({ particleCount: 100, spread: 120, origin: { y: 0.7 } }), 250);
+        }
+    </script>
+    
+        @if(Session::has('success'))
+            <script>toastr.success('{{ session('success') }}', 'تمت العمليه ');</script>
+            <script>celebrateOrder()</script>
+            @endif
+
+        @if(Session::has('error'))
+            <script>toastr.error('{{ session('error') }}', ' error ');</script>
+        @endif
+
+
+
+    <script>
+
+
+
     (function ($) {
     "use strict";
     // [ Fixed Header ]*/
