@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Orders;
 use App\Models\Order_items;
+use App\Models\Shaping_Coast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -101,53 +102,71 @@ class CartController extends Controller
         ]);
     }
 
-    private function buildCart(array $cart): array
-    {
-        $ids = array_keys($cart);
-        // $products = Product::whereIn('id', $ids)->get()->keyBy('id');
+
+
+private function shippingCost(?string $gov): float
+{
+    if (!$gov) return 0;
+
+    $row = Shaping_Coast::where('name_ar', $gov)
+        ->first(['shipping_cost','free_shipping']);
+
+    if (!$row) return 0;
+
+    return $row->free_shipping ? 0 : (float)$row->shipping_cost;
+}
+
+
+private function buildCart(array $cart): array
+{
+    $ids = array_keys($cart);
+
     $products = Product::whereIn('id', $ids)
         ->with(['product_img_p:id,product_id,mainImage'])
         ->get()
         ->keyBy('id');
 
-        $items = [];
-        $subtotal = 0;
-        $count = 0;
+    $items = [];
+    $subtotal = 0;
+    $count = 0;
 
-        foreach ($cart as $pid => $row) {
-            // $p = $products->get((int)$pid);
-            $p = $products->get($pid);
-            $image = $p->product_img_p
-                ? asset( $p->product_img_p->mainImage)
-                : null;
-            if (!$p) continue;
+    foreach ($cart as $pid => $row) {
+        $p = $products->get($pid);
+        if (!$p) continue;
 
-            $qty = (int) $row['qty'];
-            $line = (float) $p->price * $qty;
+        $image = $p->product_img_p ? asset($p->product_img_p->mainImage) : null;
 
-            $items[] = [
-                'product_id' => $p->id,
-                'name' => $p->name,
-                'slug' => $p->slug,
-                'price' => (float) $p->price,
-                'qty' => $qty,
-                'line_total' => $line,
-                'image' => $image,
-                'stock_available' => (int) $p->stock,
-            ];
+        $qty = (int) $row['qty'];
+        $line = (float) $p->price * $qty;
 
-            $subtotal += $line;
-            $count += $qty;
-        }
-
-        return [
-            'items' => $items,
-            'subtotal' => (float) $subtotal,
-            'count' => (int) $count,
+        $items[] = [
+            'product_id' => $p->id,
+            'name' => $p->name,
+            'slug' => $p->slug,
+            'price' => (float) $p->price,
+            'qty' => $qty,
+            'line_total' => $line,
+            'image' => $image,
+            'stock_available' => (int) $p->stock,
         ];
+
+        $subtotal += $line;
+        $count += $qty;
     }
 
+    $gov = session('cart.governorate'); // هنخزنها هنا
+    $shipping = $this->shippingCost($gov);
+    $total = $subtotal + $shipping;
 
+    return [
+        'items' => $items,
+        'subtotal' => (float) $subtotal,
+        'shipping_cost' => (float) $shipping,
+        'total' => (float) $total,
+        'count' => (int) $count,
+        'governorate' => $gov,
+    ];
+}
 
 
 
@@ -160,6 +179,24 @@ class CartController extends Controller
             'description' => 'استعرض محتويات سلة التسوق الخاصة بك وتحقق من المنتجات التي قمت بإضافتها قبل إتمام عملية الشراء في متجرنا الإلكتروني.',
             'image' =>  asset('store/images/icons/favicon.ico'),
             'url' => url()->current(),
+        ]);
+    }
+
+
+
+        public function setGovernorate(Request $request)
+    {
+        $data = $request->validate([
+            'governorate' => ['required','string','max:100'],
+        ]);
+
+        session(['cart.governorate' => $data['governorate']]);
+
+        $cart = session($this->key, []);
+
+        return response()->json([
+            'message' => 'governorate_updated',
+            'cart' => $this->buildCart($cart),
         ]);
     }
 
@@ -239,16 +276,9 @@ public function prossesCart(Request $request)
 
         // إدخال مرة واحدة بدل create داخل loop
         Order_items::insert($rows);
+        session()->forget($this->key); // ازاله السيشن عند اكمال الطلب
+            return redirect('product')->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
 
-            return redirect()->back()->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
-
-        return response()->json([
-            'message' => 'Order created',
-            'order_id' => $order->id,
-            'subtotal' => $subtotal,
-            'shipping' => $shipping,
-            'total' => $total,
-        ], 201);
     });
 }
 

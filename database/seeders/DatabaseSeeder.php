@@ -32,5 +32,8 @@ class DatabaseSeeder extends Seeder
         FabricType::create([
             'name' => 'شيفون',
         ]);
+
+        $this->call(GovernoratesSeeder::class);
+
     }
 }

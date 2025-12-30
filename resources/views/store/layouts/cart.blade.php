@@ -50,7 +50,7 @@
 							تفريغ السله
 						</button>
 
-						<a href="{{ route('shopingcart') }}" class="flex-c-m stext-101 cl0 size-107 bg1 bor2  p-lr-15  m-b-10 cl0   bor1 hov-btn1 trans-04">
+						<a href="{{ route('shopingcart') }}" class="flex-c-m stext-101 cl0 size-107 bg1 bor2  p-lr-15  m-b-10 cl0 mini_pay  bor1 hov-btn1 trans-04">
 							الدفع
 						</a>
 					</div>

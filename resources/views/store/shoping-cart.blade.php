@@ -94,9 +94,9 @@
 							<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5"
                                    type="text" name="coupon" placeholder="Coupon Code">
 
-							<div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-								Apply coupon
-							</div>
+							<a class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" href="{{ route('product') }}">
+								متابعه التسوق
+                            </a>
 						</div>
 
 						<div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10"
@@ -115,30 +115,40 @@
 					</h4>
 
 					<div class="flex-w flex-t bor12 p-b-13">
+
+                        <div class="size-208">
+                            <span class="stext-110 cl2">الشحن:</span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2" id="shipping">
+                                ج.م {{ number_format($cartData['shipping_cost'] ?? 0, 2) }}
+                            </span>
+                        </div>
+                    </div>
+
+					<div class="flex-w flex-t bor12 p-b-13">
 						<div class="size-208">
-							<span class="stext-110 cl2">المجموع:</span>
+							<span class="stext-110 cl2">المشتريات:</span>
 						</div>
 
 						<div class="size-209">
 							<span class="mtext-110 cl2" id="pageSubtotal">
                                 ج.م {{ number_format($cartData['subtotal'] ?? 0, 2) }}
 							</span>
-						</div>
-					</div>
+					    </div>
+                    </div>
 
 					{{-- Shipping block (زي ما هو) --}}
 					<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-						<div class="size-208 w-full-ssm">
-							<span class="stext-110 cl2">معلومات الشحن:</span>
-						</div>
 
-						<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+						<div class="size-100 p-r-18 p-r-0-sm w-full-ssm">
 							<p class="stext-111 cl6 p-t-2">
                                 يتم التوصيل عاده خلال 5-7 أيام عمل. يرجى إدخال عنوانك لتقدير وقت الشحن.
 							</p>
 
 
-							<div class="p-t-8">
+							<div class="p-t-4">
 								<span class="stext-112 cl8">رقم الهاتف</span>
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
@@ -162,7 +172,7 @@
 
 
 							</div>
-							<div class="p-t-8">
+							<div class="p-t-4">
 								<span class="stext-112 cl8">الاسم الكامل</span>
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
@@ -180,23 +190,48 @@
                                     </div> --}}
                                 </div>
 
-
 							</div>
 
-
-
-							<div class="p-t-8">
+							<div class="p-t-4">
 								<span class="stext-112 cl8">المحافظة </span>
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-                                    <input
-                                    id="city"
-                                    name="city"
-                                    class="form-control"
-                                    placeholder='مثال: القاهرة'
-                                    autocomplete="city"
-                                    required
-                                    />
+
+                                        <select id="governorate" name="governorate" required class="form-control">
+                                        <option value="" selected disabled>اختر المحافظة</option>
+
+                                        <option value="القاهرة">القاهرة</option>
+                                        <option value="الجيزة">الجيزة</option>
+                                        <option value="الإسكندرية">الإسكندرية</option>
+
+                                        <option value="الدقهلية">الدقهلية</option>
+                                        <option value="البحر الأحمر">البحر الأحمر</option>
+                                        <option value="البحيرة">البحيرة</option>
+                                        <option value="الفيوم">الفيوم</option>
+                                        <option value="الغربية">الغربية</option>
+                                        <option value="الإسماعيلية">الإسماعيلية</option>
+                                        <option value="المنوفية">المنوفية</option>
+                                        <option value="المنيا">المنيا</option>
+                                        <option value="القليوبية">القليوبية</option>
+                                        <option value="الوادي الجديد">الوادي الجديد</option>
+                                        <option value="السويس">السويس</option>
+
+                                        <option value="اسوان">أسوان</option>
+                                        <option value="اسيوط">أسيوط</option>
+                                        <option value="بني سويف">بني سويف</option>
+                                        <option value="بورسعيد">بورسعيد</option>
+                                        <option value="دمياط">دمياط</option>
+                                        <option value="الشرقية">الشرقية</option>
+                                        <option value="جنوب سيناء">جنوب سيناء</option>
+                                        <option value="كفر الشيخ">كفر الشيخ</option>
+                                        <option value="مطروح">مطروح</option>
+                                        <option value="الأقصر">الأقصر</option>
+                                        <option value="قنا">قنا</option>
+                                        <option value="شمال سيناء">شمال سيناء</option>
+                                        <option value="سوهاج">سوهاج</option>
+
+                                        </select>
+
 
                                     {{-- <div class="invalid-feedback">
                                     رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
@@ -206,7 +241,7 @@
 
 							</div>
 
-                            							<div class="p-t-8">
+                            <div class="p-t-4">
 								<span class="stext-112 cl8">العنوان</span>
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
@@ -218,15 +253,41 @@
                                     autocomplete="address"
                                     required
                                     />
-
-                                    {{-- <div class="invalid-feedback">
-                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
-                                    </div> --}}
                                 </div>
-
-
 							</div>
+
+                            <div class="p-t-4">
+								<span class="stext-112 cl8">مبني رقم</span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="building_number"
+                                    name="building_number"
+                                    class="form-control"
+                                    placeholder='مثال: 45'
+                                    autocomplete="building_number"
+                                    required
+                                    />
+                                </div>
+							</div>
+
+                            <div class="p-t-4">
+								<span class="stext-112 cl8"> الطابق</span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="floor_number"
+                                    name="floor_number"
+                                    class="form-control"
+                                    placeholder='مثال: 45'
+                                    autocomplete="building_number"
+                                    required
+                                    />
+                                </div>
+							</div>
+
 						</div>
+
 					</div>
 
 					<div class="flex-w flex-t p-t-27 p-b-33">
@@ -235,8 +296,8 @@
 						</div>
 
 						<div class="size-209 p-t-1">
-							<span class="mtext-110 cl2" id="pageTotal">
-                                ج.م {{ number_format($cartData['subtotal'] ?? 0, 2) }}
+							<span class="mtext-110 cl2" id="total">
+                                ج.م {{ number_format($cartData['total'] ?? 0, 2) }}
 							</span>
 						</div>
 					</div>
@@ -245,8 +306,8 @@
                         اتمام الطلب
                     </button>
 
-                    <a href="#" id="clearCart" class="d-block text-center p-t-20 stext-101 cl2 hov-cl1">
-                        تفريغ السلة
+                    <a href="{{ route('product') }}"  class="d-block text-center p-t-20 stext-101 cl2 hov-cl1">
+                         متابعه التسوق
                     </a>
 
 				</div>
@@ -344,10 +405,41 @@ $(document).on('change', '.cart_qty', function () {
     success: function (res) {
       $(".cartCount").attr("data-notify", res.cart.count);
       updatePageTotals(res.cart);
+
       refreshSideCart();
     }
   });
 });
+
+
+
+
+$(document).on('change', '#governorate', function () {
+  const gov = $(this).val();
+
+  $.ajax({
+    url: "{{ route('cart.governorate') }}",
+    type: "PATCH",
+    data: { governorate: gov },
+    success: function (res) {
+       console.log(res);
+      $(".cartCount").attr("data-notify", res.cart.count);
+
+      // نفس اللي بتعمله عند تغيير الكمية
+      updatePageTotals(res.cart);
+      refreshSideCart();
+
+      // ✅ لو عايز "تحديث الصفحة كمان" اختار واحد:
+      // 1) Reload كامل:
+      // location.reload();
+
+      // 2) Reload لجزء معين فقط (أنضف):
+      // $("#orderSummary").load(location.href + " #orderSummary>*");
+    }
+  });
+});
+
+
 
 $(document).on('click', '.remove_item', function () {
   const productId = $(this).data('product-id');
@@ -403,5 +495,9 @@ $(document).on('click', '#btnUpdateCart', function () {
     <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
     @if(Session::has('error'))
         <script>toastr.error('{{ session('error') }}', ' error ');</script>
-        @endif
+    @endif
+
+
+
+
 @endsection

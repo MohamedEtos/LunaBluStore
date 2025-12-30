@@ -139,6 +139,8 @@ function refreshSideCart() {
 
     // 2) تحديث الإجمالي
     $('#sideCartTotal').text(`اجمالي: ج.م${formatMoney(res.subtotal)}`);
+     $("#shipping").text(res.shipping_cost.toFixed(2));
+     $("#total").text(res.total.toFixed(2));
 
     // 3) تحديث عداد أيقونة السلة (لو عندك)
     $('.cartCount').attr('data-notify', res.count);
@@ -185,6 +187,21 @@ function escapeHtml(text) {
     .replaceAll("'","&#039;");
 }
 
+
+
+
+$(document).on('click', '.mini_pay', function (e) {
+  const totalText = $('#sideCartTotal').text().trim();
+
+  // شيل أي عملة أو مسافات
+  const total = parseFloat(totalText.replace(/[^\d.]/g, ''));
+
+  if (!total || total <= 0) {
+    e.preventDefault(); // ❌ امنع الانتقال
+    alert('لا يمكن المتابعة للدفع، سلة التسوق فارغة');
+    return false;
+  }
+});
 
 
 

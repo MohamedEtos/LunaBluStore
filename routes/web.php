@@ -34,7 +34,7 @@ Route::prefix('cart')->name('cart.')->group(function () {
 });
 Route::post('/prossesCart', [CartController::class, 'prossesCart'])->name('prossesCart');
 Route::get('shopingcart', [CartController::class, 'shopingcart'])->name('shopingcart');
-
+Route::patch('/cart/governorate', [CartController::class, 'setGovernorate'])->name('cart.governorate');
 
 
 
@@ -47,6 +47,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 });
+
 
 Route::controller(CategoryController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/Categorylist', 'index')->name('Categorylist');
