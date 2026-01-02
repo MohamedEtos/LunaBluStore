@@ -7,9 +7,9 @@
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/vendors-rtl.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/file-uploaders/dropzone.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/file-uploaders/dropzone.min.css') }}"> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/datatables.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css') }}"> --}}
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -82,18 +82,19 @@
                     </div>
                     <!-- dataTable starts -->
 
-                    <div class="table-responsive" id="example_wrapper">
+                    <div class="table-responsive" >
                         <table class="table data-thumb-view">
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>الصوره</th>
                                     <th>ip المستخدم</th>
+                                    <th>رقم التلفون </th>
+                                    <th> رقم الطلب</th>
                                     <th>اسم المنتج</th>
-                                    <th>رقم الطلب</th>
                                     <th>المشرتيات</th>
+                                    <th>الشحن</th>
                                     <th>الاجمالي</th>
-                                    <th>الكميه</th>
+                                    <th>المحافظه</th>
                                     <th>التاريخ</th>
                                     <th>اجراء</th>
                                 </tr>
@@ -101,18 +102,54 @@
                             <tbody>
 
                             @foreach ($Orderlist as $Order)
-                                <tr>
+                                <tr class="trRow"  data-id_send="{{ $Order->id }}" data-toggle="modal"
+data-target="#danger2">
                                     <td></td>
-                                    <td class="product-img "><img src="" alt="Img placeholder">
-                                    </td>
-                                    <td class="product-name name{{ $Order->id }}">{{$Order->user_ip}}</td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> @foreach ( $Order->items as $item ) {{ $item->product->name }} <br>
 
-                                    @endforeach</td>
+                                    <td class="product-name name{{ $Order->id }}">{{$Order->user_ip}}</td>
+
+                                    <td class="product-category productDetalis{{ $Order->id }}">
+<a target="_blank"
+href="https://wa.me/2{{ $Order->address->phone }}?text={{ urlencode(
+"مرحبا
+{$Order->address->full_name}
+
+شكرا لطلبك من LunaBlue
+رقم طلبك هو: {$Order->order_number}
+
+العنوان : {$Order->address->address} .  {$Order->address->area} . {$Order->address->governorate}
+
+طلبك هو:
+" .
+collect($Order->items)->map(function($item, $i){
+    return ($i+1) . " - " . $item->product->name .
+        " ( {$item->quantity} × {$item->price} ) = " .
+        ($item->quantity * $item->price) . " ج.م";
+})->implode("\n") . "
+
+--------------------
+اجمالي الطلب: {$Order->total} ج.م
+"
+) }}">
+    <button class="btn btn-success"> ارسال رساله التاكيد </button>
+</a>
+
+
+
+                                        </td>
                                     <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->order_number }} </td>
+
+                                    <td class="product-category productDetalis{{ $Order->id }}">
+                                            @foreach ( $Order->items as $item )
+                                                  {{ $loop->iteration }} - {{ $item->product->name }}  ( {{ $item->quantity }} * {{ $item->price }} ) = {{ $item->quantity * $item->price }} ج.م
+                                            <br class="mt-1">
+
+                                        @endforeach
+                                    </td>
                                     <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->subtotal }} ج.م </td>
                                     <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->shipping_cost }} </td>
                                     <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->total }} </td>
+                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->address->governorate }} </td>
                                     <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->created_at->diffForHumans() }} </td>
 
                                     <td class="product-action">
@@ -270,6 +307,31 @@
                     </div>
                 </div>
             </form>
+
+
+
+            <form action="" class="modal fade text-left" method="POST" id="danger2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+                @csrf
+                <input name="productId" id="prod_id" type="hidden" value="">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success white">
+                            <h5 class="modal-title" id="myModalLabel120"> تفاصيل الطلب</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            الاسم
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">الغاء</button>
+                            <input  type="submit" value='تاكيد' class="btn btn-outline-danger" >
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
 
@@ -293,7 +355,7 @@
     <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
-    <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script> --}}
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -329,6 +391,17 @@ $(document).ready(function() {
 
 
     });
+
+    // $('.trRow').on("click",function(){
+    //     let id_send = $(this).data('id_send');
+    //     $('#danger').attr(
+    //         'action',
+    //         "{{ route('destroy', ':id') }}".replace(':id', productId)
+    //     );
+    //     $('#prod_id').val(productId);
+
+
+    // });
 
 
       // On Edit

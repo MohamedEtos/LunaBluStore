@@ -15,7 +15,7 @@ class orders extends Model
 
     public function address()
     {
-        return $this->hasOne(OrderAddress::class);
+        return $this->hasOne(Order_addresses::class ,'order_id');
     }
 
 }
