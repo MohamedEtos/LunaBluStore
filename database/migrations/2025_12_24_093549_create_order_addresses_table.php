@@ -16,11 +16,12 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->string('full_name');
             $table->string('phone');
-            $table->string('city');
+            $table->string('governorate');
             $table->string('area');
-            $table->string('street');
+            $table->string('address');
+            $table->string('floor_number');
             $table->string('building')->nullable();
-            $table->text('notes')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

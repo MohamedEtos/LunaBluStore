@@ -25,6 +25,8 @@
                 </li>
                 <li class=" nav-item"><a href="{{ route('visitorsList') }}"><i class="feather icon-activity"></i><span class="menu-title" data-i18n="visit">الزوار</span></a>
                 </li>
+                <li class=" nav-item"><a href="{{ route('Orders') }}"><i class="feather icon-zap"></i><span class="menu-title" data-i18n="visit">الطلبات</span></a>
+                </li>
 
                 <li class=" nav-item"><a href="{{ route('Categorylist') }}"><i class="feather icon-link-2"></i><span class="menu-title" data-i18n="Chat">الاقسام</span></a>
                 </li>

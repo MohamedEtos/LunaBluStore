@@ -34,6 +34,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(GovernoratesSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(ProdImgSeeder::class);
 
     }
 }

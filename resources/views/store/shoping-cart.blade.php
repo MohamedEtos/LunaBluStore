@@ -184,10 +184,6 @@
                                     autocomplete="name"
                                     required
                                     />
-
-                                    {{-- <div class="invalid-feedback">
-                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
-                                    </div> --}}
                                 </div>
 
 							</div>
@@ -242,6 +238,20 @@
 							</div>
 
                             <div class="p-t-4">
+								<span class="stext-112 cl8">المنطقه</span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="area"
+                                    name="area"
+                                    class="form-control"
+                                    placeholder='مثال: المهندسين'
+                                    autocomplete="area"
+                                    required
+                                    />
+                                </div>
+							</div>
+                            <div class="p-t-4">
 								<span class="stext-112 cl8">العنوان</span>
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
@@ -261,11 +271,11 @@
 
 								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
                                     <input
-                                    id="building_number"
-                                    name="building_number"
+                                    id="building"
+                                    name="building"
                                     class="form-control"
-                                    placeholder='مثال: 45'
-                                    autocomplete="building_number"
+                                    placeholder='مثال: 5'
+                                    autocomplete="building"
                                     required
                                     />
                                 </div>
@@ -279,9 +289,21 @@
                                     id="floor_number"
                                     name="floor_number"
                                     class="form-control"
-                                    placeholder='مثال: 45'
-                                    autocomplete="building_number"
+                                    placeholder='مثال: 2'
+                                    autocomplete="floor_number"
                                     required
+                                    />
+                                </div>
+							</div>
+                            <div class="p-t-4">
+								<span class="stext-112 cl8"> ملاحظات الشحن</span>
+
+								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
+                                    <input
+                                    id="note"
+                                    name="note"
+                                    class="form-control"
+                                    autocomplete="note"
                                     />
                                 </div>
 							</div>
