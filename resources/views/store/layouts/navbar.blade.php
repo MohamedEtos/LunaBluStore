@@ -22,7 +22,7 @@
 
 							{{-- <li class="label1" data-label1="hot"> --}}
 							<li>
-								<a target="_blank" href="https://wa.me/01554063260">WhatsApp</a>
+								<a target="_blank" href="https://wa.me/201554063260">WhatsApp</a>
 							</li>
 
 							<li>
@@ -95,7 +95,7 @@
 
 							{{-- <li class="label1" data-label1="hot"> --}}
 							<li>
-								<a target="_blank" href="https://wa.me/01554063260">WhatsApp</a>
+								<a target="_blank" href="https://wa.me/201554063260">WhatsApp</a>
 							</li>
 
 							<li>

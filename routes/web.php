@@ -6,12 +6,14 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VisitorController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FabrictypeController;
+use App\Http\Controllers\Admin\OrdersController;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController as StoreProductController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Orders;
 
 
 // =============  Front Store =================
@@ -35,6 +37,20 @@ Route::prefix('cart')->name('cart.')->group(function () {
 Route::post('/prossesCart', [CartController::class, 'prossesCart'])->name('prossesCart');
 Route::get('shopingcart', [CartController::class, 'shopingcart'])->name('shopingcart');
 Route::patch('/cart/governorate', [CartController::class, 'setGovernorate'])->name('cart.governorate');
+// Route::get('sucess_order', [CartController::class, 'sucess_order'])->name('sucess_order');
+
+Route::get('sucess_order', function () {
+
+    if (!session()->has('can_view_success')) {
+        abort(404);
+    }
+
+    $order = Orders::findOrFail(session('success_order_id'));
+
+    session()->forget(['can_view_success', 'success_order_id']);
+
+    return view('store.successOrder', compact('order'));
+})->name('sucess_order');
 
 
 
@@ -73,6 +89,11 @@ Route::controller(SettingController::class)->middleware('auth')->prefix('admin')
 Route::controller(FabricTypeController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/fabricList', 'index')->name('fabricList');
     Route::post('/add_fabric', 'create')->name('add_fabric');
+
+});
+
+Route::controller(OrdersController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('Orders', 'index')->name('Orders');
 
 });
 

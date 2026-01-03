@@ -10,12 +10,12 @@ class orders extends Model
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(Order_items::class ,'order_id');
     }
 
     public function address()
     {
-        return $this->hasOne(OrderAddress::class);
+        return $this->hasOne(Order_addresses::class ,'order_id');
     }
 
 }

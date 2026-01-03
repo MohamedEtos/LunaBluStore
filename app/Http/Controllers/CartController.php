@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Orders;
 use App\Models\Order_items;
+use App\Models\Order_addresses;
 use App\Models\Shaping_Coast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -202,6 +203,9 @@ private function buildCart(array $cart): array
 
 public function prossesCart(Request $request)
 {
+
+    // dd($request->all());
+
     $request->validate([
         'items' => ['required','array','min:1'],
         'items.*.id'  => ['required','integer','exists:products,id'],
@@ -255,6 +259,19 @@ public function prossesCart(Request $request)
             'payment_status' => 'accepted',
         ]);
 
+
+        $order_address = Order_addresses::create([
+            'order_id' => $order->id,
+            'full_name' => $request->name,
+            'phone' => $request->phone,
+            'governorate' =>  $request->governorate,
+            'area' =>  $request->area,
+            'address' => $request->address,
+            'floor_number' => $request->floor_number,
+            'building' => $request->building,
+            'note' => $request->note,
+        ]);
+
         // 5) جهّز الـ order items دفعة واحدة
         $rows = [];
         foreach ($items as $pid => $qty) {
@@ -274,13 +291,39 @@ public function prossesCart(Request $request)
             Product::where('id', $pid)->decrement('stock', $qty);
         }
 
-        // إدخال مرة واحدة بدل create داخل loop
-        Order_items::insert($rows);
-        session()->forget($this->key); // ازاله السيشن عند اكمال الطلب
-            return redirect('/')->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
+            // إدخال مرة واحدة بدل create داخل loop
+            Order_items::insert($rows);
+            session()->forget($this->key); // ازاله السيشن عند اكمال الطلب
+            // $order_id = Orders::latest()->first();
+
+
+            session()->put('success_order_id', $order->id);
+            session()->put('can_view_success', true);
+
+            return redirect()->route('sucess_order');
+
+
+            return view('store.successOrder', [
+            // 'order_id' => $order_id,
+            'title' => 'LunaBlu | تأكيد الطلب',
+            'description' => 'تم تأكيد طلبك بنجاح في متجرنا الإلكتروني. شكرًا لاختيارك لنا!',
+            'image' =>  asset('store/images/icons/favicon.ico'),
+            'url' => url()->current(),
+        ]);
+
             // return redirect('product')->back()->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
 
     });
 }
+
+// public function sucess_order()
+//     {
+//         return view('store.successOrder', [
+//             'title' => 'LunaBlu | تأكيد الطلب',
+//             'description' => 'تم تأكيد طلبك بنجاح في متجرنا الإلكتروني. شكرًا لاختيارك لنا!',
+//             'image' =>  asset('store/images/icons/favicon.ico'),
+//             'url' => url()->current(),
+//         ]);
+//     }
 
 }

@@ -37,7 +37,7 @@
 						</li>
 
 						<li class="p-b-10">
-							<a href="https://wa.me/01554063260" aria-label="Visit our WhatsApp" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="https://wa.me/201554063260" aria-label="Visit our WhatsApp" class="stext-107 cl7 hov-cl1 trans-04">
 								WhatsApp
 							</a>
 						</li>
@@ -52,7 +52,7 @@
 					</h2>
 
 					<p class="stext-107 cl7 size-201">
-						تواصل معنا علي 01554063260
+						تواصل معنا علي 201554063260
 					</p>
 
 					<div class="p-t-27">
@@ -64,7 +64,7 @@
 							<i class="fa fa-instagram"></i>
 						</a>
 
-						<a href="https://wa.me/01554063260" aria-label="Visit our WhatsApp" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://wa.me/201554063260" aria-label="Visit our WhatsApp" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-whatsapp"></i>
 						</a>
 					</div>
@@ -110,7 +110,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-{{-- 
+{{--
 	<!-- Modal1 -->
 	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
 		<div class="overlay-modal1 js-hide-modal1"></div>
