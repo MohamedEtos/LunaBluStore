@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Visit;
 use App\Models\Product;
-use App\Models\orders;
+use App\Models\Orders;
 
 class DashboardController extends Controller
 {
@@ -15,8 +15,8 @@ class DashboardController extends Controller
 
          $count_vistors = Visit::distinct('ip_address')->count('ip_address');
         $today_vistors = Visit::whereDate('created_at', now())->distinct('ip_address')->count('ip_address');
-        $product_count = product::count();
-        $orders_count = orders::count();
+        $product_count = Product::count();
+        $orders_count = Orders::count();
         // Visit::where('url', 'products')->count();اذا كنت تريد حساب صفحه معينه
 
 
