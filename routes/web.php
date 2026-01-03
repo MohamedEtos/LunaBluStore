@@ -94,6 +94,7 @@ Route::controller(FabricTypeController::class)->middleware('auth')->prefix('admi
 
 Route::controller(OrdersController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('Orders', 'index')->name('Orders');
+    Route::post('Send_whatsapp', 'Send_whatsapp')->name('Send_whatsapp');
 
 });
 

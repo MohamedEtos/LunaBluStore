@@ -256,7 +256,7 @@ public function prossesCart(Request $request)
             'total' => $total,
             'status' => 'done',
             'payment_method' => 'COD',
-            'payment_status' => 'accepted',
+            'payment_status' => 'notaccepted',
         ]);
 
 

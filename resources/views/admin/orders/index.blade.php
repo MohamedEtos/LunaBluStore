@@ -109,6 +109,10 @@ data-target="#danger2">
                                     <td class="product-name name{{ $Order->id }}">{{$Order->user_ip}}</td>
 
                                     <td class="product-category productDetalis{{ $Order->id }}">
+                                         <form action="{{ route('Send_whatsapp') }}" method="post" target="_blank">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $Order->id }}">
+
 <a target="_blank"
 href="https://wa.me/2{{ $Order->address->phone }}?text={{ urlencode(
 "مرحبا
@@ -131,8 +135,14 @@ collect($Order->items)->map(function($item, $i){
 اجمالي الطلب: {$Order->total} ج.م
 "
 ) }}">
-    <button class="btn btn-success"> ارسال رساله التاكيد </button>
+
+@if($Order->payment_status == 'notaccepted')
+    <button class="btn btn-success">إرسال رسالة التأكيد</button>
+@else
+    <button class="btn btn-success">إعادة الإرسال</button>
+@endif
 </a>
+                                    </form>
 
 
 

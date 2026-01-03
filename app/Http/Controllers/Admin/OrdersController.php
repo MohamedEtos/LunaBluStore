@@ -17,4 +17,13 @@ class OrdersController extends Controller
             'Orderlist' => $Orderlist
         ]);
     }
+    public function Send_whatsapp(Request $request)
+    {
+        Orders::where('id', $request->id)->update([
+            'payment_status' => 'accepted'
+        ]);
+
+        return redirect()->route('Orders');
+
+    }
 }
