@@ -174,8 +174,10 @@ private function buildCart(array $cart): array
     public function shopingcart()
     {
         $cartData = $this->buildCart(session($this->key, []));
+        $governorate = Shaping_Coast::pluck('name_ar')->toArray();
         return view('store.shoping-cart', [
             'cartData' => $cartData,
+            'governorate' => $governorate,
             'title' => 'LunaBlu | سلة التسوق',
             'description' => 'استعرض محتويات سلة التسوق الخاصة بك وتحقق من المنتجات التي قمت بإضافتها قبل إتمام عملية الشراء في متجرنا الإلكتروني.',
             'image' =>  asset('store/images/icons/favicon.ico'),
@@ -210,6 +212,14 @@ public function prossesCart(Request $request)
         'items' => ['required','array','min:1'],
         'items.*.id'  => ['required','integer','exists:products,id'],
         'items.*.qty' => ['required','integer','min:1'],
+        'name' => 'Required|string|max:100',
+        'phone' => ' Required|string|max:11',
+        'governorate' => ' Required|string|max:100|exists:shaping__coasts,name_ar',
+        'area' =>  ' Required|string|max:100',
+        'address' => ' Required|string|max:200',
+        'floor_number' => ' Required|string|max:20',
+        'building' => ' Required|string|max:20',
+        'note' => ' nullable|string|max:200',
     ]);
 
     return DB::transaction(function () use ($request) {
@@ -234,7 +244,7 @@ public function prossesCart(Request $request)
         foreach ($items as $pid => $qty) {
             if (($stocks[$pid] ?? 0) < $qty) {
                 // abort(422, "Insufficient stock for product id: $pid");
-                return redirect()->back()->with(['error'=>' الكمية المطلوبة غير متوفرة في المخزون من المنتج رقم: ' . $pid . ' ']);
+            return redirect()->back()->withInput()->with(['error'=>' الكمية المطلوبة غير متوفرة في المخزون من المنتج رقم: ' . $pid . ' ']);
             }
         }
 
@@ -291,39 +301,35 @@ public function prossesCart(Request $request)
             Product::where('id', $pid)->decrement('stock', $qty);
         }
 
-            // إدخال مرة واحدة بدل create داخل loop
-            Order_items::insert($rows);
-            session()->forget($this->key); // ازاله السيشن عند اكمال الطلب
-            // $order_id = Orders::latest()->first();
+        // إدخال مرة واحدة بدل create داخل loop
+        Order_items::insert($rows);
+        session()->forget($this->key); // ازاله السيشن عند اكمال الطلب
+        $order_id = Orders::latest()->first();
 
 
-            session()->put('success_order_id', $order->id);
-            session()->put('can_view_success', true);
+        session()->put('success_order_id', $order->id);
+        session()->put('can_view_success', true);
 
-            return redirect()->route('sucess_order');
-
-
-            return view('store.successOrder', [
-            // 'order_id' => $order_id,
+            return view ('store.successOrder',[ 
+            'order' => $order_id,
             'title' => 'LunaBlu | تأكيد الطلب',
             'description' => 'تم تأكيد طلبك بنجاح في متجرنا الإلكتروني. شكرًا لاختيارك لنا!',
             'image' =>  asset('store/images/icons/favicon.ico'),
             'url' => url()->current(),
-        ]);
+            ]);
 
-            // return redirect('product')->back()->with(['success'=>' تم إنشاء الطلب بنجاح رقم الطلب: ' . $order->order_number . ' ']);
+
+        // return view('store.successOrder', [
+        // // 'order_id' => $order_id,
+        // 'title' => 'LunaBlu | تأكيد الطلب',
+        // 'description' => 'تم تأكيد طلبك بنجاح في متجرنا الإلكتروني. شكرًا لاختيارك لنا!',
+        // 'image' =>  asset('store/images/icons/favicon.ico'),
+        // 'url' => url()->current(),
+         // ]);
+
 
     });
 }
 
-// public function sucess_order()
-//     {
-//         return view('store.successOrder', [
-//             'title' => 'LunaBlu | تأكيد الطلب',
-//             'description' => 'تم تأكيد طلبك بنجاح في متجرنا الإلكتروني. شكرًا لاختيارك لنا!',
-//             'image' =>  asset('store/images/icons/favicon.ico'),
-//             'url' => url()->current(),
-//         ]);
-//     }
 
 }

@@ -45,7 +45,7 @@
                             <div class="card-content">
                                 <div class="card-body text-center">
                                     <img src="{{ asset('admin/images/pages/404.png') }}" class="img-fluid align-self-center" alt="branding logo">
-                                    <h1 class="font-large-2 my-1">404 - الصفحه غير موجوده !</h1>
+                                    <h1 class="font-large-2 my-1">لقد انتهت الجلسه </h1>
                                     <p class="p-2">
 
                                     </p>

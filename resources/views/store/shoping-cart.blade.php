@@ -56,7 +56,10 @@
                                                     min="1"
                                                     value="{{ (int)$it['qty'] }}"
                                                     data-product-id="{{ $it['product_id'] }}"
+
                                                 >
+
+
 
 												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m js-qty-plus">
 													<i class="fs-16 zmdi zmdi-plus"></i>
@@ -68,6 +71,7 @@
                                                     متبقي في المخزن: {{ (int)$it['stock_available'] }}
                                                 </small>
                                             @endif
+
 										</td>
 
 
@@ -163,11 +167,12 @@
                                     maxlength="11"
                                     pattern="^(?:\+20|0020|0)?1[0125]\d{8}$"
                                     required
+                                    value="{{ old('phone') }}"
                                     />
 
-                                    <div class="invalid-feedback">
-                                    رقم الهاتف غير صحيح. أدخل رقم مصري مثل 01012345678 أو +201012345678
-                                    </div>
+                                    @error('phone')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
 
@@ -183,7 +188,11 @@
                                     placeholder='مثال: أحمد محمد علي'
                                     autocomplete="name"
                                     required
+                                    value="{{ old('name') }}"
                                     />
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
 							</div>
@@ -196,37 +205,15 @@
                                         <select id="governorate" name="governorate" required class="form-control">
                                         <option value="" selected disabled>اختر المحافظة</option>
 
-                                        <option value="القاهرة">القاهرة</option>
-                                        <option value="الجيزة">الجيزة</option>
-                                        <option value="الإسكندرية">الإسكندرية</option>
-
-                                        <option value="الدقهلية">الدقهلية</option>
-                                        <option value="البحر الأحمر">البحر الأحمر</option>
-                                        <option value="البحيرة">البحيرة</option>
-                                        <option value="الفيوم">الفيوم</option>
-                                        <option value="الغربية">الغربية</option>
-                                        <option value="الإسماعيلية">الإسماعيلية</option>
-                                        <option value="المنوفية">المنوفية</option>
-                                        <option value="المنيا">المنيا</option>
-                                        <option value="القليوبية">القليوبية</option>
-                                        <option value="الوادي الجديد">الوادي الجديد</option>
-                                        <option value="السويس">السويس</option>
-
-                                        <option value="اسوان">أسوان</option>
-                                        <option value="اسيوط">أسيوط</option>
-                                        <option value="بني سويف">بني سويف</option>
-                                        <option value="بورسعيد">بورسعيد</option>
-                                        <option value="دمياط">دمياط</option>
-                                        <option value="الشرقية">الشرقية</option>
-                                        <option value="جنوب سيناء">جنوب سيناء</option>
-                                        <option value="كفر الشيخ">كفر الشيخ</option>
-                                        <option value="مطروح">مطروح</option>
-                                        <option value="الأقصر">الأقصر</option>
-                                        <option value="قنا">قنا</option>
-                                        <option value="شمال سيناء">شمال سيناء</option>
-                                        <option value="سوهاج">سوهاج</option>
+                                            @foreach ($governorate as $gov )
+                                                <option value="{{ $gov }}" {{ old('governorate') ==  $gov  ? 'selected' : '' }}>{{ $gov }}</option>
+                                            @endforeach
 
                                         </select>
+
+                                    @error('governorate')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
 
 
                                     {{-- <div class="invalid-feedback">
@@ -248,7 +235,12 @@
                                     placeholder='مثال: المهندسين'
                                     autocomplete="area"
                                     required
+                                    value="{{ old('area') }}"
+
                                     />
+                                    @error('area')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 							</div>
                             <div class="p-t-4">
@@ -262,7 +254,11 @@
                                     placeholder='مثال: 123 شارع النيل، القاهرة، مصر'
                                     autocomplete="address"
                                     required
+                                    value="{{ old('address') }}"
                                     />
+                                    @error('address')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 							</div>
 
@@ -277,7 +273,11 @@
                                     placeholder='مثال: 5'
                                     autocomplete="building"
                                     required
+                                    value="{{ old('building') }}"
                                     />
+                                    @error('building')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 							</div>
 
@@ -292,7 +292,11 @@
                                     placeholder='مثال: 2'
                                     autocomplete="floor_number"
                                     required
+                                    value="{{ old('floor_number') }}"
                                     />
+                                    @error('floor_number')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 							</div>
                             <div class="p-t-4">
@@ -304,7 +308,12 @@
                                     name="note"
                                     class="form-control"
                                     autocomplete="note"
+                                    value="{{ old('note') }}"
                                     />
+
+                                    @error('note')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 							</div>
 

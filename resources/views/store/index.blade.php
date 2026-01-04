@@ -478,7 +478,7 @@
                             <!-- Block2 -->
                             <a  href="{{ route('product.show', $product->slug) }}">
                                 <div class="block2">
-                                    <div class="block2-pic hov-img0 label-new" data-label="New">
+                                    <div class="block2-pic hov-img0 label-new" data-label="{{ $product->stock > 0 ? 'متاح' : 'غير متاح' }}">
 
                                         <img
                                             src="{{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }}"
@@ -503,13 +503,13 @@
 
                                     <div class="block2-txt flex-w flex-t p-t-14">
                                         <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                            <a href="{{ route('product.show', $product->slug) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                                 {{ $product->name }}
 
                                             </a>
 
                                             <span class="stext-105 cl3">
-                                                {{ $product->price }}
+                                                {{ $product->price }} EGP
                                             </span>
                                         </div>
 
@@ -566,7 +566,7 @@
             setTimeout(() => confetti({ particleCount: 100, spread: 120, origin: { y: 0.7 } }), 250);
         }
     </script>
-    
+
         @if(Session::has('success'))
             <script>toastr.success('{{ session('success') }}', 'تمت العمليه ');</script>
             <script>celebrateOrder()</script>

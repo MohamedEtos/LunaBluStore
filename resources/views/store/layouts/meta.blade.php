@@ -2,13 +2,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>{{ $title }}</title>
-<meta name="description" content="{{ $description }}">
+<title>{{ $title ?? 'Lubablu'}}</title>
+<meta name="description" content="{{ $description ?? 'متجر لونا بلو للطرح' }}">
 <meta name="theme-color" content="#ffffff">
 
+
+{{-- icons --}}
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('store/images/icons/favicon.ico') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('store/images/icons/apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('store/images/icons/favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('store/images/icons/favicon-48x48.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('store/images/icons/favicon-16x16.png') }}">
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('store/images/icons/favicon-48x48.png') }}">
+<link rel="manifest" href="{{ asset('store/images/icons/site.webmanifest') }}">
+
 <!-- Open Graph -->
-<meta property="og:title" content="{{ $title }}">
-<meta property="og:description" content="{{ $description }}">
+<meta property="og:title" content="{{ $title ?? '' }}">
+<meta property="og:description" content="{{ $description ?? ''}}">
 <meta property="og:image" content="{{ asset(  $image ?? '' ) }}">
 <meta property="og:url" content="{{ $url ?? '' }}">
 <meta property="og:type" content="website">
@@ -43,14 +53,7 @@
 );
     </script>
 
-{{-- icons --}}
-<link rel="shortcut icon" type="image/x-icon" href="{{ asset('store/images/icons/favicon.ico') }}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('store/images/icons/apple-touch-icon.png') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('store/images/icons/favicon-32x32.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('store/images/icons/favicon-48x48.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('store/images/icons/favicon-16x16.png') }}">
-<link rel="shortcut icon" type="image/x-icon" href="{{ asset('store/images/icons/favicon-48x48.png') }}">
-<link rel="manifest" href="{{ asset('store/images/icons/site.webmanifest') }}">
+
 
 
 <link rel="canonical" href="{{ $url ?? '' }}">

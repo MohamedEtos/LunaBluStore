@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\VisitorController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FabrictypeController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\OrdersController as StoreOrdersController; ;
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SettingController;
@@ -39,19 +40,22 @@ Route::get('shopingcart', [CartController::class, 'shopingcart'])->name('shoping
 Route::patch('/cart/governorate', [CartController::class, 'setGovernorate'])->name('cart.governorate');
 // Route::get('sucess_order', [CartController::class, 'sucess_order'])->name('sucess_order');
 
-Route::get('sucess_order', function () {
+// Route::get('sucess_order', function () {
 
-    if (!session()->has('can_view_success')) {
-        abort(404);
-    }
+//     if (!session()->has('can_view_success')) {
+//         abort(404);
+//     }
 
-    $order = Orders::findOrFail(session('success_order_id'));
+//     $order = Orders::findOrFail(session('success_order_id'));
 
-    session()->forget(['can_view_success', 'success_order_id']);
+//     session()->forget(['can_view_success', 'success_order_id']);
 
-    return view('store.successOrder', compact('order'));
-})->name('sucess_order');
+//     return view('store.successOrder', compact('order'));
+// })->name('sucess_order');
 
+
+Route::get('sucess_order', [StoreOrdersController::class, 'success'])
+    ->name('sucess_order');
 
 
 // =============== Addmin Routes =================
