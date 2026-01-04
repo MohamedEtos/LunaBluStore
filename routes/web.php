@@ -25,10 +25,13 @@ use App\Models\Orders;
     Route::get('/product/{product:slug}', [StoreProductController::class, 'show'])->name('product.show');
 
 
+
+
+
 // ===============  Cart =================
 
 
-Route::prefix('cart')->name('cart.')->group(function () {
+Route::prefix('cart')->name('cart.')->middleware('throttle:60,1')->group(function () {
     Route::get('/', [CartController::class, 'show'])->name('show');              // GET  /cart
     Route::post('/add', [CartController::class, 'add'])->name('add');            // POST /cart/add
     Route::patch('/update', [CartController::class, 'update'])->name('update');  // PATCH /cart/update
