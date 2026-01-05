@@ -22,7 +22,7 @@ class IndexController extends Controller
         $query = Product::query();
         $search = $request->input('search'); // 👈 الحل
 
-        $relations = ['Category', 'fabricType'];
+        $relations = ['Category', 'FabricType'];
 
         $query->where(function ($q) use ($search, $relations) {
 
