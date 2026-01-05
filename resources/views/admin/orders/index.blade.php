@@ -87,6 +87,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th>id</th>
                                     <th>ip المستخدم</th>
                                     <th>رقم التلفون </th>
                                     <th> رقم الطلب</th>
@@ -102,10 +103,17 @@
                             <tbody>
 
                             @foreach ($Orderlist as $Order)
-                                <tr class="trRow"  data-id_send="{{ $Order->id }}" data-toggle="modal"
-data-target="#danger2">
+                                <tr class="trRow"  data-id_row="{{ $Order->id }}" data-toggle="modal" data-target="#xlarge">
                                     <td></td>
 
+                                    <input type="hidden"  class="full_name{{ $Order->id }}" value=" {{ $Order->address->full_name }} ">
+                                    <input type="hidden"  class="phone{{ $Order->id }}" value=" {{ $Order->address->phone }} ">
+                                    <input type="hidden"  class="area{{ $Order->id }}" value=" {{ $Order->address->area }} ">
+                                    <input type="hidden"  class="floor_number{{ $Order->id }}" value=" {{ $Order->address->floor_number }} ">
+                                    <input type="hidden"  class="building{{ $Order->id }}" value=" {{ $Order->address->building }} ">
+                                    <input type="hidden"  class="address{{ $Order->id }}" value=" {{ $Order->address->address }} ">
+
+                                    <td class="product-name name{{ $Order->id }}">{{$Order->id  }}</td>
                                     <td class="product-name name{{ $Order->id }}">{{$Order->user_ip}}</td>
 
                                     <td class="product-category productDetalis{{ $Order->id }}">
@@ -147,20 +155,20 @@ collect($Order->items)->map(function($item, $i){
 
 
                                         </td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->order_number }} </td>
+                                    <td class="product-category order_number{{ $Order->id }}"> {{ $Order->order_number }} </td>
 
-                                    <td class="product-category productDetalis{{ $Order->id }}">
+                                    <td class="product-category product_name{{ $Order->id }}">
                                             @foreach ( $Order->items as $item )
                                                   {{ $loop->iteration }} - {{ $item->product->name }}  ( {{ $item->quantity }} * {{ $item->price }} ) = {{ $item->quantity * $item->price }} ج.م
                                             <br class="mt-1">
 
                                         @endforeach
                                     </td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->subtotal }} ج.م </td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->shipping_cost }} </td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->total }} </td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->address->governorate }} </td>
-                                    <td class="product-category productDetalis{{ $Order->id }}"> {{ $Order->created_at->diffForHumans() }} </td>
+                                    <td class="product-category subtotal{{ $Order->id }}"> {{ $Order->subtotal }} ج.م </td>
+                                    <td class="product-category shipping_cost{{ $Order->id }}"> {{ $Order->shipping_cost }} </td>
+                                    <td class="product-category total{{ $Order->id }}"> {{ $Order->total }} </td>
+                                    <td class="product-category governorate{{ $Order->id }}"> {{ $Order->address->governorate }} </td>
+                                    <td class="product-category created_at{{ $Order->id }}"> {{ $Order->created_at->diffForHumans() }} </td>
 
                                     <td class="product-action">
                                     <span class="action-edit" data-id="{{ $Order->id }}">
@@ -320,28 +328,66 @@ collect($Order->items)->map(function($item, $i){
 
 
 
-            <form action="" class="modal fade text-left" method="POST" id="danger2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-                @csrf
-                <input name="productId" id="prod_id" type="hidden" value="">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success white">
-                            <h5 class="modal-title" id="myModalLabel120"> تفاصيل الطلب</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            الاسم
+            <div class="modal-size-xl mr-1 mb-1 d-inline-block">
+                <!-- Button trigger modal -->
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">الغاء</button>
-                            <input  type="submit" value='تاكيد' class="btn btn-outline-danger" >
+
+                <!-- Modal -->
+                <div class="modal fade text-left" id="xlarge" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel16">تفاصيل الطلب</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-1" >
+                                            <img class=" mt-1 w-100 " src="{{ asset('store/images/product-13.avif') }}" alt="">
+                                        </div>
+                                        <div class="col-5">
+                                            <div> #:<span id="order_number"></span></div>
+                                            <div>اسم العميل:<span id="full_name"></span></div>
+                                            <div>رقم التلفون:<span id="phone"></span></div>
+                                            <div> المحافظه:<span id="governorate"></span></div>
+                                            <div> المنطقه:<span id="area"></span></div>
+                                            <div> العنوان:<span id="address"></span></div>
+                                            <div> عقار:<span id="building"></span></div>
+                                            <div> الدور:<span id="floor_number"></span></div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div> المنتج:
+
+                                                <div><span id="product_name"></span></div>
+
+                                            </div>
+                                            <div> قيمه الطلب:<span id="subtotal" class="fw-bold"></span></div>
+                                            <div>  الشحن:<span id="shipping_cost"></span></div>
+                                            <div class="border-top mb-1 pt-1 h6">  المجموع:<b id="total"></b></div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-4">
+                                            ملاحظات:<span id="note"></span>
+                                        </div>
+                                        <div class="col-4">
+                                            تاريخ الطلب:<span id="created_at" class="text-info"></span>
+                                        </div>
+                                        <div class="col-4">
+                                             الحاله:<span id="status" class="success">تم ارسال رساله التاكيد</span>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
 
 
@@ -414,10 +460,34 @@ $(document).ready(function() {
     // });
 
 
+      // On click more dedtails
+    $('.trRow').on("click",function(e){
+        e.stopPropagation();
+
+        let productId = $(this).data('id_row');
+
+
+        $('#product_name').text($('.product_name'+productId).text());
+        $('#subtotal').text($('.subtotal'+productId).text());
+        $('#shipping_cost').text($('.shipping_cost'+productId).text());
+        $('#total').text($('.total'+productId).text());
+        $('#governorate').text($('.governorate'+productId).text());
+        $('#created_at').text($('.created_at'+productId).text());
+        $('#full_name').text($('.full_name'+productId).val());
+        $('#phone').text($('.phone'+productId).val());
+        $('#area').text($('.area'+productId).val());
+        $('#floor_number').text($('.floor_number'+productId).val());
+        $('#building').text($('.building'+productId).val());
+        $('#address').text($('.address'+productId).val());
+
+
+
+
+    });
       // On Edit
     $('.action-edit').on("click",function(e){
         e.stopPropagation();
-        let productId = $(this).data('id');
+        let productId = $(this).data('row_id');
 
 
         $('#data-name').val($('.name'+productId).text());

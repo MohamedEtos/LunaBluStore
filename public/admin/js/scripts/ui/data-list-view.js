@@ -25,11 +25,11 @@ $(document).ready(function() {
       sLengthMenu: "_MENU_",
       sSearch: ""
     },
-    aLengthMenu: [[4, 10, 15, 20], [4, 10, 15, 20]],
+    aLengthMenu: [[4, 10, 15, 20,100], [4, 10, 15, 20,100]],
     select: {
       style: "multi"
     },
-    order: [[1, "asc"]],
+    order: [[1, "desc"]],
     bInfo: false,
     pageLength: 4,
     buttons: [
@@ -65,7 +65,7 @@ $(document).ready(function() {
       {
         orderable: true,
         targets: 0,
-        checkboxes: { selectRow: true }
+        checkboxes: { selectRow: false }
       }
     ],
     dom:
@@ -74,13 +74,13 @@ $(document).ready(function() {
       sLengthMenu: "_MENU_",
       sSearch: ""
     },
-    aLengthMenu: [[4, 10, 15, 20], [4, 10, 15, 20]],
+    aLengthMenu: [[4, 10, 15, 20,100], [4, 10, 15, 20,100]],
     select: {
       style: "multi"
     },
-    order: [[1, "asc"]],
+    order: [[1, "des"]],
     bInfo: false,
-    pageLength: 4,
+    pageLength: 10,
     buttons: [
       {
         text: "<i class='feather icon-plus'></i> Add New",
