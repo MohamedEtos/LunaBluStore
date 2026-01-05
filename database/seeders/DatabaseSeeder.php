@@ -26,13 +26,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        Category::create([
-            'name' => 'طرح',
-        ]);
+
         FabricType::create([
             'name' => 'شيفون',
         ]);
 
+        $this->call(CategorySeeder::class);
         $this->call(GovernoratesSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ProdImgSeeder::class);
