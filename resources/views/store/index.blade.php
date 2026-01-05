@@ -1,7 +1,10 @@
 @extends('store.layouts.master')
 
 @section('head')
-
+    <!-- ===== PRELOAD LCP IMAGES ===== -->
+    <link rel="preload" as="image" href="{{ asset('store/images/slide-05.avif') }}" type="image/avif" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset('store/images/slide-06.avif') }}" type="image/avif" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset('store/images/slide-07.avif') }}" type="image/avif" fetchpriority="high">
 @endsection
 @section('content')
 
@@ -275,7 +278,17 @@
 							<i class="zmdi zmdi-search"></i>
 						</button>
 
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+                        <form method="GET" action="{{ route('home') }}" class="mb-4 w-100">
+                            <input
+                                type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="ابحث عن منتج..."
+                                class="mtext-107 cl2 size-114 plh2 p-r-15"
+                            >
+                        </form>
+
+						{{-- <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search"> --}}
 					</div>
 				</div>
 
@@ -469,7 +482,7 @@
 				</div>
 			</div>
 
-			<div class="row ">
+			<div class="row  isotope-grid">
 
                 @foreach ($products as $product)
 
@@ -478,7 +491,7 @@
                             <!-- Block2 -->
                             <a  href="{{ route('product.show', $product->slug) }}">
                                 <div class="block2">
-                                    <div class="block2-pic hov-img0 label-new" data-label="{{ $product->stock > 0 ? 'متاح' : 'غير متاح' }}">
+                                    <div  class="block2-pic hov-img0  {{ $product->stock >0 ? 'label-new': 'label-new-outofstock' }}  " data-label="{{ $product->stock > 0 ? 'في المخزن' : 'نفذت ' }}">
 
                                         <img
                                             src="{{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }}"
@@ -492,7 +505,7 @@
                                                 (max-width: 1200px) 25vw,
                                                 300px"
                                             alt="{{ $product->product_img_p->alt1 }}"
-                                            loading="lazy"
+                                            {{-- loading="lazy" --}}
                                             decoding="async"
                                         >
 
@@ -615,6 +628,10 @@
         }
     });
 })(jQuery);
+
+
+
+
 
     </script>
 

@@ -34,10 +34,7 @@
     <link rel="stylesheet" href="{{ asset('store/vendor/perfect-scrollbar/perfect-scrollbar.css') }}"
         media="print" onload="this.media='all'">
 
-    <!-- ===== PRELOAD LCP IMAGES ===== -->
-    <link rel="preload" as="image" href="{{ asset('store/images/slide-05.avif') }}" type="image/avif" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ asset('store/images/slide-06.avif') }}" type="image/avif" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ asset('store/images/slide-07.avif') }}" type="image/avif" fetchpriority="high">
+
 
 
     <link rel="preload"

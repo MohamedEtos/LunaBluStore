@@ -9,6 +9,9 @@
 
 $(window).on("load", function(){
 
+const chartData = (window.dashboardData && window.dashboardData.subscribers) ? window.dashboardData.subscribers : [28,40,36,52,38,60,55];
+
+
   var $primary = '#DA0E7D';
   var $success = '#28C76F';
   var $danger = '#EA5455';
@@ -57,7 +60,7 @@ $(window).on("load", function(){
         },
         series: [{
             name: 'Subscribers',
-            data: [28, 40, 36, 52, 38, 60, 55]
+            data: chartData
         }],
 
         xaxis: {

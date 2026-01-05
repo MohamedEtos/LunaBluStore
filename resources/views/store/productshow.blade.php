@@ -9,7 +9,7 @@
 	<!-- Product Detail -->
 	<section class="sec-product-detail bg0 p-t-65 p-b-60 m-t-100  " >
 		<div class="container">
-			<div class="row ">
+			<div class="row   ">
 				<div class="col-md-6 col-lg-7 p-b-30">
 					<div class="p-l-25 p-r-30 p-lr-0-lg">
 						<div class="wrap-slick3 flex-sb flex-w">
@@ -63,10 +63,13 @@
 				<div class="col-md-6 col-lg-5 p-b-30" dir="rtl">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<h1 class="mtext-105 h4 cl2 js-name-detail p-b-14">
-							{{ $product->name }}
+							{{ $product->name }} <span style="{{ $product->stock > 0 ? 'color:green' : 'color:red' }}">({{ $product->stock > 0 ? 'متوفر' : 'غير متوفر' }})</span>
                         </h1>
 
-						<span class="mtext-106 cl2">
+
+
+
+						<span class="mtext-106  cl2">
 							{{ $product->price }}
 						</span>
 
@@ -85,7 +88,7 @@
 									<div class="rs1-select2 bor8 bg0">
 										<select class="js-select2" name="time">
 											<option disabled>Choose an option</option>
-											<option selected >180</option>
+											<option selected >{{$product->width}} * {{$product->height}}</option>
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -123,7 +126,7 @@
 										</div>
 									</div>
 
-									<button data-product-id="{{ $product->id }}"  class="  flex-c-m stext-101 cl0 size-101 bg1 mr-3 bor1 hov-btn1 p-lr-15 trans-04 add_cart js-addcart-detail">
+									<button data-product-id="{{ $product->id }}"  class="flex-c-m stext-101 cl0 size-101 bg1 mr-3 bor1  p-lr-15 trans-04 {{ $product->stock > 0 ? 'add_cart js-addcart-detail hov-btn1 ': 'bg2 hov-btn50' }}">
 										اضف  الي السله
 									</button>
 								</div>
@@ -131,21 +134,21 @@
 						</div>
 
 						<!--  -->
-                    <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+                    <div class="flex-w h4 flex-m p-l-100 p-t-40 respon7">
                         شارك المنتج مع اصدقائك
                     </div>
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 
-							<a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"   target="_blank"  data-tooltip="facebook" aria-label="Visit our Facebook page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"   target="_blank"  data-tooltip="facebook" aria-label="Visit our Facebook page" class="fs-35 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">facebook</span>
                                 <i class="fa fa-facebook"></i>
 							</a>
 
-							<a href="https://www.instagram.com/luna.blustore/" data-tooltip="instagram" aria-label="Visit our instagram page" class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://www.instagram.com/luna.blustore/" data-tooltip="instagram" aria-label="Visit our instagram page" class="fs-35 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">instagram</span>
                                 <i class="fa fa-instagram"></i>
 							</a>
-							<a href="https://wa.me/201554063260" data-tooltip="whatsapp" aria-label="Visit our whatsapp " class="fs-30 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
+							<a href="https://wa.me/201554063260" data-tooltip="whatsapp" aria-label="Visit our whatsapp " class="fs-35 mr-3 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2  tooltip100">
                                 <span class="sr-only">whatsapp</span>
                                 <i class="fa fa-whatsapp"></i>
 							</a>
@@ -196,7 +199,7 @@
 											</span>
 
 											<span class="stext-102 cl6 size-206">
-												{{-- {{ $product->Category->name }} --}}
+												{{ $product->Category->name }}
 											</span>
 										</li>
 
@@ -216,7 +219,7 @@
 											</span>
 
 											<span class="stext-102 cl6 size-206">
-												180*73
+												{{ $product->width }}*{{ $product->height }}
 											</span>
 										</li>
 
@@ -244,10 +247,10 @@
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
 										<!-- Review -->
+
+
 										<div class="flex-w flex-t p-b-68">
-											<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-												<img src="store/images/avatar-01.avif" alt="AVATAR">
-											</div>
+
 
 											<div class="size-207">
 												<div class="flex-w flex-sb-m p-b-17">
@@ -268,6 +271,7 @@
 													Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
 												</p>
 											</div>
+
 										</div>
 
 										<!-- Add review -->

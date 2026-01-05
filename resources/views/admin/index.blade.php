@@ -195,24 +195,24 @@
                         <div class="col-lg-8 col-md-6 col-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-end">
-                                    <h4 class="card-title">Revenue</h4>
+                                    <h4 class="card-title">مبيعات</h4>
                                     <p class="font-medium-5 mb-0"><i class="feather icon-settings text-muted cursor-pointer"></i></p>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body pb-0">
                                         <div class="d-flex justify-content-start">
                                             <div class="mr-2">
-                                                <p class="mb-50 text-bold-600">This Month</p>
+                                                <p class="mb-50 text-bold-600"> الشهر الحالي</p>
                                                 <h2 class="text-bold-400">
-                                                    <sup class="font-medium-1">$</sup>
-                                                    <span class="text-success">86,589</span>
+                                                    <sup class="font-medium-1">ج.م</sup>
+                                                    <span class="text-success">{{$thisMonthTotal}}</span>
                                                 </h2>
                                             </div>
                                             <div>
-                                                <p class="mb-50 text-bold-600">Last Month</p>
+                                                <p class="mb-50 text-bold-600"> الشهر السابق</p>
                                                 <h2 class="text-bold-400">
-                                                    <sup class="font-medium-1">$</sup>
-                                                    <span>73,683</span>
+                                                    <sup class="font-medium-1">ج.م</sup>
+                                                    <span>{{$lastMonthTotal}}</span>
                                                 </h2>
                                             </div>
 
@@ -313,7 +313,7 @@
                         <div class="col-md-8 col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Client Retention</h4>
+                                    <h4 class="card-title">العملاء الجدد والمستمرين</h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
@@ -581,6 +581,22 @@
         <!-- BEGIN: Page JS-->
         <script src="{{ asset('admin/js/scripts/pages/dashboard-ecommerce.js') }}"></script>
         <!-- END: Page JS-->
+
+        {{-- charts --}}
+        <script>
+        window.dashboardData = {
+            vistorsChart: @json($vistorsChart),
+            vistorsHoursChart: @json($vistorsHoursChart),
+            ordersChart: @json($ordersChart),
+            ProductChart: @json($ProductChart),
+            thisMonthSeries: @json($thisMonthSeries),
+            lastMonthSeries: @json($lastMonthSeries),
+            retainedClients: @json($retainedClients),
+            newClients: @json($newClients),
+        };
+
+        </script>
+
 
 @endsection
 

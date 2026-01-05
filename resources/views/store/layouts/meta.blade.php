@@ -42,7 +42,7 @@
 </script>
 
 
-<script>
+{{-- <script>
     FB.api(
   '/me',
   'GET',
@@ -51,7 +51,7 @@
       // Insert your code here
   }
 );
-    </script>
+    </script> --}}
 
 
 

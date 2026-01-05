@@ -7,7 +7,7 @@
 
 
 	<!-- Product -->
-	<div class="bg0 m-t-150  p-b-140">
+	<div class="bg0 m-t-150  p-b-140" dir="rtl">
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
@@ -43,8 +43,16 @@
 							<i class="zmdi zmdi-search"></i>
 						</button>
 
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
-					</div>
+                        <form method="GET" action="{{ route('product') }}" class="mb-4 w-100" >
+                            <input
+                                type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="ابحث عن منتج..."
+                                class="mtext-107 cl2 size-114 plh2 p-r-15"
+                            >
+                        </form>
+                    </div>
 				</div>
 
 				<!-- Filter -->

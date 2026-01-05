@@ -8,6 +8,14 @@
 ==========================================================================================*/
 
 $(window).on("load", function () {
+const vistorsData = (window.dashboardData && window.dashboardData.vistorsChart) ? window.dashboardData.vistorsChart : [0,0,0,0,0,0,0];
+const ordersChart = (window.dashboardData && window.dashboardData.ordersChart) ? window.dashboardData.ordersChart : [0,0,0,0,0,0,0];
+const ProductChart = (window.dashboardData && window.dashboardData.ProductChart) ? window.dashboardData.ProductChart : [0,0,0,0,0,0,0];
+const vistorsHoursChart = (window.dashboardData && window.dashboardData.vistorsHoursChart) ? window.dashboardData.vistorsHoursChart : [0,0,0,0,0,0,0];
+const lastMonthSeries = (window.dashboardData && window.dashboardData.lastMonthSeries) ? window.dashboardData.lastMonthSeries : [0,0,0,0,0,0,0];
+const thisMonthSeries = (window.dashboardData && window.dashboardData.thisMonthSeries) ? window.dashboardData.thisMonthSeries : [0,0,0,0,0,0,0];
+const newClients = (window.dashboardData && window.dashboardData.newClients) ? window.dashboardData.newClients : [0,0,0,0,0,0,0];
+const retainedClients = (window.dashboardData && window.dashboardData.retainedClients) ? window.dashboardData.retainedClients : [0,0,0,0,0,0,0];
 
   var $primary = '#DA0E7D';
   var $success = '#28C76F';
@@ -63,8 +71,8 @@ $(window).on("load", function () {
       }
     },
     series: [{
-      name: 'Subscribers',
-      data: [28, 40, 36, 52, 38, 60, 55]
+      name: 'الزوار',
+      data: vistorsData
     }],
 
     xaxis: {
@@ -134,8 +142,8 @@ $(window).on("load", function () {
       }
     },
     series: [{
-      name: 'Revenue',
-      data: [350, 275, 400, 300, 350, 300, 450]
+      name: 'بالساعات',
+      data: vistorsHoursChart
     }],
 
     xaxis: {
@@ -205,7 +213,7 @@ $(window).on("load", function () {
     },
     series: [{
       name: 'اوردر',
-      data: [10, 15, 7, 12, 3, 16]
+      data: ordersChart
     }],
 
     xaxis: {
@@ -273,8 +281,8 @@ $(window).on("load", function () {
       }
     },
     series: [{
-      name: 'Orders',
-      data: [10, 15, 8, 15, 7, 12, 8]
+      name: 'منتج',
+      data: ProductChart
     }],
 
     xaxis: {
@@ -366,7 +374,7 @@ $(window).on("load", function () {
           color: $strok_color,
         },
         formatter: function (val) {
-          return val > 999 ? (val / 1000).toFixed(1) + 'k' : val;
+          return val > 999 ? (val / 1000).toFixed(1) + 'الف' : val;
         }
       }
     },
@@ -374,12 +382,12 @@ $(window).on("load", function () {
       x: { show: false }
     },
     series: [{
-      name: "This Month",
-      data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
+      name: "الشهر الحالي",
+      data: thisMonthSeries
     },
     {
-      name: "Last Month",
-      data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
+      name: "الشهر السابق",
+      data: lastMonthSeries
     }
     ],
 
@@ -480,11 +488,11 @@ $(window).on("load", function () {
     },
     colors: [$primary, $danger],
     series: [{
-      name: 'New Clients',
-      data: [175, 125, 225, 175, 160, 189, 206, 134, 159, 216, 148, 123]
+      name: 'عملاء جدد',
+      data: newClients
     }, {
-      name: 'Retained Clients',
-      data: [-144, -155, -141, -167, -122, -143, -158, -107, -126, -131, -140, -137]
+      name: 'عملاء مستمرين',
+      data: retainedClients
     }],
     grid: {
       borderColor: $label_color,
@@ -517,7 +525,21 @@ $(window).on("load", function () {
       axisTicks: {
         show: false,
       },
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+categories: [
+  'ديس',
+  'نوف',
+  'أكت',
+  'سبت',
+  'أغس',
+  'يول',
+  'يون',
+  'ماي',
+  'أبر',
+  'مار',
+  'فبر',
+  'ينا'
+]
+,
       axisBorder: {
         show: false,
       },

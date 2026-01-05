@@ -2075,7 +2075,7 @@ input.num-product::-webkit-inner-spin-button {
   height: 22px;
   border-radius: 11px;
   padding: 0 6px;
-  background-color: #66a8a6;
+  background-color: #000;
   top: 42px;
   left: 12px;
 }
@@ -2725,6 +2725,8 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 
+
+
 /*==================================================================
  HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW
 ==================================================================*/
@@ -3038,9 +3040,7 @@ input.num-product::-webkit-inner-spin-button {
   color: #fff;
 }
 
-.hov-btn1:hover i {
-  color: #fff;
-}
+
 
 /*---------------------------------------------*/
 .hov-btn2:hover {
@@ -3061,6 +3061,10 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 /*---------------------------------------------*/
+.hov-tag1:hover {
+  color: #f0287d;
+  border-color: #f0287d;
+}
 .hov-tag1:hover {
   color: #f0287d;
   border-color: #f0287d;
