@@ -19,33 +19,33 @@ class IndexController extends Controller
         $fabrics = FabricType::get();
 
 
-        // $query = Product::query();
-        // $search = trim((string) $request->input('search', ''));
+        $query = Product::query();
+        $search = trim((string) $request->input('search', ''));
 
-        // $relations = ['Category', 'FabricType'];
+        $relations = ['Category', 'FabricType'];
 
-        // $query->where(function ($q) use ($search, $relations) {
+        $query->where(function ($q) use ($search, $relations) {
 
-        //     //  أعمدة المنتج نفسها
-        //     $q->where('name', 'LIKE', "%{$search}%")
-        //     ->orWhere('price', 'LIKE', "%{$search}%")
-        //     ->orWhere('productDetalis', 'LIKE', "%{$search}%")
-        //     ->orWhere('meta_title', 'LIKE', "%{$search}%")
-        //     ->orWhere('meta_description', 'LIKE', "%{$search}%")
-        //     ->orWhere('slug', 'LIKE', "%{$search}%");
+            //  أعمدة المنتج نفسها
+            $q->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('price', 'LIKE', "%{$search}%")
+            ->orWhere('productDetalis', 'LIKE', "%{$search}%")
+            ->orWhere('meta_title', 'LIKE', "%{$search}%")
+            ->orWhere('meta_description', 'LIKE', "%{$search}%")
+            ->orWhere('slug', 'LIKE', "%{$search}%");
 
-        //     //  أعمدة العلاقات (حسب اللي موجود فعلاً في جداولهم)
-        //     foreach ($relations as $relation) {
-        //         $q->orWhereHas($relation, function ($q2) use ($search) {
-        //             $q2->where(function ($x) use ($search) {
-        //                 $x->where('name', 'LIKE', "%{$search}%");
-        //                 // ->orWhere('slug', 'LIKE', "%{$search}%"); // لو موجودة
-        //             });
-        //         });
-        //     }
-        // });
+            //  أعمدة العلاقات (حسب اللي موجود فعلاً في جداولهم)
+            foreach ($relations as $relation) {
+                $q->orWhereHas($relation, function ($q2) use ($search) {
+                    $q2->where(function ($x) use ($search) {
+                        $x->where('name', 'LIKE', "%{$search}%");
+                        // ->orWhere('slug', 'LIKE', "%{$search}%"); // لو موجودة
+                    });
+                });
+            }
+        });
 
-        // $products = $query->latest()->paginate(12);
+        $products = $query->latest()->paginate(12);
 
 
         return view('store.index', [
