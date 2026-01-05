@@ -16,6 +16,9 @@ const lastMonthSeries = (window.dashboardData && window.dashboardData.lastMonthS
 const thisMonthSeries = (window.dashboardData && window.dashboardData.thisMonthSeries) ? window.dashboardData.thisMonthSeries : [0,0,0,0,0,0,0];
 const newClients = (window.dashboardData && window.dashboardData.newClients) ? window.dashboardData.newClients : [0,0,0,0,0,0,0];
 const retainedClients = (window.dashboardData && window.dashboardData.retainedClients) ? window.dashboardData.retainedClients : [0,0,0,0,0,0,0];
+const DeviceSessionchart = (window.dashboardData && window.dashboardData.DeviceSessionchart) ? window.dashboardData.DeviceSessionchart : [0,0,0,0,0,0,0];
+
+console.log(DeviceSessionchart.series);
 
   var $primary = '#DA0E7D';
   var $success = '#28C76F';
@@ -316,7 +319,7 @@ const retainedClients = (window.dashboardData && window.dashboardData.retainedCl
 
   var revenueChartoptions = {
     chart: {
-      height: 270,
+      height: 330,
       toolbar: { show: false },
       type: 'line',
     },
@@ -578,7 +581,7 @@ categories: [
     dataLabels: {
       enabled: false
     },
-    series: [58.6, 34.9, 6.5],
+    series: DeviceSessionchart.series,
     legend: { show: false },
     comparedResult: [2, -3, 8],
     labels: ['Desktop', 'Mobile', 'Tablet'],

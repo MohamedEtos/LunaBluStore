@@ -165,8 +165,59 @@ class DashboardController extends Controller
     })->values();
 
 
+    // اجهزه الزوار
 
-         $count_vistors = Visit::distinct('ip_address')->count('ip_address');
+        $from = now()->subDays(30);
+
+        // إجمالي الزيارات آخر 7 أيام
+        $total = DB::table('visits')
+            ->where('created_at', '>=', $from)
+            ->count();
+
+        // توزيع الأجهزة
+        $rows = DB::table('visits')
+            ->select('device_type', DB::raw('COUNT(*) as cnt'))
+            ->where('created_at', '>=', $from)
+            ->groupBy('device_type')
+            ->get();
+
+        // قيم افتراضية (لو جهاز مش موجود يرجع 0)
+        $percent = [
+            'desktop' => 0.0,
+            'mobile'  => 0.0,
+            'tablet'  => 0.0,
+        ];
+
+        if ($total > 0) {
+            foreach ($rows as $r) {
+                $key = strtolower($r->device_type);
+                if (array_key_exists($key, $percent)) {
+                    $percent[$key] = round(($r->cnt / $total) * 100, 1);
+                }
+            }
+        }
+
+        // نفس ترتيب الشارت
+        $DeviceSessionchart = [
+            'series' => [
+                $percent['desktop'],
+                $percent['mobile'],
+                $percent['tablet'],
+            ],
+            'labels' => ['Desktop', 'Mobile', 'Tablet'],
+
+            // لو مش جاهزة للمقارنة سيبيها صفر أو احذفيها
+            'comparedResult' => [0, 0, 0],
+
+            // معلومات إضافية لو محتاجاها في الواجهة
+            'total' => $total,
+            'range' => 'Last 7 Days',
+        ];
+
+
+
+
+        $count_vistors = Visit::distinct('ip_address')->count('ip_address');
         $today_vistors = Visit::whereDate('created_at', now())->distinct('ip_address')->count('ip_address');
         $product_count = Product::count();
         $orders_count = Orders::count();
@@ -192,6 +243,8 @@ class DashboardController extends Controller
 
             'retainedClients'=>$retainedClients,
             'newClients'=>$newClients,
+            'DeviceSessionchart'=>$DeviceSessionchart,
+
 
 
         ]);
