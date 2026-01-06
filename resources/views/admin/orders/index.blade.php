@@ -106,17 +106,17 @@
                                 <tr class="trRow"  data-id_row="{{ $Order->id }}" data-toggle="modal" data-target="#xlarge">
                                     <td></td>
 
-                                    <input type="hidden"  class="full_name{{ $Order->id }}" value=" {{ $Order->address->full_name }} ">
-                                    <input type="hidden"  class="phone{{ $Order->id }}" value=" {{ $Order->address->phone }} ">
-                                    <input type="hidden"  class="area{{ $Order->id }}" value=" {{ $Order->address->area }} ">
-                                    <input type="hidden"  class="floor_number{{ $Order->id }}" value=" {{ $Order->address->floor_number }} ">
-                                    <input type="hidden"  class="building{{ $Order->id }}" value=" {{ $Order->address->building }} ">
-                                    <input type="hidden"  class="address{{ $Order->id }}" value=" {{ $Order->address->address }} ">
+                                    <input type="hidden"  class="full_name" value=" {{ $Order->address->full_name }} ">
+                                    <input type="hidden"  class="phone" value=" {{ $Order->address->phone }} ">
+                                    <input type="hidden"  class="area" value=" {{ $Order->address->area }} ">
+                                    <input type="hidden"  class="floor_number" value=" {{ $Order->address->floor_number }} ">
+                                    <input type="hidden"  class="building" value=" {{ $Order->address->building }} ">
+                                    <input type="hidden"  class="address" value=" {{ $Order->address->address }} ">
 
-                                    <td class="product-name name{{ $Order->id }}">{{$Order->id  }}</td>
-                                    <td class="product-name name{{ $Order->id }}">{{$Order->user_ip}}</td>
+                                    <td class="product-name name">{{$Order->id  }}</td>
+                                    <td class="product-name name">{{$Order->user_ip}}</td>
 
-                                    <td class="product-category productDetalis{{ $Order->id }}">
+                                    <td class="product-category productDetalis">
                                          <form action="{{ route('Send_whatsapp') }}" method="post" target="_blank">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $Order->id }}">
@@ -155,20 +155,20 @@ collect($Order->items)->map(function($item, $i){
 
 
                                         </td>
-                                    <td class="product-category order_number{{ $Order->id }}"> {{ $Order->order_number }} </td>
+                                    <td class="product-category order_number"> {{ $Order->order_number }} </td>
 
-                                    <td class="product-category product_name{{ $Order->id }}">
+                                    <td class="product-category product_name">
                                             @foreach ( $Order->items as $item )
                                                   {{ $loop->iteration }} - {{ $item->product->name }}  ( {{ $item->quantity }} * {{ $item->price }} ) = {{ $item->quantity * $item->price }} ج.م
                                             <br class="mt-1">
 
                                         @endforeach
                                     </td>
-                                    <td class="product-category subtotal{{ $Order->id }}"> {{ $Order->subtotal }} ج.م </td>
-                                    <td class="product-category shipping_cost{{ $Order->id }}"> {{ $Order->shipping_cost }} </td>
-                                    <td class="product-category total{{ $Order->id }}"> {{ $Order->total }} </td>
-                                    <td class="product-category governorate{{ $Order->id }}"> {{ $Order->address->governorate }} </td>
-                                    <td class="product-category created_at{{ $Order->id }}"> {{ $Order->created_at->diffForHumans() }} </td>
+                                    <td class="product-category subtotal"> {{ $Order->subtotal }} ج.م </td>
+                                    <td class="product-category shipping_cost"> {{ $Order->shipping_cost }} </td>
+                                    <td class="product-category total"> {{ $Order->total }} </td>
+                                    <td class="product-category governorate"> {{ $Order->address->governorate }} </td>
+                                    <td class="product-category created_at"> {{ $Order->created_at->diffForHumans() }} </td>
 
                                     <td class="product-action">
                                     <span class="action-edit" data-id="{{ $Order->id }}">
@@ -437,6 +437,7 @@ $(document).ready(function() {
   "use strict"
 
     $('.del').on("click",function(){
+
         let productId = $(this).data('id_del');
         // on del
         $('#danger').attr(
@@ -460,33 +461,27 @@ $(document).ready(function() {
     // });
 
 
-      // On click more dedtails
-    $('.trRow').on("click",function(e){
-        e.stopPropagation();
+$(document).on('click', '.trRow', function () {
+    const row = $(this);
 
-        let productId = $(this).data('id_row');
-
-
-        $('#product_name').text($('.product_name'+productId).text());
-        $('#subtotal').text($('.subtotal'+productId).text());
-        $('#shipping_cost').text($('.shipping_cost'+productId).text());
-        $('#total').text($('.total'+productId).text());
-        $('#governorate').text($('.governorate'+productId).text());
-        $('#created_at').text($('.created_at'+productId).text());
-        $('#full_name').text($('.full_name'+productId).val());
-        $('#phone').text($('.phone'+productId).val());
-        $('#area').text($('.area'+productId).val());
-        $('#floor_number').text($('.floor_number'+productId).val());
-        $('#building').text($('.building'+productId).val());
-        $('#address').text($('.address'+productId).val());
+    $('#order_number').text(row.find('.order_number').text());
+    $('#product_name').text(row.find('.product_name').text());
+    $('#subtotal').text(row.find('.subtotal').text());
+    $('#shipping_cost').text(row.find('.shipping_cost').text());
+    $('#total').text(row.find('.total').text());
+    $('#governorate').text(row.find('.governorate').text());
+    $('#created_at').text(row.find('.created_at').text());
+    $('#full_name').text(row.find('.full_name').val() || row.find('.full_name').text());
+    $('#phone').text(row.find('.phone').val() || row.find('.phone').text());
+    $('#area').text(row.find('.area').val() || row.find('.area').text());
+    $('#floor_number').text(row.find('.floor_number').val() || row.find('.floor_number').text());
+    $('#building').text(row.find('.building').val() || row.find('.building').text());
+    $('#address').text(row.find('.address').val() || row.find('.address').text());
+});
 
 
-
-
-    });
       // On Edit
-    $('.action-edit').on("click",function(e){
-        e.stopPropagation();
+    $('.action-edit').on("click",function(){
         let productId = $(this).data('row_id');
 
 
