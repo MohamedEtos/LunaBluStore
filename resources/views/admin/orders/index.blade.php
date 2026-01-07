@@ -191,7 +191,7 @@ collect($Order->items)->map(function($item, $i){
 
 
                     <!-- add new sidebar starts -->
-                <form action='{{ Route('add_product') }}' id='productForm' method='POST' enctype="multipart/form-data">
+                <form action='{{ Route('StoreOrder') }}'  method='POST' enctype="multipart/form-data">
                         @csrf
                     <input type="hidden"  name="product_id" value='' id="product_id">
                     <div class="add-new-data-sidebar">
@@ -209,100 +209,116 @@ collect($Order->items)->map(function($item, $i){
                             <div class="data-items pb-3">
                                 <div class="data-fields px-2 mt-3">
                                     <div class="row">
-                                        <div class="col-sm-12 data-field-col">
-                                            <label for="product_name">الاسم</label>
-                                            <select name="product_name" id="product_name" class="form-control">
-                                                <option selected >اختر المنتج</option>
-                                                @foreach ($ProductList as $product)
-                                                <option  value="{{ $product->id }}">{{ $product->name  . " - " . $product->slug }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <!-- ===== Template مخفي للـ options من الداتا بيز ===== -->
+                                        <select id="productOptionsTemplate" class="d-none">
+                                            <option selected disabled value="">اختر المنتج</option>
+                                            @foreach ($ProductList as $product)
+                                                <option value="{{ $product->id }}">
+                                                    {{ $product->name . " - " . $product->slug }}
+                                                </option>
+                                            @endforeach
+                                        </select>
 
-                                        {{-- <div class="col-sm-12 data-field-col">
-                                            <label for="discount">خصم<label>
-                                            <input required type="number" name='discount' class="form-control" id="discount">
-                                        </div> --}}
+                                        <!-- ===== أول صف في الفاتورة ===== -->
+                                        <div class="invoice-item border rounded p-2 mt-2">
 
-                                        <!-- المنتج الأساسي -->
-                                        <div class="col-sm-12 data-field-col">
-                                        <label>اسم المنتج</label>
-                                        <input type="text" name="items[0][name]" class="form-control item-name" placeholder="اختر المنتج">
-                                        </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label>الاسم</label>
+                                                <select name="items[0][product_id]" class="form-control item-product">
+                                                    <option selected disabled value="">اختر المنتج</option>
+                                                    @foreach ($ProductList as $product)
+                                                        <option value="{{ $product->id }}">
+                                                            {{ $product->name . " - " . $product->slug }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
 
-                                        <div class="col-sm-12 data-field-col">
-                                        <label>السعر</label>
-                                        <input required type="number" name="items[0][price]" class="form-control item-price" value="0" min="0" step="0.01">
-                                        </div>
+                                            <div class="col-sm-12 data-field-col">
+                                                <label>السعر</label>
+                                                <input required type="number" name="items[0][price]" class="form-control item-price" value="0" min="0" step="0.01">
+                                            </div>
 
-                                        <div class="col-sm-12 data-field-col">
-                                        <label>الكميه</label>
-                                        <input required type="number" name="items[0][qty]" class="form-control item-qty" value="1" min="0" step="1">
+                                            <div class="col-sm-12 data-field-col">
+                                                <label>الكميه</label>
+                                                <input required type="number" name="items[0][qty]" class="form-control item-qty" value="1" min="0" step="1">
+                                            </div>
+
+                                            <!-- في أول صف مش لازم زر حذف -->
                                         </div>
 
                                         <!-- زر إضافة منتج -->
                                         <div class="col-sm-12 data-field-col mt-2">
-                                        <button type="button" id="addItemBtn" class="btn btn-outline-primary w-100">
-                                            + إضافة منتج
-                                        </button>
+                                            <button type="button" id="addItemBtn" class="btn btn-outline-primary w-100">
+                                                + إضافة منتج
+                                            </button>
                                         </div>
 
-                                        <!-- هنا هتظهر المنتجات الإضافية -->
-                                        <div id="itemsContainer" class="col-sm-12"></div>
+                                        <!-- هنا هتتضاف الصفوف الجديدة -->
+                                        <div id="itemsContainer"></div>
 
                                         <div class="border-top mb-2 pt-2 col-sm-12 data-field-col"></div>
 
-                                        <!-- خصم الفاتورة -->
                                         <div class="col-sm-12 data-field-col">
-                                        <label for="descount">خصم علي الفاتوره</label>
-                                        <input required type="number" name="descount" class="form-control" id="descount" value="0" min="0" step="0.01">
+                                            <label for="shipping__coast">تكلفة الشحن</label>
+                                        <select name="shipping__coast" id="shipping_coast" class="form-control">
+                                            @foreach ($Shaping_CoastList as $Shaping_Coast)
+                                                <option
+                                                    value="{{ $Shaping_Coast->id }}"
+                                                    data-cost="{{ $Shaping_Coast->shipping_cost }}"
+                                                >
+                                                    {{ $Shaping_Coast->name_ar . " - " . $Shaping_Coast->shipping_cost }}
+                                                </option>
+                                            @endforeach
+
+                                            <option value="0" data-cost="0">شحن مجاني</option>
+                                        </select>
+                                        </div>
+
+                                        <!-- خصم على الفاتورة -->
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="descount">خصم علي الفاتوره</label>
+                                            <input required type="number" name="descount" class="form-control" id="descount" value="0" min="0" step="0.01">
                                         </div>
 
                                         <!-- الإجمالي -->
                                         <div class="col-sm-12 data-field-col">
-                                        <label for="total">الاجمالي</label>
-                                        <input required type="number" name="total" class="form-control" id="total" value="0" readonly>
+                                            <label for="total">الاجمالي</label>
+                                            <input required type="number" name="total" class="form-control" id="total" value="0" readonly>
                                         </div>
 
+                                        <!-- (اختياري) الإجمالي قبل الخصم للعرض -->
+                                        <div class="col-sm-12 data-field-col mt-2">
+                                            <small class="">الإجمالي قبل الخصم: <span id="subtotalView">0.00</span></small>
+                                        </div>
 
                                         <div class="border-top mb-1 pt-1 col-sm-12 data-field-col"></div>
 
-
                                         <div class="col-sm-12 data-field-col">
-                                            <select name="shipping_coast" id="shipping_coast" class="form-control">
-                                                @foreach ($Shaping_CoastList as $Shaping_Coast)
-                                                    <option  value="{{ $Shaping_Coast->id }}">{{ $Shaping_Coast->name_ar  . " - " . $Shaping_Coast->shipping_cost }}</option>
-                                                    @endforeach
-                                                    <option  value="0">شحن مجاني</option>
-                                            </select>
+                                            <label for="customer">اسم العميل</label>
+                                            <input required type="text" name='customer'class="form-control" id="customer">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
                                             <label for="area">المنطقه</label>
-                                            <input required type="number" name='area'class="form-control" id="area">
+                                            <input required type="text" name='area'class="form-control" id="area">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
                                             <label for="address">العنوان</label>
-                                            <input required type="number" name='address'class="form-control" id="address">
+                                            <input required type="text" name='address'class="form-control" id="address">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
                                             <label for="bilding">رقم المبني</label>
-                                            <input required type="number" name='bilding'class="form-control" id="bilding">
+                                            <input required type="text" name='bilding'class="form-control" id="bilding">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
                                             <label for="floor_number">الدور  </label>
-                                            <input required type="number" name='floor_number'class="form-control" id="floor_number">
+                                            <input required type="text" name='floor_number'class="form-control" id="floor_number">
                                         </div>
 
-                                        {{-- <div class="col-sm-12 data-field-col data-list-upload">
-                                                <fieldset class="form-group">
-                                                    <label for="basicInputFile">الصوره الاساسيه</label>
-                                                    <input type="file" value='' id="data-mainImage" name='mainImage' class="form-control-file" id="basicInputFile">
-                                                </fieldset>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -485,7 +501,6 @@ $(document).ready(function() {
         );
         $('#prod_id').val(productId);
 
-
     });
 
     // $('.trRow').on("click",function(){
@@ -523,10 +538,10 @@ $(document).ready(function() {
 
 
         // تغيير action
-            $('#productForm').attr(
-            'action',
-            "{{ route('edit_product', ':id') }}".replace(':id', productId)
-            );
+            // $('#productForm').attr(
+            // 'action',
+            // "{{ route('edit_product', ':id') }}".replace(':id', productId)
+            // );
 
         // وضع id المنتج
         $('#product_id').val(productId);
