@@ -87,21 +87,22 @@
                                                         <div class="text-left">
                                                             <fieldset class="checkbox">
                                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                                    <input type="checkbox">
-                                                                    <span class="vs-checkbox">
+                                                                    {{-- <input type="checkbox"> --}}
+                                                                    {{-- <span class="vs-checkbox">
                                                                         <span class="vs-checkbox--check">
-                                                                            <i class="vs-icon feather icon-check"></i>
+                                                                            <i class="vs-icon feather icon-check"></i> --}}
                                                                         </span>
                                                                     </span>
                                                                     {{-- <span class="">Remember me</span> --}}
                                                                 </div>
                                                             </fieldset>
                                                         </div>
-                                                    </div>
-                                                    <a href="auth-register.html" class="btn btn-outline-primary float-left btn-inline">Register</a>
-                                                        <x-primary-button class="btn btn-primary float-right btn-inline">
+                                                        <x-primary-button class="btn btn-primary w-100  btn-inline m-3">
                                                             {{ __('Log in') }}
                                                         </x-primary-button>
+                                                    </div>
+                                                    {{-- <a href="auth-register.html" class="btn btn-outline-primary float-left btn-inline">Register</a> --}}
+
                                                 </form>
                                             </div>
                                         </div>
@@ -123,16 +124,16 @@
 @section('script')
 
     <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('admin/vendors/js/vendors.min.js') }}"></script>
+        <script src="{{ asset('admin/vendors/js/vendors.min.js') }}"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('admin/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('admin/js/core/app.js') }}"></script>
-    <script src="{{ asset('admin/js/scripts/components.js') }}"></script>
+        <script src="{{ asset('admin/js/core/app-menu.js') }}"></script>
+        <script src="{{ asset('admin/js/core/app.js') }}"></script>
+        <script src="{{ asset('admin/js/scripts/components.js') }}"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->

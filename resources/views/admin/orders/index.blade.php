@@ -210,21 +210,38 @@ collect($Order->items)->map(function($item, $i){
                                 <div class="data-fields px-2 mt-3">
                                     <div class="row">
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="data-name">الاسم</label>
-                                            <input required type="text" name="name" class="form-control" id="data-name">
+                                            <label for="product_name">الاسم</label>
+                                            <select name="product_name" id="product_name" class="form-control">
+                                                <option selected >اختر المنتج</option>
+                                                @foreach ($ProductList as $product)
+                                                <option  value="{{ $product->id }}">{{ $product->name  . " - " . $product->slug }}</option>
+                                                @endforeach
+                                            </select>
+
                                         </div>
 
 
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="data-price">السعر</label>
-                                            <input required type="number" name='price' class="form-control" id="data-price">
+                                            <label for="discount">خصم<label>
+                                            <input required type="number" name='discount' class="form-control" id="discount">
                                         </div>
+
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="data-price">تفاصيل</label>
-                                            <input required type="text" name='desc' class="form-control" id="data-desc">
+                                            <label for="price">السعر</label>
+                                            <input required type="number" name='price' class="form-control" id="price">
                                         </div>
+
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="data-price">الكميه المتاحه</label>
+                                            <select name="shipping_coast" id="shipping_coast" class="form-control">
+                                                @foreach ($Shaping_CoastList as $Shaping_Coast)
+                                                    <option  value="{{ $Shaping_Coast->id }}">{{ $Shaping_Coast->name_ar  . " - " . $Shaping_Coast->shipping_cost }}</option>
+                                                    @endforeach
+                                                    <option  value="0">شحن مجاني</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-price">الكميه</label>
                                             <input required type="number" name='stock'class="form-control" id="data-stock">
                                         </div>
 
@@ -236,37 +253,6 @@ collect($Order->items)->map(function($item, $i){
                                                     <label for="basicInputFile">الصوره الاساسيه</label>
                                                     <input type="file" value='' id="data-mainImage" name='mainImage' class="form-control-file" id="basicInputFile">
                                                 </fieldset>
-
-                                                <div class="col-sm-12 data-field-col">
-                                                    <label for="data-price">تعريف الصوره 1</label>
-                                                    <input  type="text" name='alt1'class="form-control" id="data-alt1">
-                                                </div>
-
-                                                <fieldset class="form-group">
-                                                    <label for="basicInputFile">صوره ثانويه</label>
-                                                    <input type="file" value='' id="data-img2" name='img2' class="form-control-file" id="basicInputFile">
-                                                </fieldset>
-
-                                                <div class="col-sm-12 data-field-col">
-                                                    <label for="data-price">تعريف الصوره 2</label>
-                                                    <input  type="text" name='alt2'class="form-control" id="data-alt2">
-                                                </div>
-                                                <fieldset class="form-group">
-                                                    <label for="basicInputFile">صوره ثانويه</label>
-                                                    <input type="file" value='' id="data-img3" name='img3' class="form-control-file" id="basicInputFile">
-                                                </fieldset>
-                                                <div class="col-sm-12 data-field-col">
-                                                    <label for="data-price">تعريف الصوره 1</label>
-                                                    <input  type="text" name='alt3'class="form-control" id="data-alt3">
-                                                </div>
-                                                <fieldset class="form-group">
-                                                    <label for="basicInputFile">صوره ثانويه</label>
-                                                    <input type="file" value='' id="data-img4" name='img4' class="form-control-file" id="basicInputFile">
-                                                </fieldset>
-                                                <div class="col-sm-12 data-field-col">
-                                                    <label for="data-price">تعريف الصوره 1</label>
-                                                    <input  type="text" name='alt4'class="form-control" id="data-alt4">
-                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -430,8 +416,12 @@ collect($Order->items)->map(function($item, $i){
     {{-- modals --}}
     <script src="{{ asset('admin/js/scripts/modal/components-modal.js') }}"></script>
 
+    <script src="{{ asset('admin/js/orders/orders.js') }}"></script>
+    <script src="{{ asset('admin/js/orders/GetProductInfo.js') }}"></script>
 
 <script>
+
+
 
 $(document).ready(function() {
   "use strict"
@@ -461,23 +451,7 @@ $(document).ready(function() {
     // });
 
 
-$(document).on('click', '.trRow', function () {
-    const row = $(this);
 
-    $('#order_number').text(row.find('.order_number').text());
-    $('#product_name').text(row.find('.product_name').text());
-    $('#subtotal').text(row.find('.subtotal').text());
-    $('#shipping_cost').text(row.find('.shipping_cost').text());
-    $('#total').text(row.find('.total').text());
-    $('#governorate').text(row.find('.governorate').text());
-    $('#created_at').text(row.find('.created_at').text());
-    $('#full_name').text(row.find('.full_name').val() || row.find('.full_name').text());
-    $('#phone').text(row.find('.phone').val() || row.find('.phone').text());
-    $('#area').text(row.find('.area').val() || row.find('.area').text());
-    $('#floor_number').text(row.find('.floor_number').val() || row.find('.floor_number').text());
-    $('#building').text(row.find('.building').val() || row.find('.building').text());
-    $('#address').text(row.find('.address').val() || row.find('.address').text());
-});
 
 
       // On Edit
