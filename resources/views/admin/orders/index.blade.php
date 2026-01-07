@@ -217,19 +217,56 @@ collect($Order->items)->map(function($item, $i){
                                                 <option  value="{{ $product->id }}">{{ $product->name  . " - " . $product->slug }}</option>
                                                 @endforeach
                                             </select>
-
                                         </div>
 
-
-                                        <div class="col-sm-12 data-field-col">
+                                        {{-- <div class="col-sm-12 data-field-col">
                                             <label for="discount">خصم<label>
                                             <input required type="number" name='discount' class="form-control" id="discount">
+                                        </div> --}}
+
+                                        <!-- المنتج الأساسي -->
+                                        <div class="col-sm-12 data-field-col">
+                                        <label>اسم المنتج</label>
+                                        <input type="text" name="items[0][name]" class="form-control item-name" placeholder="اختر المنتج">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="price">السعر</label>
-                                            <input required type="number" name='price' class="form-control" id="price">
+                                        <label>السعر</label>
+                                        <input required type="number" name="items[0][price]" class="form-control item-price" value="0" min="0" step="0.01">
                                         </div>
+
+                                        <div class="col-sm-12 data-field-col">
+                                        <label>الكميه</label>
+                                        <input required type="number" name="items[0][qty]" class="form-control item-qty" value="1" min="0" step="1">
+                                        </div>
+
+                                        <!-- زر إضافة منتج -->
+                                        <div class="col-sm-12 data-field-col mt-2">
+                                        <button type="button" id="addItemBtn" class="btn btn-outline-primary w-100">
+                                            + إضافة منتج
+                                        </button>
+                                        </div>
+
+                                        <!-- هنا هتظهر المنتجات الإضافية -->
+                                        <div id="itemsContainer" class="col-sm-12"></div>
+
+                                        <div class="border-top mb-2 pt-2 col-sm-12 data-field-col"></div>
+
+                                        <!-- خصم الفاتورة -->
+                                        <div class="col-sm-12 data-field-col">
+                                        <label for="descount">خصم علي الفاتوره</label>
+                                        <input required type="number" name="descount" class="form-control" id="descount" value="0" min="0" step="0.01">
+                                        </div>
+
+                                        <!-- الإجمالي -->
+                                        <div class="col-sm-12 data-field-col">
+                                        <label for="total">الاجمالي</label>
+                                        <input required type="number" name="total" class="form-control" id="total" value="0" readonly>
+                                        </div>
+
+
+                                        <div class="border-top mb-1 pt-1 col-sm-12 data-field-col"></div>
+
 
                                         <div class="col-sm-12 data-field-col">
                                             <select name="shipping_coast" id="shipping_coast" class="form-control">
@@ -241,19 +278,31 @@ collect($Order->items)->map(function($item, $i){
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="data-price">الكميه</label>
-                                            <input required type="number" name='stock'class="form-control" id="data-stock">
+                                            <label for="area">المنطقه</label>
+                                            <input required type="number" name='area'class="form-control" id="area">
                                         </div>
 
-                                        <div class="col-sm-12 data-field-col data-list-upload">
-                                            {{-- <form  class="dropzone dropzone-area" id="dataListUpload">
-                                                <div class="dz-message">Upload Image</div>
-                                            </form> --}}
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="address">العنوان</label>
+                                            <input required type="number" name='address'class="form-control" id="address">
+                                        </div>
+
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="bilding">رقم المبني</label>
+                                            <input required type="number" name='bilding'class="form-control" id="bilding">
+                                        </div>
+
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="floor_number">الدور  </label>
+                                            <input required type="number" name='floor_number'class="form-control" id="floor_number">
+                                        </div>
+
+                                        {{-- <div class="col-sm-12 data-field-col data-list-upload">
                                                 <fieldset class="form-group">
                                                     <label for="basicInputFile">الصوره الاساسيه</label>
                                                     <input type="file" value='' id="data-mainImage" name='mainImage' class="form-control-file" id="basicInputFile">
                                                 </fieldset>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
