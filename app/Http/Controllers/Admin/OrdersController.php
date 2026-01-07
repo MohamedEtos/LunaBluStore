@@ -81,7 +81,7 @@ class OrdersController extends Controller
         }
 
         // 2) shipping cost من الداتا بيز
-        $shipping = ShippingCoast::findOrFail($data['shaping__coasts']);
+        $shipping = Shaping_Coast::findOrFail($data['shaping__coasts']);
         $shippingCost = (float)$shipping->shipping_cost;
 
         // 3) discount
@@ -92,8 +92,8 @@ class OrdersController extends Controller
         if ($total < 0) $total = 0;
 
         // 5) حفظ Order
-        $order = Order::create([
-            'customer'           => $data['customer'],
+        $order = Order_items::create([
+            'full_name'           => $data['customer'],
             'area'               => $data['area'],
             'address'            => $data['address'],
             'bilding'            => $data['bilding'] ?? null,
