@@ -17,8 +17,11 @@ const thisMonthSeries = (window.dashboardData && window.dashboardData.thisMonthS
 const newClients = (window.dashboardData && window.dashboardData.newClients) ? window.dashboardData.newClients : [0,0,0,0,0,0,0];
 const retainedClients = (window.dashboardData && window.dashboardData.retainedClients) ? window.dashboardData.retainedClients : [0,0,0,0,0,0,0];
 const DeviceSessionchart = (window.dashboardData && window.dashboardData.DeviceSessionchart) ? window.dashboardData.DeviceSessionchart : [0,0,0,0,0,0,0];
+const trafficSourcesLabels = (window.dashboardData && window.dashboardData.trafficSourcesLabels) ? window.dashboardData.trafficSourcesLabels : ['Google','Facebook','Instagram','TikTok','Direct','Other'];
+const trafficSourcesSeries = (window.dashboardData && window.dashboardData.trafficSourcesSeries) ? window.dashboardData.trafficSourcesSeries : [0,0,0,0,0,0];
 
-console.log(DeviceSessionchart.series);
+
+
 
   var $primary = '#DA0E7D';
   var $success = '#28C76F';
@@ -29,10 +32,14 @@ console.log(DeviceSessionchart.series);
   var $danger_light = '#f29292';
   var $success_light = '#55DD92';
   var $warning_light = '#ffc085';
+  var $secondary_light = '#ebd1b8ff';
+  var $secondary  = '#ebd1b8ff';
   var $info_light = '#1fcadb';
   var $strok_color = '#b9c3cd';
   var $label_color = '#e7e7e7';
   var $white = '#fff';
+
+
 
 
   // Line Area Chart - 1
@@ -617,11 +624,11 @@ categories: [
         opacity: 0.2
       },
       toolbar: {
-        show: false
+        show: true
       }
     },
-    labels: ['New', 'Returning', 'Referrals'],
-    series: [690, 258, 149],
+    labels: trafficSourcesLabels,
+    series: trafficSourcesSeries,
     dataLabels: {
       enabled: false
     },
@@ -629,14 +636,16 @@ categories: [
     stroke: {
       width: 5
     },
-    colors: [$primary, $warning, $danger],
+    colors: ['#4285F4','#1877F2','#E4405F','#000000','#6B7280','#F59E0B'],
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: [$primary_light, $warning_light, $danger_light]
+        gradientToColors: ['#4285F4','#1877F2','#E4405F','#000000','#6B7280','#F59E0B']
       }
     }
   }
+
+
 
   var customerChart = new ApexCharts(
     document.querySelector("#customer-chart"),
@@ -646,6 +655,7 @@ categories: [
   customerChart.render();
 
 });
+
 
 
 // Chat Application

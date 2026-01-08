@@ -215,6 +215,45 @@ class DashboardController extends Controller
         ];
 
 
+        // حساب الزوار من اي موقع قاديمن في الشارت
+
+    $now = Carbon::now();
+
+    // ====== Traffic Sources (Pie) - Last 7 Days ======
+    $from = $now->copy()->subDays(7)->startOfDay();
+    $to   = $now->copy()->endOfDay();
+
+    $rows = DB::table('visits')
+        ->select('referrer', DB::raw('COUNT(*) as c'))
+        // ->whereBetween('created_at', [$from, $to])
+        ->groupBy('referrer')
+        ->get();
+
+
+    $bucket = [
+        'Google' => 0,
+        'Facebook' => 0,
+        'Instagram' => 0,
+        'TikTok' => 0,
+        'Direct' => 0,
+        'Other' => 0,
+    ];
+
+    foreach ($rows as $r) {
+        $ref = trim((string)$r->referrer);
+        $count = (int)$r->c;
+
+        $source = $this->detectSource($ref); // نفس الدالة تحت
+        if (!isset($bucket[$source])) $bucket['Other'] += $count;
+        else $bucket[$source] += $count;
+    }
+
+    // لو عايز تعرض 3 بس زي مثال (New/Returning/Referrals) — اختار اللي انت عايزه
+    // هنا هنعمل Pie لـ 6 مصادر:
+    $trafficSourcesLabels = array_keys($bucket);
+    $trafficSourcesSeries = array_values($bucket);
+
+
 
 
         $count_vistors = Visit::distinct('ip_address')->count('ip_address');
@@ -222,6 +261,7 @@ class DashboardController extends Controller
         $product_count = Product::count();
         $orders_count = Orders::count();
         // Visit::where('url', 'products')->count();اذا كنت تريد حساب صفحه معينه
+
 
 
         return view('admin.index', [
@@ -244,10 +284,49 @@ class DashboardController extends Controller
             'retainedClients'=>$retainedClients,
             'newClients'=>$newClients,
             'DeviceSessionchart'=>$DeviceSessionchart,
+            'trafficSourcesLabels' => $trafficSourcesLabels,
+            'trafficSourcesSeries' => $trafficSourcesSeries,
 
 
 
         ]);
 
     }
+
+
+
+    private function detectSource(string $ref): string
+    {
+        if ($ref === '' || $ref === '-' || strtolower($ref) === 'null') {
+            return 'Direct';
+        }
+
+        $host = parse_url($ref, PHP_URL_HOST);
+
+        if (!$host) {
+            return 'Direct';
+        }
+
+        $host = strtolower($host);
+        $host = preg_replace('/^www\./', '', $host);
+
+        if (str_contains($host, 'google')) return 'Google';
+        if (str_contains($host, 'facebook') || str_contains($host, 'fb.')) return 'Facebook';
+        if (str_contains($host, 'instagram')) return 'Instagram';
+        if (str_contains($host, 'tiktok')) return 'TikTok';
+
+        return 'Other';
+    }
+
+
+
+
 }
+
+
+
+
+
+
+
+

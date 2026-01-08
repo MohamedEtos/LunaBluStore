@@ -150,7 +150,7 @@
                             </ul>
                         </li>
                         <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                                <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name }}</span><span class="user-status">Available</span></div><span><img class="round" src="admin/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
+                                <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ Auth::user()->name }}</span><span class="user-status">Available</span></div><span><img class="round" src="{{ asset('admin/images/portrait/small/avatar-s-11.jpg') }}" alt="avatar" height="40" width="40"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="/"><i class="feather icon-refresh-cw"></i> Vistit Store </a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
 
