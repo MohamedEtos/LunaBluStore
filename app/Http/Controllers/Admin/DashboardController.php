@@ -217,42 +217,41 @@ class DashboardController extends Controller
 
         // حساب الزوار من اي موقع قاديمن في الشارت
 
-    $now = Carbon::now();
+    $days = (int) ($request->get('days', 7));
+    $top  = (int) ($request->get('top', 10)); // عدد المصادر اللي هنعرضها
 
-    // ====== Traffic Sources (Pie) - Last 7 Days ======
-    $from = $now->copy()->subDays(7)->startOfDay();
-    $to   = $now->copy()->endOfDay();
+    $from = now()->subDays($days)->startOfDay();
+    $to   = now()->endOfDay();
 
+    $yourDomain = 'unabl.store'; // <-- غيّره لدومينك
+
+    // مهم: غيّر اسم العمود هنا حسب جدولك (referer/referrer)
     $rows = DB::table('visits')
         ->select('referrer', DB::raw('COUNT(*) as c'))
-        // ->whereBetween('created_at', [$from, $to])
+        ->whereBetween('created_at', [$from, $to])
         ->groupBy('referrer')
         ->get();
 
-
-    $bucket = [
-        'Google' => 0,
-        'Facebook' => 0,
-        'Instagram' => 0,
-        'TikTok' => 0,
-        'Direct' => 0,
-        'Other' => 0,
-    ];
+    $bucket = []; // label => count
 
     foreach ($rows as $r) {
-        $ref = trim((string)$r->referrer);
-        $count = (int)$r->c;
+        $ref = trim((string) $r->referrer);
+        $count = (int) $r->c;
 
-        $source = $this->detectSource($ref); // نفس الدالة تحت
-        if (!isset($bucket[$source])) $bucket['Other'] += $count;
-        else $bucket[$source] += $count;
+        $label = $this->sourceLabelFromRef($ref, $yourDomain);
+        $bucket[$label] = ($bucket[$label] ?? 0) + $count;
     }
 
-    // لو عايز تعرض 3 بس زي مثال (New/Returning/Referrals) — اختار اللي انت عايزه
-    // هنا هنعمل Pie لـ 6 مصادر:
-    $trafficSourcesLabels = array_keys($bucket);
-    $trafficSourcesSeries = array_values($bucket);
+    // رتّب من الأكبر للأصغر
+    arsort($bucket);
 
+    // Top N + تجميع الباقي في Other
+    $topItems = array_slice($bucket, 0, $top, true);
+    $restSum  = array_sum(array_slice($bucket, $top));
+
+    if ($restSum > 0) {
+        $topItems['Other'] = ($topItems['Other'] ?? 0) + $restSum;
+    }
 
 
 
@@ -284,8 +283,10 @@ class DashboardController extends Controller
             'retainedClients'=>$retainedClients,
             'newClients'=>$newClients,
             'DeviceSessionchart'=>$DeviceSessionchart,
-            'trafficSourcesLabels' => $trafficSourcesLabels,
-            'trafficSourcesSeries' => $trafficSourcesSeries,
+            'trafficSourcesLabels' => array_keys($topItems),
+            'trafficSourcesSeries' => array_values($topItems),
+            'trafficTotal' => array_sum($topItems),
+            'trafficrange' => ['from' => $from->toDateTimeString(), 'to' => $to->toDateTimeString()],
 
 
 
@@ -295,29 +296,41 @@ class DashboardController extends Controller
 
 
 
-    private function detectSource(string $ref): string
+
+    private function sourceLabelFromRef(string $ref, string $yourDomain): string
     {
         if ($ref === '' || $ref === '-' || strtolower($ref) === 'null') {
             return 'Direct';
         }
 
         $host = parse_url($ref, PHP_URL_HOST);
-
-        if (!$host) {
-            return 'Direct';
-        }
+        if (!$host) return 'Direct';
 
         $host = strtolower($host);
         $host = preg_replace('/^www\./', '', $host);
 
-        if (str_contains($host, 'google')) return 'Google';
-        if (str_contains($host, 'facebook') || str_contains($host, 'fb.')) return 'Facebook';
-        if (str_contains($host, 'instagram')) return 'Instagram';
-        if (str_contains($host, 'tiktok')) return 'TikTok';
+        // Internal
+        if (str_contains($host, $yourDomain)) {
+            return 'Internal';
+        }
 
-        return 'Other';
+        // Known platforms (زود براحتك)
+        if (str_contains($host, 'google.')) return 'Google';
+        if (str_contains($host, 'facebook.') || str_contains($host, 'fb.') || str_contains($host, 'fbcdn.')) return 'Facebook';
+        if (str_contains($host, 'instagram.')) return 'Instagram';
+        if (str_contains($host, 'tiktok.')) return 'TikTok';
+        if (str_contains($host, 'youtube.')) return 'YouTube';
+        if (str_contains($host, 'linkedin.')) return 'LinkedIn';
+        if (str_contains($host, 'twitter.') || str_contains($host, 'x.com') || str_contains($host, 't.co')) return 'X (Twitter)';
+        if (str_contains($host, 'bing.')) return 'Bing';
+        if (str_contains($host, 'duckduckgo.')) return 'DuckDuckGo';
+        if (str_contains($host, 'yahoo.')) return 'Yahoo';
+        if (str_contains($host, 'telegram.')) return 'Telegram';
+        if (str_contains($host, 'whatsapp.')) return 'WhatsApp';
+
+        // fallback: الدومين نفسه (ده اللي “يزود عدد المواقع” فعليًا)
+        return $host;
     }
-
 
 
 

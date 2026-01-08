@@ -21,6 +21,22 @@ const trafficSourcesLabels = (window.dashboardData && window.dashboardData.traff
 const trafficSourcesSeries = (window.dashboardData && window.dashboardData.trafficSourcesSeries) ? window.dashboardData.trafficSourcesSeries : [0,0,0,0,0,0];
 
 
+const sourceColorMap = {
+  Google: '#4285F4',
+  Facebook: '#1877F2',
+  Instagram: '#E4405F',
+  TikTok: '#000000',
+  LinkedIn: '#0A66C2',
+  YouTube: '#FF0000',
+  'X (Twitter)': '#1DA1F2',
+  Telegram: '#0088CC',
+  WhatsApp: '#25D366',
+  Direct: '#e71b8e',
+  Other: '#6B7280'
+};
+
+const colors = trafficSourcesLabels.map(l => sourceColorMap[l] || '#9CA3AF');
+
 
 
   var $primary = '#DA0E7D';
@@ -636,11 +652,12 @@ categories: [
     stroke: {
       width: 5
     },
-    colors: ['#4285F4','#1877F2','#E4405F','#000000','#6B7280','#F59E0B'],
+    colors: colors,
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#4285F4','#1877F2','#E4405F','#000000','#6B7280','#F59E0B']
+        gradientToColors: colors
+
       }
     }
   }

@@ -295,24 +295,16 @@
                                         <div id="customer-chart"></div>
                                     </div>
                                     <ul class="list-group list-group-flush customer-info">
-                                        @php
-                                            $trafficColors = [
-                                                '#4285F4', // Google
-                                                '#1877F2', // Facebook
-                                                '#E4405F', // Instagram
-                                                '#000000', // TikTok
-                                                '#6B7280', // Direct
-                                                '#F59E0B', // Other
-                                            ];
-                                        @endphp
+
+
                                         @foreach($trafficSourcesLabels as $index => $label)
-                                        <li class="list-group-item d-flex justify-content-between  " >
-                                            <div class="series-info" >
-                                                <i class="fa fa-circle font-small-3 " style="color: {{ $trafficColors[$index] ?? '#ccc' }}"></i>
-                                                <span class="text-bold-600">{{ $label }}</span>
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div class="series-info">
+
+                                            <span class="text-bold-600">{{ $label }}</span>
                                             </div>
                                             <div class="product-result">
-                                                <span>{{ $trafficSourcesSeries[$index] ?? 0 }}</span>
+                                            <span>{{ $trafficSourcesSeries[$index] ?? 0 }}</span>
                                             </div>
                                         </li>
                                         @endforeach
