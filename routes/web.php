@@ -104,6 +104,9 @@ Route::controller(OrdersController::class)->middleware('auth')->prefix('admin')-
     Route::get('/Orders/{id}/price', 'GetProductInfo')->name('GetProductInfo');
     Route::post('Send_whatsapp', 'Send_whatsapp')->name('Send_whatsapp');
     Route::post('StoreOrder', 'StoreOrder')->name('StoreOrder');
+    Route::post('multideleteOrders', 'multideleteOrders')->name('multideleteOrders');
+    Route::post('/destroyOrder/{productId}', 'destroyOrder')->name('destroyOrder');
+
 
 });
 

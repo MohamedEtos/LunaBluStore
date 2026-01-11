@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/vendors-rtl.min.css') }}">
     {{-- <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/file-uploaders/dropzone.min.css') }}"> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/datatables.min.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/extensions/dataTables.checkboxes.css') }}">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -73,9 +73,13 @@
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="feather icon-trash"></i>Delete</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-archive"></i>Hide</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-eye"></i>show</a>
+                                    <form id="checkForm" action="{{ route('multideleteOrders') }}" method="post">
+                                        @csrf
+                                    <button type="submit" form="checkForm" id="checkbox_send" class="dropdown-item danger" href="#"><i class="feather icon-trash "></i>Delete</button>
+                                    <div id="hiddenBox"></div>
+                                    </form>
+                                    {{-- <a class="dropdown-item" href="#"><i class="feather icon-archive"></i>Hide</a> --}}
+                                    {{-- <a class="dropdown-item" href="#"><i class="feather icon-eye"></i>show</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -102,27 +106,27 @@
                             </thead>
                             <tbody>
 
+
                             @foreach ($Orderlist as $Order)
                                 <tr class="trRow"  data-id_row="{{ $Order->id }}" data-toggle="modal" data-target="#xlarge">
-                                    <td></td>
+                                        <td data-id_check="{{ $Order->id }}" class="stopevent"></td>
+                                    <input type="hidden"  class="full_name" value=" {{ $Order->address->full_name ?? 'No Data' }} ">
+                                    <input type="hidden"  class="phone" value=" {{ $Order->address->phone  ?? 'No Data'}} ">
+                                    <input type="hidden"  class="area" value=" {{ $Order->address->area  ?? 'No Data'}} ">
+                                    <input type="hidden"  class="floor_number" value=" {{ $Order->address->floor_number ?? 'No Data'}} ">
+                                    <input type="hidden"  class="building" value=" {{ $Order->address->building ?? 'No Data' }} ">
+                                    <input type="hidden"  class="address" value=" {{ $Order->address->address  ?? 'No Data'}} ">
 
-                                    <input type="hidden"  class="full_name" value=" {{ $Order->address->full_name }} ">
-                                    <input type="hidden"  class="phone" value=" {{ $Order->address->phone }} ">
-                                    <input type="hidden"  class="area" value=" {{ $Order->address->area }} ">
-                                    <input type="hidden"  class="floor_number" value=" {{ $Order->address->floor_number }} ">
-                                    <input type="hidden"  class="building" value=" {{ $Order->address->building }} ">
-                                    <input type="hidden"  class="address" value=" {{ $Order->address->address }} ">
-
-                                    <td class="product-name name">{{$Order->id  }}</td>
-                                    <td class="product-name name">{{$Order->user_ip}}</td>
+                                    <td class="product-name name">{{$Order->id  ?? 'No Data' }}</td>
+                                    <td class="product-name name">{{$Order->user_ip ?? 'No Data'}}</td>
 
                                     <td class="product-category productDetalis">
-                                         <form action="{{ route('Send_whatsapp') }}" method="post" target="_blank">
+                                         <form id="whatsapp" action="{{ route('Send_whatsapp') }}" method="post" target="_blank">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $Order->id }}">
 
 <a target="_blank"
-href="https://wa.me/2{{ $Order->address->phone }}?text={{ urlencode(
+href="https://wa.me/2{{ $Order->address->phone ?? 'No Data' }}?text={{ urlencode(
 "مرحبا
 {$Order->address->full_name}
 
@@ -145,9 +149,9 @@ collect($Order->items)->map(function($item, $i){
 ) }}">
 
 @if($Order->payment_status == 'notaccepted')
-    <button class="btn btn-success">إرسال رسالة التأكيد</button>
+    <button form="whatsapp" type="" class="btn btn-success">إرسال رسالة التأكيد</button>
 @else
-    <button class="btn btn-success">إعادة الإرسال</button>
+    <button form="whatsapp" type="" class="btn btn-success">إعادة الإرسال</button>
 @endif
 </a>
                                     </form>
@@ -171,16 +175,18 @@ collect($Order->items)->map(function($item, $i){
                                     <td class="product-category created_at"> {{ $Order->created_at->diffForHumans() }} </td>
 
                                     <td class="product-action">
-                                    <span class="action-edit" data-id="{{ $Order->id }}">
+                                    {{-- <span class="action-edit" data-id="{{ $Order->id }}">
                                         <i class="feather icon-edit"></i>
-                                    </span>
-                                    <span class='del' data-toggle="modal" data-id_del="{{ $Order->id }}" data-target="#danger">
+                                    </span> --}}
+                                    <span class='del text-danger' data-toggle="modal" data-id_del="{{ $Order->id }}" data-target="#danger">
                                         <i class="feather icon-trash"  ></i>
                                     </span>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
+
+
                         </table>
                     </div>
                     <!-- dataTable ends -->
@@ -297,6 +303,10 @@ collect($Order->items)->map(function($item, $i){
                                         <div class="col-sm-12 data-field-col">
                                             <label for="customer">اسم العميل</label>
                                             <input required type="text" name='customer'class="form-control" id="customer">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="phone">رقم التلفون</label>
+                                            <input required type="number" name='phone'class="form-control" id="phone">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
@@ -462,7 +472,7 @@ collect($Order->items)->map(function($item, $i){
     <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ asset('admin/vendors/js/tables/datatable/dataTables.select.min.js') }}"></script>
-    {{-- <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script> --}}
+    <script src="{{ asset('admin/vendors/js/tables/datatable/datatables.checkboxes.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -488,16 +498,45 @@ collect($Order->items)->map(function($item, $i){
 
 
 
+
+
+
+
 $(document).ready(function() {
   "use strict"
 
+    $(document).on('change', '.dt-checkboxes', function (e) {
+        e.stopPropagation();
+
+        let box = $('#hiddenBox');
+        box.empty(); // مهم جدًا
+
+        // جمع الـ selected مرة واحدة
+        $('.dt-checkboxes:checked').each(function () {
+            let id = $(this).closest('tr').data('id_row'); // أو $(this).val()
+            box.append(`<input type="hidden" name="ids[]" value="${id}">`);
+        });
+
+    });
+
+    // عشان الموديل ميفتح لما اعمل شيك
+    $(document).on('click', '.stopevent', function (e) {
+    e.stopPropagation();
+
+    });
+
+
+
+
+
     $('.del').on("click",function(){
+
 
         let productId = $(this).data('id_del');
         // on del
         $('#danger').attr(
             'action',
-            "{{ route('destroy', ':id') }}".replace(':id', productId)
+            "{{ route('destroyOrder', ':id') }}".replace(':id', productId)
         );
         $('#prod_id').val(productId);
 
@@ -519,7 +558,8 @@ $(document).ready(function() {
 
 
       // On Edit
-    $('.action-edit').on("click",function(){
+    $('.action-edit').on("click",function(e){
+        e.stopPropagation()
         let productId = $(this).data('row_id');
 
 
@@ -559,7 +599,13 @@ $(document).ready(function() {
 
     });
 
+
+
+
+
+
 });
+
 
 
 

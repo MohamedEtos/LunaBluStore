@@ -278,7 +278,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between pb-0">
-                                    <h4 class="card-title">Customers</h4>
+                                    <h4 class="card-title">الزوار</h4>
                                     <div class="dropdown chart-dropdown">
                                         <button class="btn btn-sm border-0 dropdown-toggle px-0" type="button" id="dropdownItem3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Last 7 Days

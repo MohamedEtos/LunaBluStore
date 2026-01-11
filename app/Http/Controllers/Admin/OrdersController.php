@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\Product;
 use App\Models\Shaping_Coast;
+use App\Models\Order_addresses;
+use App\Models\Order_items;
 
 
 class OrdersController extends Controller
@@ -51,78 +53,110 @@ class OrdersController extends Controller
 
     public function StoreOrder(Request $request)
     {
-
         // dd($request->all());
 
-    $data = $request->validate([
-        'items'                  => ['required','array','min:1'],
-        'items.*.product_id'     => ['required','integer','exists:products,id'],
-        'items.*.price'          => ['required','numeric','min:0'],
-        'items.*.qty'            => ['required','numeric','min:0'],
+        $request->validate([
+            'items'                  => ['required','array','min:1'],
+            'items.*.product_id'     => ['required','integer','exists:products,id'],
+            'items.*.price'          => ['required','numeric','min:0'],
+            'items.*.qty'            => ['required','numeric','min:0'],
 
-        'shipping__coast'         => ['required','integer','exists:shaping__coasts,id'], // عدّل الجدول لو مختلف
-        'descount'               => ['nullable','numeric','min:0'],
+            'shipping__coast'         => ['required','integer','exists:shaping__coasts,id'], // عدّل الجدول لو مختلف
+            'descount'               => ['nullable','numeric','min:0'],
 
-        'customer'               => ['required','string','max:255'],
-        'area'                   => ['required','string','max:255'],
-        'address'                => ['required','string','max:1000'],
-        'bilding'                => ['nullable','string','max:50'],
-        'floor_number'           => ['nullable','string','max:50'],
+            'customer'               => ['required','string','max:255'],
+            'area'                   => ['required','string','max:255'],
+            'address'                => ['required','string','max:1000'],
+            'bilding'                => ['nullable','string','max:50'],
+            'floor_number'           => ['nullable','string','max:50'],
 
-        'total'                  => ['nullable','numeric','min:0'],
-    ]);
-
-    return DB::transaction(function () use ($data) {
-
-        // 1) subtotal من العناصر
-        $subtotal = 0;
-        foreach ($data['items'] as $item) {
-            $subtotal += (float)$item['price'] * (float)$item['qty'];
-        }
-
-        // 2) shipping cost من الداتا بيز
-        $shipping = Shaping_Coast::findOrFail($data['shaping__coasts']);
-        $shippingCost = (float)$shipping->shipping_cost;
-
-        // 3) discount
-        $discount = (float)($data['descount'] ?? 0);
-
-        // 4) total النهائي (لا نعتمد على total القادم من الفورم)
-        $total = $subtotal + $shippingCost - $discount;
-        if ($total < 0) $total = 0;
-
-        // 5) حفظ Order
-        $order = Order_items::create([
-            'full_name'           => $data['customer'],
-            'area'               => $data['area'],
-            'address'            => $data['address'],
-            'bilding'            => $data['bilding'] ?? null,
-            'floor_number'       => $data['floor_number'] ?? null,
-
-            'shipping_coast_id'  => $data['shipping__coast'],   // عدّل اسم العمود لو مختلف
-            'shipping_cost'      => $shippingCost,
-            'discount'           => $discount,
-            'subtotal'           => $subtotal,
-            'total'              => $total,
+            'total'                  => ['nullable','numeric','min:0'],
         ]);
 
-        // 6) حفظ Order Items
-        foreach ($data['items'] as $item) {
-            OrderItem::create([
-                'order_id'   => $order->id,
-                'product_id' => (int)$item['product_id'],
-                'price'      => (float)$item['price'],
-                'qty'        => (float)$item['qty'],
-                'line_total' => (float)$item['price'] * (float)$item['qty'],
-            ]);
-        }
+        return DB::transaction(function () use ($request) {
 
-        // return $order; // أو redirect تحت
+            // 1) subtotal من العناصر
+            $subtotal = 0;
+            foreach ($request->items as $item) {
+                $subtotal += (float)$item['price'] * (float)$item['qty'];
+            }
+
+            // 2) shipping cost من الداتا بيز
+            $shipping = Shaping_Coast::findOrFail($request->shipping__coast);
+            $shippingCost = (float)$shipping->shipping_cost;
+
+            // 3) discount
+            $discount = (float)($request->descount ?? 0);
+
+            // 4) total النهائي (لا نعتمد على total القادم من الفورم)
+            $total = $subtotal + $shippingCost - $discount;
+            if ($total < 0) $total = 0;
+
+            // 5) حفظ Order
+            $order = Orders::create([
+
+                'user_ip'       => $request->ip(),
+                'order_number'       => 'ORD' . time(),
+                'subtotal'           => $subtotal,
+                'shipping_cost'      => $shippingCost,
+                'total'              => $total,
+                'status'             => 'done',
+                'payment_method'     => 'COD',
+                'payment_status'     => 'accepted',
+            ]);
+
+
+
+            // 6) حفظ Order Items
+            foreach ($request->items as $item) {
+                Order_items::create([
+                    'order_id'   => $order->id,
+                    'product_id' => (int)$item['product_id'],
+                    'price'      => (float)$item['price'],
+                    'quantity'        => (float)$item['qty'],
+                    'total'     => (float)$item['price'] * (float)$item['qty'],
+                ]);
+            }
+
+            $order = Order_addresses::create([
+                'order_id'=> $order->id,
+                'full_name'=> $request->customer,
+                'phone'=> $request->phone,
+                'governorate'=> $shipping->name_ar,
+                'area'=> $request->area,
+                'address'=> $request->address,
+                'building'=> $request->bilding,
+                'floor_number'=> $request->floor_number,
+            ]);
+
+            return redirect()->back()->with(['success'=>'تم حفظ الطلب بنجاح']);
     });
 
-    // مثال لو عايز redirect:
-    return redirect()->back()->with(['success'=>'تم حفظ الطلب بنجاح']);
 
+    }
+
+
+    public function destroyOrder($productId)
+    {
+        $Orders = Orders::findOrFail($productId);
+        $Orders->delete();
+
+        return redirect()->back()->with('success', 'تم الحذف بنجاح');
+    }
+
+
+    public function multideleteOrders(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer',
+        ]);
+
+
+        foreach($request->ids as $id){
+            Orders::findOrFail($id)->delete();
+        };
+        return redirect()->back()->with(['success'=>'تم حذف الطلبات بنجاح']);
 
     }
 
