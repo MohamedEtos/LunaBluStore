@@ -11,10 +11,9 @@ class CountVisits
 {
     public function handle(Request $request, Closure $next)
     {
-        // نفّذ الطلب الأول
         $response = $next($request);
 
-        // 1️⃣ تجاهل أي Request مالوش Route (CSS / JS / images)
+        // 1️⃣ تجاهل أي request مالوش route
         if (!$request->route()) {
             return $response;
         }
@@ -24,14 +23,26 @@ class CountVisits
             return $response;
         }
 
+        $ip    = $request->ip();
+        $agent = $request->userAgent();
+
         // 3️⃣ تجاهل localhost
-        $ip = $request->ip();
         if (in_array($ip, ['127.0.0.1', '::1'])) {
             return $response;
         }
 
-        // 4️⃣ تجاهل لو الزيارة اتسجلت في نفس الجلسة ونفس اليوم
-        $alreadyVisited = Visit::where('session_id', session()->getId())
+        // 4️⃣ تجاهل البوتس
+        if ($this->isBot($agent)) {
+            return $response;
+        }
+
+        // 5️⃣ تجاهل IPs الداتا سنتر
+        if ($this->isDataCenterIp($ip)) {
+            return $response;
+        }
+
+        // 6️⃣ زيارة واحدة فقط لكل IP في اليوم
+        $alreadyVisited = Visit::where('ip_address', $ip)
             ->whereDate('created_at', today())
             ->exists();
 
@@ -40,37 +51,23 @@ class CountVisits
         }
 
         // ======================
-        // 🌍 Geo Location (مرة واحدة فقط)
+        // 🌍 Geo Location
         // ======================
         $country = null;
         $city    = null;
 
-        if (!session()->has('geo')) {
-            try {
-                $apiResponse = Http::timeout(2)
-                    ->acceptJson()
-                    ->get("http://ip-api.com/json/{$ip}");
+        try {
+            $res = Http::timeout(2)
+                ->acceptJson()
+                ->get("http://ip-api.com/json/{$ip}");
 
-                if ($apiResponse->successful()) {
-                    $data = $apiResponse->json();
-
-                    $country = $data['country'] ?? null;
-                    $city    = $data['city'] ?? null;
-
-                    session([
-                        'geo' => [
-                            'country' => $country,
-                            'city'    => $city,
-                        ]
-                    ]);
-                }
-            } catch (\Exception $e) {
-                // تجاهل أي خطأ من الـ API
+            if ($res->successful()) {
+                $data = $res->json();
+                $country = $data['country'] ?? null;
+                $city    = $data['city'] ?? null;
             }
-        } else {
-            $geo     = session('geo');
-            $country = $geo['country'] ?? null;
-            $city    = $geo['city'] ?? null;
+        } catch (\Exception $e) {
+            // تجاهل الخطأ
         }
 
         // ======================
@@ -78,13 +75,12 @@ class CountVisits
         // ======================
         Visit::create([
             'ip_address'  => $ip,
-            'user_agent'  => $request->userAgent(),
+            'user_agent'  => $agent,
             'url'         => $request->fullUrl(),
             'referrer'    => $request->headers->get('referer'),
-            'session_id'  => session()->getId(),
-            'device_type' => $this->deviceType($request->userAgent()),
-            'browser'     => $this->browser($request->userAgent()),
-            'platform'    => $this->platform($request->userAgent()),
+            'device_type' => $this->deviceType($agent),
+            'browser'     => $this->browser($agent),
+            'platform'    => $this->platform($agent),
             'country'     => $country,
             'city'        => $city,
             'created_at'  => now(),
@@ -93,28 +89,60 @@ class CountVisits
         return $response;
     }
 
-    // ===== helpers =====
+    // ======================
+    // Helpers
+    // ======================
 
     private function isStaticFile(Request $request): bool
     {
-        $extensions = [
-            'css','js','png','jpg','jpeg','gif','svg','ico',
-            'woff','woff2','ttf','eot','map'
-        ];
-
         $ext = pathinfo($request->path(), PATHINFO_EXTENSION);
 
-        return in_array($ext, $extensions);
+        return in_array($ext, [
+            'css','js','png','jpg','jpeg','gif','svg','ico',
+            'woff','woff2','ttf','eot','map'
+        ]);
     }
 
-    private function deviceType($agent)
+    private function isBot(?string $agent): bool
+    {
+        if (!$agent) return true;
+
+        $bots = [
+            'bot','crawl','spider','slurp',
+            'google','bing','yandex','baidu',
+            'facebook','telegram','whatsapp',
+            'discord','axios','curl','wget'
+        ];
+
+        $agent = strtolower($agent);
+
+        foreach ($bots as $bot) {
+            if (str_contains($agent, $bot)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isDataCenterIp(string $ip): bool
+    {
+        return str_starts_with($ip, '3.')
+            || str_starts_with($ip, '18.')
+            || str_starts_with($ip, '35.')
+            || str_starts_with($ip, '52.')
+            || str_starts_with($ip, '2600:')
+            || str_starts_with($ip, '2a03:');
+    }
+
+    private function deviceType(string $agent): string
     {
         return preg_match('/mobile|android|iphone|ipad/i', $agent)
             ? 'mobile'
             : 'desktop';
     }
 
-    private function browser($agent)
+    private function browser(string $agent): string
     {
         return match (true) {
             str_contains($agent, 'Chrome')  => 'Chrome',
@@ -125,7 +153,7 @@ class CountVisits
         };
     }
 
-    private function platform($agent)
+    private function platform(string $agent): string
     {
         return match (true) {
             str_contains($agent, 'Windows') => 'Windows',
