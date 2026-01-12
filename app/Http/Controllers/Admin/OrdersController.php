@@ -33,7 +33,7 @@ class OrdersController extends Controller
         $product = Product::findOrFail($id);
 
         return response()->json([
-            'price' => $product->price, // غيرها لو اسم العمود مختلف
+            'price' => $product->price,
         ]);
 
         // $GetProductInfo = Product::where('id', $id)->first();
@@ -134,7 +134,6 @@ class OrdersController extends Controller
 
 
     }
-
 
     public function destroyOrder($productId)
     {

@@ -50,12 +50,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">المنتجات</h2>
+                            <h2 class="content-header-title float-left mb-0">الاقسام</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">قائمه المنتجات</a>
+                                    <li class="breadcrumb-item"><a href="#">قائمه الاقسام</a>
                                     </li>
                                 </ol>
                             </div>
@@ -75,8 +75,7 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="#"><i class="feather icon-trash"></i>Delete</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-archive"></i>Hide</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-eye"></i>show</a>
+
                                 </div>
                             </div>
                         </div>
@@ -103,9 +102,9 @@
                                     <td class="product-img "><img src="{{ asset($Category->catimg) }}" alt="Img placeholder">
                                     </td>
                                     <td class="Category-name name{{ $Category->id }}">{{$Category->name}}</td>
-                                    <td class="Category-category CategoryDetalis{{ $Category->id }}"> {{ $Category->meta_title }} </td>
+                                    <td class="Category-category meta_title{{ $Category->id }}"> {{ $Category->meta_title }} </td>
 
-                                    <td class="Category-stock stock{{ $Category->id }}"> {{ $Category->meta_description }} </td>
+                                    <td class="Category-stock meta_description{{ $Category->id }}"> {{ $Category->meta_description }} </td>
                                     <td class="Category-action">
                                     <span class="action-edit" data-id="{{ $Category->id }}">
                                         <i class="feather icon-edit"></i>
@@ -154,21 +153,18 @@
 
                                         <div class="col-sm-12 data-field-col">
                                             <label for="data-price">meta_title</label>
-                                            <input type="text" name='meta_title' class="form-control" id="data-desc">
+                                            <input type="text" name='meta_title' class="form-control" id="meta_title">
                                         </div>
                                         <div class="col-sm-12 data-field-col">
                                             <label for="data-price">meta_description</label>
-                                            <input type="text" name='meta_description'class="form-control" id="data-stock">
+                                            <input type="text" name='meta_description'class="form-control" id="meta_description">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col data-list-upload">
-                                            {{-- <form  class="dropzone dropzone-area" id="dataListUpload">
-                                                <div class="dz-message">Upload Image</div>
-                                            </form> --}}
-                                                <fieldset class="form-group">
-                                                    <label for="basicInputFile">الصوره الاساسيه</label>
-                                                    <input type="file" value='' id="data-catimg" name='catimg' class="form-control-file" id="basicInputFile">
-                                                </fieldset>
+                                            <fieldset class="form-group">
+                                                <label for="basicInputFile">الصوره الاساسيه</label>
+                                                <input type="file" value='' id="data-catimg" name='catimg' class="form-control-file" id="basicInputFile">
+                                            </fieldset>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +204,7 @@
 
             <form action="" class="modal fade text-left" method="POST" id="danger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                 @csrf
-                <input name="CategoryId" id="prod_id" type="hidden" value="">
+                <input name="CategoryId" id="catId" type="hidden" value="">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-danger white">
@@ -280,9 +276,9 @@ $(document).ready(function() {
         // on del
         $('#danger').attr(
             'action',
-            "{{ route('destroy', ':id') }}".replace(':id', CategoryId)
+            "{{ route('DelCat', ':id') }}".replace(':id', CategoryId)
         );
-        $('#prod_id').val(CategoryId);
+        $('#catId').val(CategoryId);
 
 
     });
@@ -295,30 +291,20 @@ $(document).ready(function() {
 
 
         $('#data-name').val($('.name'+CategoryId).text());
-        $('#data-price').val($('.price'+CategoryId).text());
-        $('#data-stock').val($('.stock'+CategoryId).text());
-        $('#data-desc').val($('.desc'+CategoryId).text());
-        $('#data-fabric_type').val($('.fabric_type'+CategoryId).text());
-        $('#data-cat').val($('.cat'+CategoryId).text());
-        $('#data-desc').val($('.productDetalis'+CategoryId).text());
-        $(".add-new-data").addClass("show");
-        $(".overlay-bg").addClass("show");
-
-
-
-
+        $('#meta_title').val($('.meta_title'+CategoryId).text());
+        $('#meta_description').val($('.meta_description'+CategoryId).text());
 
         // تغيير action
-            $('#productForm').attr(
+            $('#CategoryForm').attr(
             'action',
-            "{{ route('edit_product', ':id') }}".replace(':id', CategoryId)
+            "{{ route('updateCat', ':id') }}".replace(':id', CategoryId)
             );
 
         // وضع id المنتج
-        $('#product_id').val(CategoryId);
+        $('#Category_id').val(CategoryId);
 
         // تغيير العنوان
-        $('.new-data-title h4').text('تعديل منتج');
+        $('.new-data-title h4').text('تعديل القسم');
 
         // تغيير زر التأكيد
         $('.add-data-btn button').text('تعديل');

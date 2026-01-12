@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\ImageManagerStatic ;
 
 class CategoryController extends Controller
 {
@@ -67,6 +70,36 @@ class CategoryController extends Controller
 
 
     }
+
+
+    public function updateCat(Request $request)
+    {
+        $request->validate([
+            'name'=>'string',
+            'catimg'=>'mimes:jpeg,png,jpg,gif,webp|max:51200',
+            'meta_title'=>'string',
+            'meta_description'=>'string',
+        ],[
+            'catimg.mimes'=>'الامتدادات المسموح بها فقط (jpeg,png,jpg,gif,webp)',
+            'catimg.max'=>'يجب الا يكون حجم الصوره اكبر من 50 MB',
+        ]);
+
+        Category::where('id', $request->id)->update([
+            'name' =>$request->name,
+            'meta_title' =>$request->meta_title,
+            'meta_description' =>$request->meta_description,
+        ]);
+        return redirect()->back()->with(['success'=>' تم التعديل']);
+    }
+
+    public function DelCat($CatId)
+    {
+        $Orders = Category::findOrFail($CatId);
+        $Orders->delete();
+
+        return redirect()->back()->with('success', 'تم الحذف بنجاح');
+    }
+
 
 
 }

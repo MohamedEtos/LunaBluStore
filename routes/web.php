@@ -75,6 +75,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 Route::controller(CategoryController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/Categorylist', 'index')->name('Categorylist');
     Route::post('/add_Category', 'create')->name('add_Category');
+    Route::post('/updateCat/{id}', 'updateCat')->name('updateCat');
+    Route::post('/DelCat/{id}', 'DelCat')->name('DelCat');
+
 });
 
 Route::controller(ProductController::class)->middleware('auth')->prefix('admin')->group(function(){
