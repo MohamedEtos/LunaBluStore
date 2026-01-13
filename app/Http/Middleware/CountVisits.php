@@ -77,6 +77,7 @@ class CountVisits
             'ip_address'  => $ip,
             'user_agent'  => $agent,
             'url'         => $request->fullUrl(),
+            'session_id'      => $agent,
             'referrer'    => $request->headers->get('referer'),
             'device_type' => $this->deviceType($agent),
             'browser'     => $this->browser($agent),
