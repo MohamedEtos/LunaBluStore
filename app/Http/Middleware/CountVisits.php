@@ -41,8 +41,16 @@ class CountVisits
             return $response;
         }
 
-        // 6️⃣ زيارة واحدة فقط لكل IP في اليوم
+        // 6️⃣ تجاهل زيارة اذا الـ user ماعندوش session حقيقية (الكوكيز غير مفعلة غالباً، أو زائر سريع)
+        $sessionId = $request->session()->getId();
+        if (!$sessionId || strlen($sessionId) < 8) {
+            // احتمال كبير انه بوت أو زائر وهمي، تجاهل الزيارة
+            return $response;
+        }
+
+        // 7️⃣ زيارة واحدة فقط لكل IP + session في اليوم (تعزيز الدقة)
         $alreadyVisited = Visit::where('ip_address', $ip)
+            ->where('session_id', $sessionId)
             ->whereDate('created_at', today())
             ->exists();
 
@@ -56,13 +64,18 @@ class CountVisits
         $country = null;
         $city    = null;
 
+        // فلترة اي IPs محمية/داخلية/private (مثل 10.* أو 192.168.* أو 172.16-31.*)
+        if ($this->isPrivateIp($ip)) {
+            return $response;
+        }
+
         try {
             $res = Http::timeout(2)
                 ->acceptJson()
                 ->get("http://ip-api.com/json/{$ip}");
 
-            if ($res->successful()) {
-                $data = $res->json();
+            if (method_exists($res, 'successful') && $res->successful()) {
+                $data = method_exists($res, 'json') ? $res->json() : [];
                 $country = $data['country'] ?? null;
                 $city    = $data['city'] ?? null;
             }
@@ -77,7 +90,7 @@ class CountVisits
             'ip_address'  => $ip,
             'user_agent'  => $agent,
             'url'         => $request->fullUrl(),
-            'session_id'      => 'session_id',
+            'session_id'  => $sessionId,
             'referrer'    => $request->headers->get('referer'),
             'device_type' => $this->deviceType($agent),
             'browser'     => $this->browser($agent),
@@ -123,6 +136,11 @@ class CountVisits
             }
         }
 
+        // مزيد من الحماية: بعض البوتات تغش الـ User-Agent وتتركه فاضي أو يحاكي متصفح عادي
+        if (strlen($agent) < 10) {
+            return true;
+        }
+
         return false;
     }
 
@@ -134,6 +152,25 @@ class CountVisits
             || str_starts_with($ip, '52.')
             || str_starts_with($ip, '2600:')
             || str_starts_with($ip, '2a03:');
+    }
+
+    // فلترة أي IP من النوع private/internal
+    private function isPrivateIp(string $ip): bool
+    {
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            // IPv4 رينجات الـ
+            if (
+                str_starts_with($ip, '10.') ||
+                str_starts_with($ip, '192.168.') ||
+                preg_match('/^172\.(1[6-9]|2[0-9]|3[0-1])\./', $ip)
+            ) {
+                return true;
+            }
+        }
+        if ($ip === '::1' || str_starts_with($ip, 'fd') || str_starts_with($ip, 'fe80:')) {
+            return true; // IPv6 لوكال أو يونيكاست
+        }
+        return false;
     }
 
     private function deviceType(string $agent): string
