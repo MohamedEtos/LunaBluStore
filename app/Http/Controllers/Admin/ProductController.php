@@ -328,6 +328,20 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
     }
 
+    public function toggleStatus($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->append = $product->append == 1 ? 0 : 1;
+        $product->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $product->append == 1 ? 'تم تفعيل المنتج بنجاح' : 'تم إيقاف المنتج بنجاح',
+            'append' => $product->append,
+            'stock' => $product->stock
+        ]);
+    }
+
 
 
 

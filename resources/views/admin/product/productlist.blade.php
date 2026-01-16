@@ -119,11 +119,11 @@
                                         </div>
                                     </td>
                                     <td>
-                                            <div class="chip {{
+                                            <div class="chip toggle-status {{
                                                 $Product->append == 1 && $Product->stock >= 5 ? 'chip-success' :
                                                 ($Product->append == 0 ? 'chip-warning' :
                                                 ($Product->stock < 5 ? 'chip-danger' : ''))
-                                            }}">
+                                            }}" data-id="{{ $Product->id }}" style="cursor: pointer;">
                                             <div class="chip-body">
                                                 <div class="chip-text">
                                                     {{
@@ -409,6 +409,49 @@ $(document).ready(function() {
 
     });
 
+});
+
+$('.toggle-status').on('click', function() {
+    var chip = $(this);
+    var productId = chip.data('id');
+    var chipText = chip.find('.chip-text');
+
+    $.ajax({
+        url: "{{ route('product.toggle_status', ':id') }}".replace(':id', productId),
+        method: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            if (response.success) {
+                // Remove old classes
+                chip.removeClass('chip-success chip-warning chip-danger');
+
+                // Apply new class and text based on logic
+                if (response.append == 0) {
+                    chip.addClass('chip-warning');
+                    chipText.text('متوقف');
+                } else if (response.stock < 5) {
+                    chip.addClass('chip-danger');
+                    chipText.text('المخزون اقل من 5');
+                } else {
+                    chip.addClass('chip-success');
+                    chipText.text('نشط');
+                }
+                
+                // Show toast notification
+                if (response.append == 0) {
+                     toastr.warning(response.message, 'تنبيه');
+                } else {
+                     toastr.success(response.message, 'تمت العملية');
+                }
+            }
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText);
+            toastr.error('حدث خطأ أثناء تحديث الحالة', 'خطأ');
+        }
+    });
 });
 
 

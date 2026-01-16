@@ -28,13 +28,20 @@ class DatabaseSeeder extends Seeder
 
 
         FabricType::create([
-            'name' => 'شيفون',
+            'name' => 'شيفون', // ID 1
+        ]);
+        FabricType::create([
+            'name' => 'كريب', // ID 2
+        ]);
+        FabricType::create([
+            'name' => 'ساتان', // ID 3
         ]);
 
         $this->call(CategorySeeder::class);
         $this->call(GovernoratesSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ProdImgSeeder::class);
+        $this->call(OrderSeeder::class);
 
     }
 }

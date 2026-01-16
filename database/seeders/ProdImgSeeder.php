@@ -44,22 +44,21 @@ class ProdImgSeeder extends Seeder
         ];
 
         // Update existing product images to use correct IDs
-        $product_images[0]['product_id'] = 201; // Product 1 -> 201
-        $product_images[1]['product_id'] = 202; // Product 2 -> 202
-        $product_images[2]['product_id'] = 203; // Product 3 -> 203
-        $product_images[3]['product_id'] = 204; // Product 4 -> 204
+        // Note: DB::table('products')->insert($products) doesn't guarantee IDs if not specified,
+        // but typically starts at 1 if table is empty.
 
-        for ($i = 205; $i <= 300; $i++) {
+        $product_images[0]['product_id'] = 1;
+        $product_images[1]['product_id'] = 2;
+        $product_images[2]['product_id'] = 3;
+        $product_images[3]['product_id'] = 4;
+
+        for ($i = 5; $i <= 100; $i++) {
             $randomImage = $imageNames[array_rand($imageNames)];
             $product_images[] = [
                 'product_id' => $i,
                 'mainImage' => 'storage/images/' . $randomImage,
             ];
         }
-
-
-
-
 
         DB::table('prodimgs')->insert($product_images);
      }

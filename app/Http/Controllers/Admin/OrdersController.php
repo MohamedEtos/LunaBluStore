@@ -168,4 +168,15 @@ class OrdersController extends Controller
     }
 
 
+    public function latestNotifications()
+    {
+        $notifications = Orders::where('payment_status', 'notaccepted')
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        return response()->json([
+            'count' => $notifications->count(),
+            'html' => view('admin.partials.notification_list', ['notifications' => $notifications])->render()
+        ]);
+    }
 }

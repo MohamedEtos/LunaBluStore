@@ -24,6 +24,7 @@
     @include('admin.layout.footer')
 
     @yield('script')
+    <script src="{{ asset('admin/js/scripts/notifications.js') }}"></script>
 
         <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
     	@if(Session::has('success'))

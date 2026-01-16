@@ -17,17 +17,17 @@
 <link rel="manifest" href="{{ asset('store/images/icons/site.webmanifest') }}">
 
 <!-- Open Graph -->
-<meta property="og:title" content="{{ $title ?? '' }}">
-<meta property="og:description" content="{{ $description ?? ''}}">
-<meta property="og:image" content="{{ asset(  $image ?? '' ) }}">
-<meta property="og:url" content="{{ $url ?? '' }}">
+<meta property="og:title" content="{{ $title ?? 'LunaBlu' }}">
+<meta property="og:description" content="{{ $description ?? 'متجر لونا بلو للطرح' }}">
+<meta property="og:image" content="{{ !empty($image) ? (str_starts_with($image, 'http') ? $image : asset($image)) : asset('store/images/icons/logo-01.png') }}">
+<meta property="og:url" content="{{ $url ?? url()->current() }}">
 <meta property="og:type" content="website">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $title }}">
-<meta name="twitter:description" content="{{ $description }}">
-<meta name="twitter:image" content="{{ asset(  $image ?? '' ) }}">
+<meta name="twitter:title" content="{{ $title ?? 'LunaBlu' }}">
+<meta name="twitter:description" content="{{ $description ?? 'متجر لونا بلو للطرح' }}">
+<meta name="twitter:image" content="{{ !empty($image) ? (str_starts_with($image, 'http') ? $image : asset($image)) : asset('store/images/icons/logo-01.png') }}">
 
 
 <!-- Facebook -->

@@ -37,6 +37,17 @@ class AppServiceProvider extends ServiceProvider
         $view->with('ordersCount', $ordersCount);
     });
 
+    View::composer('admin.layout.navbar', function ($view) {
+        $notifications = Orders::where('payment_status', 'notaccepted')
+            ->orderBy('created_at', 'desc')
+            ->get(); // Get all to show count properly, or paginate
+        
+        $view->with([
+            'notifications' => $notifications,
+            'notificationsCount' => $notifications->count()
+        ]);
+    });
+
         Carbon::setLocale('ar');
         Schema::defaultStringLength(191);
 

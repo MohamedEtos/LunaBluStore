@@ -109,13 +109,23 @@
 
                             @foreach ($Orderlist as $Order)
                                 <tr class="trRow"  data-id_row="{{ $Order->id }}" data-toggle="modal" data-target="#xlarge">
-                                        <td data-id_check="{{ $Order->id }}" class="stopevent"></td>
-                                    <input type="hidden"  class="full_name" value=" {{ $Order->address->full_name ?? 'No Data' }} ">
-                                    <input type="hidden"  class="phone" value=" {{ $Order->address->phone  ?? 'No Data'}} ">
-                                    <input type="hidden"  class="area" value=" {{ $Order->address->area  ?? 'No Data'}} ">
-                                    <input type="hidden"  class="floor_number" value=" {{ $Order->address->floor_number ?? 'No Data'}} ">
-                                    <input type="hidden"  class="building" value=" {{ $Order->address->building ?? 'No Data' }} ">
-                                    <input type="hidden"  class="address" value=" {{ $Order->address->address  ?? 'No Data'}} ">
+                                    <td data-id_check="{{ $Order->id }}" class="stopevent"></td>
+                                        <input type="hidden"  class="full_name" value="{{ $Order->address->full_name ?? 'No Data' }}">
+                                        <input type="hidden"  class="phone_modeal" value="{{ $Order->address->phone  ?? 'No Data'}}">
+                                        <input type="hidden"  class="area_modal" value="{{ $Order->address->area  ?? 'No Data'}}">
+                                        <input type="hidden"  class="floor_number_modal" value="{{ $Order->address->floor_number ?? 'No Data'}}">
+                                        <input type="hidden"  class="building_modal" value="{{ $Order->address->building ?? 'No Data' }}">
+                                        <input type="hidden"  class="address_modal" value="{{ $Order->address->address  ?? 'No Data'}}">
+                                        <input type="hidden" class="status_modal" value="{{ $Order->payment_status == 'notaccepted' ? 'غير مؤكد' : 'تم ارسال رساله التاكيد' }}">
+                                        @php
+                                            $firstItem = $Order->items->first();
+                                            $imagePath = $firstItem && $firstItem->product && $firstItem->product->product_img_p 
+                                                ? asset($firstItem->product->product_img_p->mainImage) 
+                                                : asset('store/images/product-13.avif');
+                                        @endphp
+                                        <input type="hidden" class="product_image" value="{{ $imagePath }}">
+                                    
+                                    
 
                                     <td class="product-name name">{{$Order->id  ?? 'No Data' }}</td>
                                     <td class="product-name name">{{$Order->user_ip ?? 'No Data'}}</td>
@@ -171,7 +181,7 @@ collect($Order->items)->map(function($item, $i){
                                     </td>
                                     <td class="product-category subtotal"> {{ $Order->subtotal }} ج.م </td>
                                     <td class="product-category shipping_cost"> {{ $Order->shipping_cost }} </td>
-                                    <td class="product-category total"> {{ $Order->total }} </td>
+                                    <td class="product-category total_modal"> {{ $Order->total }} </td>
                                     <td class="product-category governorate"> {{ $Order->address->governorate }} </td>
                                     <td class="product-category created_at"> {{ $Order->created_at->diffForHumans() }} </td>
 
@@ -198,7 +208,7 @@ collect($Order->items)->map(function($item, $i){
 
 
                     <!-- add new sidebar starts -->
-                <form action='{{ Route('StoreOrder') }}'  method='POST' enctype="multipart/form-data">
+                <form action='{{ Route('StoreOrder')}}'  method='POST' enctype="multipart/form-data">
                         @csrf
                     <input type="hidden"  name="product_id" value='' id="product_id">
                     <div class="add-new-data-sidebar">
@@ -307,7 +317,7 @@ collect($Order->items)->map(function($item, $i){
                                         </div>
                                         <div class="col-sm-12 data-field-col">
                                             <label for="phone">رقم التلفون</label>
-                                            <input required type="number" name='phone'class="form-control" id="phone">
+                                            <input required type="number" name='phone'class="form-control" id="phone_modeal">
                                         </div>
 
                                         <div class="col-sm-12 data-field-col">
@@ -407,17 +417,17 @@ collect($Order->items)->map(function($item, $i){
                             <div class="modal-body">
                                     <div class="row">
                                         <div class="col-1" >
-                                            <img class=" mt-1 w-100 " src="{{ asset('store/images/product-13.avif') }}" alt="">
+                                            <img id="modal_product_image" class=" mt-1 w-100 " src="{{ asset('store/images/product-13.avif') }}" alt="">
                                         </div>
                                         <div class="col-5">
                                             <div> #:<span id="order_number"></span></div>
                                             <div>اسم العميل:<span id="full_name"></span></div>
-                                            <div>رقم التلفون:<span id="phone"></span></div>
+                                            <div>رقم التلفون:<span id="phone_modeal"></span></div>
                                             <div> المحافظه:<span id="governorate"></span></div>
-                                            <div> المنطقه:<span id="area"></span></div>
-                                            <div> العنوان:<span id="address"></span></div>
-                                            <div> عقار:<span id="building"></span></div>
-                                            <div> الدور:<span id="floor_number"></span></div>
+                                            <div> المنطقه:<span id="area_modal"></span></div>
+                                            <div> العنوان:<span id="address_modal"></span></div>
+                                            <div> عقار:<span id="building_modal"></span></div>
+                                            <div> الدور:<span id="floor_number_modal"></span></div>
                                         </div>
                                         <div class="col-5">
                                             <div> المنتج:
@@ -427,7 +437,7 @@ collect($Order->items)->map(function($item, $i){
                                             </div>
                                             <div> قيمه الطلب:<span id="subtotal" class="fw-bold"></span></div>
                                             <div>  الشحن:<span id="shipping_cost"></span></div>
-                                            <div class="border-top mb-1 pt-1 h6">  المجموع:<b id="total"></b></div>
+                                            <div class="border-top mb-1 pt-1 h6">  المجموع:<b id="total_modal"></b></div>
 
                                         </div>
                                     </div>
@@ -439,7 +449,7 @@ collect($Order->items)->map(function($item, $i){
                                             تاريخ الطلب:<span id="created_at" class="text-info"></span>
                                         </div>
                                         <div class="col-4">
-                                             الحاله:<span id="status" class="success">تم ارسال رساله التاكيد</span>
+                                             الحاله:<span id="status" class="">تم ارسال رساله التاكيد</span>
                                         </div>
                                     </div>
                             </div>

@@ -91,6 +91,7 @@ Route::controller(ProductController::class)->middleware('auth')->prefix('admin')
     Route::post('/add_product', 'create')->name('add_product');
     Route::post('/edit_product/{productId}', 'edit_product')->name('edit_product');
     Route::post('/destroy/{productId}', 'destroy')->name('destroy');
+    Route::post('/toggle_status/{id}', 'toggleStatus')->name('product.toggle_status');
 });
 
 Route::controller(VisitorController::class)->middleware('auth')->prefix('admin')->group(function(){
@@ -112,6 +113,7 @@ Route::controller(FabricTypeController::class)->middleware('auth')->prefix('admi
 
 Route::controller(OrdersController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('Orders', 'index')->name('Orders');
+    Route::get('notifications/latest', 'latestNotifications')->name('admin.notifications.latest');
     Route::get('/Orders/{id}/price', 'GetProductInfo')->name('GetProductInfo');
     Route::post('Send_whatsapp', 'Send_whatsapp')->name('Send_whatsapp');
     Route::post('StoreOrder', 'StoreOrder')->name('StoreOrder');
