@@ -118,3 +118,125 @@
 <!--===============================================================================================-->
 	<script src="{{ asset('store/js/main.js') }}"></script>
 
+<!--===============================================================================================-->
+	{{-- Visitor Activity Tracking --}}
+	<script>
+		(function() {
+			// Skip tracking for admin pages
+			if (window.location.pathname.startsWith('/admin')) {
+				return;
+			}
+
+			let startTime = Date.now();
+			let durationSeconds = 0;
+			let isPageVisible = true;
+
+			// Function to send activity to server
+			function sendActivity() {
+				const duration = Math.floor((Date.now() - startTime) / 1000);
+
+				if (duration < 1) {
+					return; // Don't send if less than 1 second
+				}
+
+				// Use sendBeacon for better reliability when page is unloading
+				const formData = new FormData();
+				formData.append('_token', '{{ csrf_token() }}');
+				formData.append('url', window.location.href);
+				formData.append('duration_seconds', duration);
+				formData.append('page_title', document.title);
+				formData.append('started_at', new Date(startTime).toISOString());
+
+				// Try sendBeacon first (better for page unload)
+				if (navigator.sendBeacon) {
+					const blob = new Blob([new URLSearchParams(formData).toString()], {
+						type: 'application/x-www-form-urlencoded'
+					});
+					navigator.sendBeacon('{{ route("storeVisitorActivity") }}', blob);
+				} else {
+					// Fallback to fetch
+					fetch('{{ route("storeVisitorActivity") }}', {
+						method: 'POST',
+						body: formData,
+						keepalive: true
+					}).catch(err => console.error('Activity tracking error:', err));
+				}
+			}
+
+			// Track page visibility to pause timer when tab is hidden
+			document.addEventListener('visibilitychange', function() {
+				if (document.hidden) {
+					// Page is hidden, pause timer
+					durationSeconds += Math.floor((Date.now() - startTime) / 1000);
+					isPageVisible = false;
+				} else {
+					// Page is visible again, resume timer
+					startTime = Date.now();
+					isPageVisible = true;
+				}
+			});
+
+			// Send activity when user leaves the page
+			window.addEventListener('beforeunload', function() {
+				if (isPageVisible) {
+					durationSeconds += Math.floor((Date.now() - startTime) / 1000);
+				}
+
+				const totalDuration = durationSeconds || Math.floor((Date.now() - startTime) / 1000);
+
+				if (totalDuration >= 1) {
+					const formData = new FormData();
+					formData.append('_token', '{{ csrf_token() }}');
+					formData.append('url', window.location.href);
+					formData.append('duration_seconds', totalDuration);
+					formData.append('page_title', document.title);
+					formData.append('started_at', new Date(startTime).toISOString());
+
+					// Use sendBeacon for reliable delivery during page unload
+					if (navigator.sendBeacon) {
+						const blob = new Blob([new URLSearchParams(formData).toString()], {
+							type: 'application/x-www-form-urlencoded'
+						});
+						navigator.sendBeacon('{{ route("storeVisitorActivity") }}', blob);
+					}
+				}
+			});
+
+			// Also send activity periodically (every 30 seconds) while user is on page
+			setInterval(function() {
+				if (isPageVisible) {
+					const currentDuration = Math.floor((Date.now() - startTime) / 1000);
+					if (currentDuration >= 30) { // Send every 30 seconds
+						sendActivity();
+						startTime = Date.now(); // Reset timer
+						durationSeconds = 0;
+					}
+				}
+			}, 30000);
+
+			// Send activity when page is about to be hidden (for better tracking)
+			document.addEventListener('pagehide', function() {
+				if (isPageVisible) {
+					durationSeconds += Math.floor((Date.now() - startTime) / 1000);
+				}
+
+				const totalDuration = durationSeconds || Math.floor((Date.now() - startTime) / 1000);
+
+				if (totalDuration >= 1) {
+					const formData = new FormData();
+					formData.append('_token', '{{ csrf_token() }}');
+					formData.append('url', window.location.href);
+					formData.append('duration_seconds', totalDuration);
+					formData.append('page_title', document.title);
+					formData.append('started_at', new Date(startTime).toISOString());
+
+					if (navigator.sendBeacon) {
+						const blob = new Blob([new URLSearchParams(formData).toString()], {
+							type: 'application/x-www-form-urlencoded'
+						});
+						navigator.sendBeacon('{{ route("storeVisitorActivity") }}', blob);
+					}
+				}
+			});
+		})();
+	</script>

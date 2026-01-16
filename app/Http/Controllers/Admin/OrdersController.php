@@ -47,6 +47,14 @@ class OrdersController extends Controller
             'payment_status' => 'accepted'
         ]);
 
+        // If it's an AJAX request, return JSON response
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'تم تحديث حالة الدفع بنجاح'
+            ]);
+        }
+
         return redirect()->route('Orders');
 
     }

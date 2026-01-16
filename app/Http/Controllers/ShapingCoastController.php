@@ -12,7 +12,8 @@ class ShapingCoastController extends Controller
      */
     public function index()
     {
-        //
+        $shaping_coast = Shaping_Coast::all();
+        return view('admin.Shaping.shaping_coast', compact('shaping_coast'));
     }
 
     /**
@@ -61,5 +62,53 @@ class ShapingCoastController extends Controller
     public function destroy(Shaping_Coast $shaping_Coast)
     {
         //
+    }
+
+    /**
+     * Toggle free shipping status
+     */
+    public function toggleFreeShipping(Request $request, $id)
+    {
+        $coast = Shaping_Coast::findOrFail($id);
+
+        // Toggle the free_shipping value (0 -> 1, 1 -> 0)
+        $coast->free_shipping = !$coast->free_shipping;
+        $coast->save();
+
+        // If it's an AJAX request, return JSON response
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'free_shipping' => $coast->free_shipping,
+                'message' => $coast->free_shipping ? 'تم تفعيل الشحن المجاني' : 'تم إلغاء الشحن المجاني'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'تم التحديث بنجاح');
+    }
+
+    /**
+     * Update shipping cost
+     */
+    public function updateShippingCost(Request $request, $id)
+    {
+        $request->validate([
+            'shipping_cost' => 'required|numeric|min:0'
+        ]);
+
+        $coast = Shaping_Coast::findOrFail($id);
+        $coast->shipping_cost = $request->shipping_cost;
+        $coast->save();
+
+        // If it's an AJAX request, return JSON response
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'shipping_cost' => $coast->shipping_cost,
+                'message' => 'تم تحديث سعر الشحن بنجاح'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'تم تحديث سعر الشحن بنجاح');
     }
 }

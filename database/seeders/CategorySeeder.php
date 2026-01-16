@@ -16,6 +16,10 @@ class CategorySeeder extends Seeder
     {
         $category = [
             ['name' => 'طرح',],
+            ['name' => 'عباءة',],
+            ['name' => 'ملابس نسائية',],
+            ['name' => 'إكسسوارات',],
+            ['name' => 'ملابس رجالية',],
         ];
 
         DB::table('categories')->insert($category);    }

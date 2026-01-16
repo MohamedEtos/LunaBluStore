@@ -121,12 +121,13 @@
                                     <td class="product-name name">{{$Order->user_ip ?? 'No Data'}}</td>
 
                                     <td class="product-category productDetalis">
-                                         <form id="whatsapp" action="{{ route('Send_whatsapp') }}" method="post" target="_blank">
+                                         <form id="whatsapp-{{ $Order->id }}" action="{{ route('Send_whatsapp') }}" method="post">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $Order->id }}">
+                                         </form>
 
-<a target="_blank"
-href="https://wa.me/2{{ $Order->address->phone ?? 'No Data' }}?text={{ urlencode(
+@php
+$whatsappUrl = "https://wa.me/2" . ($Order->address->phone ?? 'No Data') . "?text=" . urlencode(
 "مرحبا
 {$Order->address->full_name}
 
@@ -146,15 +147,15 @@ collect($Order->items)->map(function($item, $i){
 --------------------
 اجمالي الطلب: {$Order->total} ج.م
 "
-) }}">
+);
+@endphp
 
 @if($Order->payment_status == 'notaccepted')
-    <button form="whatsapp" type="" class="btn btn-success">إرسال رسالة التأكيد</button>
+    <button type="button" class="btn btn-success" onclick="sendWhatsAppAndUpdate('{{ $Order->id }}', '{{ $whatsappUrl }}')">إرسال رسالة التأكيد</button>
 @else
-    <button form="whatsapp" type="" class="btn btn-success">إعادة الإرسال</button>
+    <button type="button" class="btn btn-success" onclick="sendWhatsAppAndUpdate('{{ $Order->id }}', '{{ $whatsappUrl }}')">إعادة الإرسال</button>
 @endif
-</a>
-                                    </form>
+                                    </td>
 
 
 
@@ -277,7 +278,7 @@ collect($Order->items)->map(function($item, $i){
                                                 </option>
                                             @endforeach
 
-                                            <option value="0" data-cost="0">شحن مجاني</option>
+                                            {{-- <option value="0" data-cost="0">شحن مجاني</option> --}}
                                         </select>
                                         </div>
 
@@ -599,15 +600,50 @@ $(document).ready(function() {
 
     });
 
-
-
-
-
-
 });
 
+// Function to send WhatsApp and update order status
+function sendWhatsAppAndUpdate(orderId, whatsappUrl) {
+    // Get the form
+    const form = document.getElementById('whatsapp-' + orderId);
+    const formData = new FormData(form);
 
+    // Open WhatsApp immediately
+    window.open(whatsappUrl, '_blank');
 
+    // Send AJAX request to update order status
+    fetch("{{ route('Send_whatsapp') }}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        // Check if response is JSON
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            return response.json();
+        } else {
+            // If redirect or HTML, just resolve
+            return { success: true };
+        }
+    })
+    .then(data => {
+        // Reload the page to show updated status after a short delay
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Still reload to ensure status is updated
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    });
+}
 
 </script>
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController as StoreProductController;
+use App\Http\Controllers\ShapingCoastController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Orders;
 
@@ -71,6 +72,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 });
 
+Route::controller(ShapingCoastController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/shaping_coast', 'index')->name('shaping_coast');
+    Route::post('/shaping_coast/{id}/toggle-free-shipping', 'toggleFreeShipping')->name('toggle_free_shipping');
+    Route::post('/shaping_coast/{id}/update-shipping-cost', 'updateShippingCost')->name('update_shipping_cost');
+});
 
 Route::controller(CategoryController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/Categorylist', 'index')->name('Categorylist');
@@ -89,6 +95,8 @@ Route::controller(ProductController::class)->middleware('auth')->prefix('admin')
 
 Route::controller(VisitorController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/visitorsList', 'index')->name('visitorsList');
+    Route::get('/visitorsActivities', 'activities')->name('visitorsActivities');
+    Route::post('/visitorsActivities/store', 'storeActivity')->name('storeVisitorActivity');
 });
 
 Route::controller(SettingController::class)->middleware('auth')->prefix('admin')->group(function(){
