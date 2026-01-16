@@ -47,6 +47,9 @@ class IndexController extends Controller
 
         $products = $query->latest()->paginate(12);
 
+        if ($request->ajax()) {
+            return view('store.parts.product_loop', compact('products'));
+        }
 
         return view('store.index', [
             'products' => $products,

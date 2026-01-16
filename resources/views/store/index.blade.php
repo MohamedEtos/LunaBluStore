@@ -56,7 +56,7 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-								<a href="product.html" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								<a href="{{ route('product') }}" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 									اكتشف الان
 								</a>
 							</div>
@@ -81,7 +81,7 @@
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-								<a href="product.html" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								<a href="{{ route('product') }}" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
 									اكتشف الان
 								</a>
 							</div>
@@ -106,7 +106,7 @@
 						<img
      src="{{ asset('store/images/banner-04.avif') }}" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Women
@@ -132,7 +132,7 @@
 						<img
      src="{{ asset('store/images/banner-05.avif') }}" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									woman
@@ -158,7 +158,7 @@
 						<img
      src="{{ asset('store/images/banner-07.avif') }}" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Watches
@@ -184,7 +184,7 @@
 						<img
      src="{{ asset('store/images/banner-08.avif') }}" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Bags
@@ -210,7 +210,7 @@
 						<img
      src="{{ asset('store/images/banner-09.avif') }}" alt="IMG-BANNER">
 
-						<a href="product.html" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
 									Accessories
@@ -482,65 +482,8 @@
 				</div>
 			</div>
 
-			<div class="row  isotope-grid">
-
-                @foreach ($products as $product)
-
-
-                        <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{ $product->FabricType->name }}">
-                            <!-- Block2 -->
-                            <a  href="{{ route('product.show', $product->slug) }}">
-                                <div class="block2">
-                                    <div  class="block2-pic hov-img0  {{ $product->stock >0 ? 'label-new': 'label-new-outofstock' }}  " data-label="{{ $product->stock > 0 ? 'في المخزن' : 'نفذت ' }}">
-
-                                        <img
-                                            src="{{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }}"
-                                            srcset="
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-320.webp') }} 320w,
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-480.webp') }} 480w,
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }} 800w,
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-1200.webp') }} 1200w
-                                            "
-                                            sizes="(max-width: 600px) 45vw,
-                                                (max-width: 1200px) 25vw,
-                                                300px"
-                                            alt="{{ $product->product_img_p->alt1 }}"
-                                            {{-- loading="lazy" --}}
-                                            decoding="async"
-                                        >
-
-                                        <a href="{{ route('product.show', $product->slug) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
-                                            نظره سريعة
-                                        </a>
-                                    </div>
-
-                                    <div class="block2-txt flex-w flex-t p-t-14">
-                                        <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="{{ route('product.show', $product->slug) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                {{ $product->name }}
-
-                                            </a>
-
-                                            <span class="stext-105 cl3">
-                                                {{ $product->price }} EGP
-                                            </span>
-                                        </div>
-
-                                        <div class="block2-txt-child2 flex-r p-t-3">
-                                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                <img
-                                                class="icon-heart1 dis-block trans-04" src="{{ asset('store/images/icons/icon-heart-01.png') }}" alt="ICON">
-                                                <img
-                                                class="icon-heart2 dis-block trans-04 ab-t-l" src="{{ asset('store/images/icons/icon-heart-02.png') }}" alt="ICON">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                @endforeach
-
+			<div class="row  isotope-grid" id="products-wrapper">
+                @include('store.parts.product_loop')
 			</div>
 
 			{{-- <!-- Pagination -->
@@ -555,18 +498,61 @@
 
             </div> --}}
 
-			<!-- Load more -->
-			<div class="flex-c-m flex-w w-full p-t-45">
-				<a href="{{ route('product') }}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-					Load More
-				</a>
-			</div>
+			<!-- Load more (Hidden / Replaced by Infinite Scroll) -->
+            <div id="loading" style="display:none; text-align:center; padding-top: 20px;">
+                <!-- Optional: Add a spinner here if desired, otherwise the skeleton serves as loading indicator -->
+            </div>
         </div>
 	</section>
 
 @endsection
 
 @section('script')
+
+<style>
+    /* Skeleton Loading CSS */
+    .skeleton {
+        background: #f6f7f8;
+        background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+        background-size: 200% 100%; 
+        animation: shimmer 1.5s infinite linear;
+        border-radius: 4px;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+    }
+
+    .skeleton-img {
+        width: 100%;
+        height: 300px; /* Approximate height of product image */
+        display: block;
+    }
+
+    .skeleton-text {
+        height: 14px;
+        margin-bottom: 8px;
+        width: 80%;
+    }
+
+    .skeleton-text.short {
+        width: 40%;
+    }
+    
+    .isotope-item {
+        transition: opacity 0.3s ease;
+    }
+    
+    img.lazy-load {
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
+    }
+    
+    img.lazy-load.loaded {
+        opacity: 1;
+    }
+</style>
 
 {{-- Great after order celebration script --}}
 
@@ -592,9 +578,147 @@
 
 
     <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cache Isotope container (using jQuery because Isotope is a jQuery plugin here)
+        var $grid = $('.isotope-grid');
+
+        // 1. Lazy Loading Setup
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.dataset.src;
+                    const srcset = img.dataset.srcset;
+                    
+                    if (src) {
+                        img.src = src;
+                        img.removeAttribute('data-src');
+                    }
+                    if (srcset) {
+                        img.srcset = srcset;
+                        img.removeAttribute('data-srcset');
+                    }
+                    
+                    img.onload = () => {
+                        img.classList.remove('skeleton'); 
+                        img.classList.add('loaded');
+                        
+                        // Remove overlay
+                        const placeholder = img.parentElement.querySelector('.skeleton-overlay');
+                        if (placeholder) {
+                            placeholder.remove();
+                        }
+
+                        // Trigger Isotope layout update
+                        $grid.isotope('layout');
+                    };
+
+                    observer.unobserve(img);
+                }
+            });
+        });
+
+        function observeImages(container = document) {
+            const images = container.querySelectorAll('img.lazy-load');
+            images.forEach(img => imageObserver.observe(img));
+        }
+        observeImages();
 
 
+        // 2. Infinite Scroll with Skeleton
+        let loading = false;
+        let productsWrapper = document.getElementById('products-wrapper'); // Keep this for reference if needed, but we use $grid mostly
 
+        // Skeleton HTML Template
+        function getSkeletonHTML(count = 4) {
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                html += `
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 skeleton-item isotope-item"> <!-- Added isotope-item class -->
+                    <div class="block2">
+                        <div class="block2-pic hov-img0 skeleton skeleton-img" style="position: relative;"></div>
+                        <div class="block2-txt flex-w flex-t p-t-14">
+                            <div class="block2-txt-child1 flex-col-l">
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text short"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            return html;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (loading) return;
+
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                let cursorEl = document.getElementById('next-cursor');
+                if (!cursorEl) return;
+
+                let url = cursorEl.dataset.url;
+                loading = true;
+                document.getElementById('loading').style.display = 'block';
+
+                // Append Skeletons using Isotope
+                let skeletons = $(getSkeletonHTML(4));
+                $grid.append(skeletons).isotope('appended', skeletons);
+
+                fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.text())
+                .then(html => {
+                    cursorEl.remove();
+
+                    // Remove Skeletons using Isotope
+                    // detailed removal to avoid layout breaks
+                    $grid.isotope('remove', skeletons).isotope('layout');
+
+                    // Parse New Content
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    
+                    let newItems = [];
+                    let nextCursor = null;
+
+                    Array.from(tempDiv.children).forEach(child => {
+                         if (child.classList.contains('col-sm-6')) { 
+                             newItems.push(child);
+                         } else if (child.id === 'next-cursor') {
+                             nextCursor = child;
+                         }
+                    });
+
+                    // Append real items via Isotope
+                    if (newItems.length > 0) {
+                        let $newItems = $(newItems);
+                        $grid.append($newItems).isotope('appended', $newItems);
+                        
+                        // Observe new images
+                        observeImages(productsWrapper); // or pass document, observer handles duplicates gracefully
+                    }
+
+                    // Re-add cursor if exists
+                    if (nextCursor) {
+                        productsWrapper.appendChild(nextCursor);
+                    }
+
+                    loading = false;
+                    document.getElementById('loading').style.display = 'none';
+                })
+                .catch(err => {
+                    console.error('Error loading products:', err);
+                    $grid.isotope('remove', skeletons).isotope('layout');
+                    loading = false;
+                    document.getElementById('loading').style.display = 'none';
+                });
+            }
+        });
+    });
+    </script>
+
+    <script>
     (function ($) {
     "use strict";
     // [ Fixed Header ]*/
@@ -627,12 +751,7 @@
             $(wrapMenu).css('top',posWrapHeader - $(this).scrollTop());
         }
     });
-})(jQuery);
-
-
-
-
-
+    })(jQuery);
     </script>
 
 @endsection
