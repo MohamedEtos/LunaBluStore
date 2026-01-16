@@ -14,7 +14,7 @@ class ProductController extends Controller
         $products = Product::with(['Category', 'FabricType'])->paginate(12);
         $fabrics = FabricType::get();
 
-        $query = Product::query();
+        $query = Product::query()->where('append', 1);
 
         $search = trim((string) $request->input('search', ''));
         $sort = $request->input('sort');
@@ -96,7 +96,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product->increment('views');
-        $products = Product::with(['Category', 'FabricType'])->get();
+        $products = Product::where('append', 1)->with(['Category', 'FabricType'])->get();
 
 
 

@@ -19,7 +19,7 @@ class IndexController extends Controller
         $fabrics = FabricType::get();
 
 
-        $query = Product::query();
+        $query = Product::query()->where('append', 1);
         $search = trim((string) $request->input('search', ''));
 
         $relations = ['Category', 'FabricType'];

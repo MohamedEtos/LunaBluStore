@@ -43,6 +43,23 @@ class VisitorController extends Controller
         $browser = $this->browser($agent);
         $platform = $this->platform($agent);
 
+        // Geo Location
+        $country = null;
+        $city = null;
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::get("http://ip-api.com/json/{$ip}");
+            if ($response->successful()) {
+                $data = $response->json();
+                if ($data['status'] === 'success') {
+                    $country = $data['country'] ?? null;
+                    $city = $data['city'] ?? null;
+                }
+            }
+        } catch (\Exception $e) {
+            // Log error or ignore
+        }
+
         VisitorActivity::create([
             'ip_address' => $ip,
             'session_id' => $sessionId,
@@ -55,8 +72,8 @@ class VisitorController extends Controller
             'device_type' => $deviceType,
             'browser' => $browser,
             'platform' => $platform,
-            'country' => null, // يمكن إضافة geo location هنا لاحقاً
-            'city' => null,
+            'country' => $country,
+            'city' => $city,
         ]);
 
         return response()->json([
