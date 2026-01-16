@@ -28,6 +28,8 @@
 
                 <li class=" nav-item {{ request()->routeIs('Categorylist') ? 'active' : '' }}"><a href="{{ route('Categorylist') }}"><i class="feather icon-link-2"></i><span class="menu-title" data-i18n="Chat">الاقسام</span></a>
                 </li>
+                <li class=" nav-item {{ request()->routeIs('shaping_coast') ? 'active' : '' }}"><a href="{{ route('shaping_coast') }}"><i class="feather icon-credit-card"></i><span class="menu-title" data-i18n="Todo">رسوم الشحن</span></a>
+                </li>
                 <li class=" nav-item {{ request()->routeIs('fabricList') ? 'active' : '' }}"><a href="{{ route('fabricList') }}"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">انواع القماش</span></a>
                 </li>
                 <li class=" nav-item {{ request()->routeIs('setting') ? 'active' : '' }}"><a href="{{ route('setting') }}"><i class="feather icon-settings"></i><span class="menu-title" data-i18n="Settings">اعدادات الموقع</span></a>
