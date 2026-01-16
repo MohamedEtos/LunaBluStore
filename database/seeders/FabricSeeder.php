@@ -19,9 +19,7 @@ class FabricSeeder extends Seeder
             ['name' => 'ساتان'],
             ['name' => 'حرير'],
             ['name' => 'قطن'],
-            ['name' => 'شيفون مطرز'],
-            ['name' => 'كريب مطرز'],
-            ['name' => 'ساتان مطرز'],
+
         ];
 
         DB::table('fabric_types')->insert($fabrics);

@@ -25,7 +25,7 @@ class OrderSeeder extends Seeder
             return;
         }
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             // Create Order
             $subtotal = 0;
             $itemsData = [];
