@@ -29,7 +29,19 @@ class ShapingCoastController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'shipping_cost' => 'required|numeric|min:0',
+        ]);
+
+        $coast = new Shaping_Coast();
+        $coast->name_ar = $request->name_ar;
+        $coast->name_en = $request->name_en;
+        $coast->shipping_cost = $request->shipping_cost;
+        $coast->save();
+
+        return redirect()->back()->with('success', 'تم اضافة المحافظة بنجاح');
     }
 
     /**
@@ -59,9 +71,11 @@ class ShapingCoastController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shaping_Coast $shaping_Coast)
+    public function destroy($id)
     {
-        //
+        $coast = Shaping_Coast::findOrFail($id);
+        $coast->delete();
+        return redirect()->back()->with('success', 'تم حذف المحافظة بنجاح');
     }
 
     /**

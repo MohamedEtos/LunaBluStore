@@ -79,6 +79,7 @@
                                     <th>الاسم</th>
                                     <th>شحن مجاني</th>
                                     <th>سعر الشحن</th>
+                                    <th>حذف</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,6 +112,11 @@
                                             style="width: 120px; display: inline-block;">
                                         <span class="shipping-cost-text-{{ $coast->id }}"> ج.م</span>
                                     </td>
+                                    <td>
+                                        <div class="danger" data-id="{{ $coast->id }}">
+                                            <i class="feather icon-trash text-danger" style="cursor: pointer; font-size: 1.2rem;"></i>
+                                        </div>
+                                    </td>
 
 
                                 </tr>
@@ -126,7 +132,7 @@
 
 
                     <!-- add new sidebar starts -->
-                <form action='{{ Route('add_fabric') }}' id='CategoryForm' method='POST' enctype="multipart/form-data">
+                <form action='{{ Route('store_shaping_coast') }}' id='CategoryForm' method='POST' enctype="multipart/form-data">
                         @csrf
                     <div class="add-new-data-sidebar">
 
@@ -134,7 +140,7 @@
                         <div class="add-new-data">
                             <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
                                 <div>
-                                    <h4 class="text-uppercase">اضافه منتج</h4>
+                                    <h4 class="text-uppercase">اضافه محافظة</h4>
                                 </div>
                                 <div class="hide-data-sidebar">
                                     <i class="feather icon-x"></i>
@@ -144,8 +150,16 @@
                                 <div class="data-fields px-2 mt-3">
                                     <div class="row">
                                         <div class="col-sm-12 data-field-col">
-                                            <label for="data-name">الاسم</label>
-                                            <input type="text" name="name" class="form-control" id="data-name">
+                                            <label for="name_ar">الاسم بالعربية</label>
+                                            <input type="text" name="name_ar" class="form-control" id="name_ar" required>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="name_en">الاسم بالانجليزية</label>
+                                            <input type="text" name="name_en" class="form-control" id="name_en" required>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="shipping_cost">سعر الشحن</label>
+                                            <input type="number" name="shipping_cost" class="form-control" id="shipping_cost" step="0.01" min="0" required>
                                         </div>
 
                                     </div>
@@ -184,9 +198,10 @@
         <div class="modal-danger mr-1 mb-1 d-inline-block">
             <!-- Modal -->
 
+            <!-- Modal -->
+
             <form action="" class="modal fade text-left" method="POST" id="danger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
                 @csrf
-                <input name="CategoryId" id="prod_id" type="hidden" value="">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-danger white">
@@ -196,7 +211,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            هل انت متاكد من حذف القسم اذا حذفت القسم فسيتم حذف المنتجات بداخله  !
+                             هل انت متاكد من عملية الحذف ؟
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-success" data-dismiss="modal">الغاء</button>
@@ -475,6 +490,18 @@ $(document).ready(function() {
 
         $('input[name="name"]').val();
 
+    });
+
+    // Delete Confirmation
+    $('.danger').on("click", function(e) {
+        e.stopPropagation();
+        let id = $(this).data('id');
+
+        // Update form action
+        $('#danger').attr('action', "{{ route('delete_shaping_coast', ':id') }}".replace(':id', id));
+
+        // Show modal
+        $('#danger').modal('show');
     });
 
 });

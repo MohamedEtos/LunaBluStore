@@ -76,6 +76,8 @@ Route::controller(ShapingCoastController::class)->middleware('auth')->prefix('ad
     Route::get('/shaping_coast', 'index')->name('shaping_coast');
     Route::post('/shaping_coast/{id}/toggle-free-shipping', 'toggleFreeShipping')->name('toggle_free_shipping');
     Route::post('/shaping_coast/{id}/update-shipping-cost', 'updateShippingCost')->name('update_shipping_cost');
+    Route::post('/shaping_coast/store', 'store')->name('store_shaping_coast');
+    Route::post('/shaping_coast/delete/{id}', 'destroy')->name('delete_shaping_coast');
 });
 
 Route::controller(CategoryController::class)->middleware('auth')->prefix('admin')->group(function(){
