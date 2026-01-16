@@ -60,43 +60,43 @@
 					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
 						<div class="filter-col1 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Sort By
+								ترتيب حسب
 							</div>
 
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Default
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'default'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'default' || !request('sort') ? 'filter-link-active' : '' }}">
+										الإفتراضي
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Popularity
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'popularity'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'popularity' ? 'filter-link-active' : '' }}">
+										الأكثر شهرة
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Average rating
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'rating'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'rating' ? 'filter-link-active' : '' }}">
+										التقييم
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Newness
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'newness'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'newness' ? 'filter-link-active' : '' }}">
+										الأحدث
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: Low to High
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'price_low'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'price_low' ? 'filter-link-active' : '' }}">
+										السعر: من الأقل للأعلى
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: High to Low
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'price_high'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'price_high' ? 'filter-link-active' : '' }}">
+										السعر: من الأعلى للأقل
 									</a>
 								</li>
 							</ul>
@@ -104,111 +104,43 @@
 
 						<div class="filter-col2 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Price
+								السعر
 							</div>
 
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										All
+									<a href="{{ route('product', array_merge(request()->except(['min_price', 'max_price']))) }}" class="filter-link stext-106 trans-04 {{ !request('min_price') && !request('max_price') ? 'filter-link-active' : '' }}">
+										الكل
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$0.00 - $50.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 0, 'max_price' => 50])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 0 && request('max_price') == 50 ? 'filter-link-active' : '' }}">
+										0.00 ج.م - 50.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$50.00 - $100.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 50, 'max_price' => 100])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 50 && request('max_price') == 100 ? 'filter-link-active' : '' }}">
+										50.00 ج.م - 100.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$100.00 - $150.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 100, 'max_price' => 150])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 100 && request('max_price') == 150 ? 'filter-link-active' : '' }}">
+										100.00 ج.م - 150.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$150.00 - $200.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 150, 'max_price' => 200])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 150 && request('max_price') == 200 ? 'filter-link-active' : '' }}">
+										150.00 ج.م - 200.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$200.00+
-									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="filter-col3 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Color
-							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Black
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Blue
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Grey
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Green
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Red
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										White
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 200])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 200 && !request('max_price') ? 'filter-link-active' : '' }}">
+										200.00+ ج.م
 									</a>
 								</li>
 							</ul>
@@ -216,7 +148,7 @@
 
 						<div class="filter-col4 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Tags
+								الوسوم
 							</div>
 
 							<div class="flex-w p-t-4 m-r--5">
