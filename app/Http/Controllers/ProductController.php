@@ -57,7 +57,7 @@ class ProductController extends Controller
         switch ($sort) {
             case 'popularity':
                 // Assuming we have a 'views' or 'sales_count' column, otherwise default to latest
-                 $query->latest(); 
+                 $query->orderBy('views', 'desc'); 
                 break;
             case 'rating':
                 // Assuming rating column logic
@@ -95,6 +95,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $product->increment('views');
         $products = Product::with(['Category', 'FabricType'])->get();
 
 

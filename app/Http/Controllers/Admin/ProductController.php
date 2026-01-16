@@ -218,11 +218,15 @@ class ProductController extends Controller
                 "img2" => $img2,
                 "img3" => $img3,
                 "img4" => $img4,
-                'alt1' => $request->alt1,
-                'alt2' => $request->alt2,
                 'alt3' => $request->alt3,
                 'alt4' => $request->alt4,
             ]);
+
+            // Save Meta Data
+            $product->meta_title = $request->meta_title;
+            $product->meta_description = $request->meta_description;
+            $product->meta_keywords = $request->meta_keywords;
+            $product->save();
 
 
         });
@@ -297,10 +301,13 @@ class ProductController extends Controller
             $product->update([
                 "name" => $request->name,
                 "cat_id" => $request->cat,
-                "FabricType" => $request->fabric_type,
+                "fabric_id" => $request->fabric_type,
                 "productDetalis" => $request->desc,
                 "price" => $request->price,
                 "stock" => $request->stock,
+                "meta_title" => $request->meta_title,
+                "meta_description" => $request->meta_description,
+                "meta_keywords" => $request->meta_keywords,
             ]);
 
 
