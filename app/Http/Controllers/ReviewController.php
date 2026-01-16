@@ -16,19 +16,23 @@ class ReviewController extends Controller
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|max:1000',
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
         ]);
 
-        Review::create([
+        $review = Review::create([
             'product_id' => $request->product_id,
-            'user_id' => Auth::check() ? Auth::id() : null,
+            'user_id' => Auth::id(), // ID or null
             'rating' => $request->rating,
             'comment' => $request->comment,
             'name' => $request->name,
-            'email' => $request->email,
-            'is_approved' => false, // Default to pending approval
+            'phone' => $request->phone,
+            'is_approved' => true, // Auto-approve
         ]);
 
-        return redirect()->back()->with('success', 'Review submitted successfully! It awaits approval.');
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إضافة تقييمك بنجاح!',
+            'review' => $review
+        ]);
     }
 }

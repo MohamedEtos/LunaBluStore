@@ -114,7 +114,7 @@
                                                     </td>
                                                     <td>
                                                         {{ $review->name }}<br>
-                                                        <small class="text-muted">{{ $review->email }}</small>
+                                                        <small class="text-muted">{{ $review->phone }}</small>
                                                     </td>
                                                     <td>
                                                         @for($i=1; $i<=5; $i++)

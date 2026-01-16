@@ -1,6 +1,20 @@
 @extends('store.layouts.master')
 @section('head')
-
+<style>
+    .avatar-initials {
+        width: 40px;
+        height: 40px;
+        background-color: #e6e6e6;
+        color: #333;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left: 10px; /* Space between avatar and name in RTL */
+    }
+</style>
 @endsection
 
 @section('content')
@@ -259,16 +273,22 @@
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-									<div class="p-b-30 m-lr-15-sm">
+									<div class="p-b-30 m-lr-15-sm" id="reviews-list">
 										<!-- Review -->
-                                        @foreach($product->reviews->where('is_approved', 1) as $review)
+                                    <div id="reviews-list-container">
+                                        @foreach($product->reviews->where('is_approved', 1)->all() as $review)
 										<div class="flex-w flex-t p-b-68">
 
 											<div class="size-207">
 												<div class="flex-w flex-sb-m p-b-17">
-													<span class="mtext-107 cl2 p-r-20">
-														{{ $review->name }}
-													</span>
+                                                    <div class="flex-w flex-m">
+                                                        <div class="avatar-initials">
+                                                            {{ mb_strtoupper(mb_substr($review->name, 0, 1)) }} {{ mb_strtoupper(mb_substr($review->name, 1, 1)) }}
+                                                        </div>
+                                                        <span class="mtext-107 cl2 p-r-20">
+                                                            {{ $review->name }}
+                                                        </span>
+                                                    </div>
 
 													<span class="fs-18 cl11">
                                                         @for($i=1; $i<=5; $i++)
@@ -287,6 +307,7 @@
 											</div>
 										</div>
                                         @endforeach
+                                    </div>
 
 										<!-- Add review -->
                                         @if(session('success'))
@@ -295,20 +316,20 @@
                                             </div>
                                         @endif
 
-										<form class="w-full" action="{{ route('review.store') }}" method="POST">
+										<form class="w-full" id="review-form" action="{{ route('review.store') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
 											<h5 class="mtext-108 cl2 p-b-7">
-												Add a review
+												أضف تقييمك
 											</h5>
 
 											<p class="stext-102 cl6">
-												Your email address will not be published. Required fields are marked *
+												لن يتم نشر رقم هاتفك. الحقول المطلوبة مشار إليها بـ *
 											</p>
 
-											<div class="flex-w flex-m p-t-50 p-b-23">
-												<span class="stext-102 cl3 m-r-16">
-													Your Rating
+											<div class="flex-w flex-m p-t-50 p-b-23 ">
+												<span class="stext-130 cl3 m-r-16">
+													تقييمك
 												</span>
 
 												<span class="wrap-rating fs-18 cl11 pointer">
@@ -317,29 +338,29 @@
 													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
 													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
 													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-													<input class="dis-none" type="number" name="rating">
+													<input class="dis-none" type="number" name="rating" required>
 												</span>
 											</div>
 
 											<div class="row p-b-25">
 												<div class="col-12 p-b-5">
-													<label class="stext-102 cl3" for="review">Your review</label>
-													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="comment"></textarea>
+													<label class="stext-102 cl3" for="review">مراجعتك</label>
+													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="comment" required></textarea>
 												</div>
 
 												<div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="name">Name</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}">
+													<label class="stext-102 cl3" for="name">الاسم</label>
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}" required>
 												</div>
 
 												<div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="email">Email</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}">
+													<label class="stext-102 cl3" for="phone">رقم الهاتف</label>
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="phone" type="text" name="phone" required>
 												</div>
 											</div>
 
-											<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-												Submit
+											<button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+												إرسال
 											</button>
 										</form>
 									</div>
@@ -375,7 +396,7 @@
 			<!-- Slide2 -->
 			<div class="wrap-slick2">
                 <div class="slick2">
-                    @foreach ($products as $product  )
+                    @foreach($products as $product)
                         <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
                             <!-- Block2 -->
                             <a href="{{ route('product.show', $product->slug) }}">
@@ -456,6 +477,87 @@
          var numProduct = Number($(this).prev().val());
          $(this).prev().val(numProduct + 1);
      });
+
+    $('#review-form').on('submit', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var submitBtn = form.find('button[type="submit"]');
+        var originalBtnText = submitBtn.text();
+
+        submitBtn.prop('disabled', true).text('جاري الإرسال...');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success) {
+                    swal("تم بنجاح", response.message, "success");
+                    form[0].reset();
+                    // update rating stars visual reset
+                    $('.item-rating').removeClass('zmdi-star').addClass('zmdi-star-outline');
+
+                    // Allow user to see the change instantly
+                    var review = response.review;
+                    var parsedRating = parseInt(review.rating);
+                    var starsHtml = '';
+
+                    for(var i=1; i<=5; i++) {
+                        if(i <= parsedRating) {
+                            starsHtml += '<i class="zmdi zmdi-star"></i>';
+                        } else {
+                            starsHtml += '<i class="zmdi zmdi-star-outline"></i>';
+                        }
+                    }
+
+                    // Generate initials
+                    var name = review.name;
+                    var initials = '';
+                    if (name.length >= 1) initials += name.charAt(0).toUpperCase();
+                    if (name.length >= 2) initials += ' ' + name.charAt(1).toUpperCase();
+
+                    var reviewHtml = `
+                    <div class="flex-w flex-t p-b-68">
+                        <div class="size-207">
+                            <div class="flex-w flex-sb-m p-b-17">
+                                <div class="flex-w flex-m">
+                                    <div class="avatar-initials">
+                                        ${initials}
+                                    </div>
+                                    <span class="mtext-107 cl2 p-r-20">
+                                        ${review.name}
+                                    </span>
+                                </div>
+                                <span class="fs-18 cl11">
+                                    ${starsHtml}
+                                </span>
+                            </div>
+                            <p class="stext-102 cl6">
+                                ${review.comment}
+                            </p>
+                        </div>
+                    </div>`;
+
+                    $('#reviews-list-container').prepend(reviewHtml);
+                }
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON.errors;
+                var errorMessage = '';
+                if(errors) {
+                     $.each(errors, function(key, value) {
+                         errorMessage += value[0] + '\n';
+                     });
+                } else {
+                    errorMessage = 'حدث خطأ ما';
+                }
+                swal("خطأ", errorMessage, "error");
+            },
+            complete: function() {
+                submitBtn.prop('disabled', false).text(originalBtnText);
+            }
+        });
+    });
 
 </script>
 
