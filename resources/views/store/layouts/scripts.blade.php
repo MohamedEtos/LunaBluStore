@@ -84,6 +84,15 @@
 				swal(nameProduct, "تمت الاضافه", "success");
 			});
 		});
+
+        // Global Flash Messages (Success/Error)
+        @if(Session::has('success'))
+            swal("نجاح", "{{ session('success') }}", "success");
+        @endif
+
+        @if(Session::has('error'))
+            swal("خطأ", "{{ session('error') }}", "error");
+        @endif
 	</script>
 <!--===============================================================================================-->
 	<script src="{{ asset('store/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>

@@ -190,20 +190,30 @@
                                             <!-- Skeleton Overlay (Hidden when loaded via JS) -->
                                             <div class="skeleton-overlay skeleton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
                                             
+                                            @php
+                                                $mainImg = $product->product_img_p->mainImage;
+                                                // Check if the image follows the responsive pattern (ends with -800.webp)
+                                                // We use Str::contains to be safe, assuming our generated images always have this suffix.
+                                                $isResponsive = Str::endsWith($mainImg, '-800.webp');
+                                                // Get the base name correctly (handling potential multiple hyphens)
+                                                $baseImg = $isResponsive ? Str::beforeLast($mainImg, '-') : null;
+                                            @endphp
+                                            
                                             <img
-                                                class="lazy-load"
-                                                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                                                data-src="{{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }}"
-                                                data-srcset="
-                                                    {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-320.webp') }} 320w,
-                                                    {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-480.webp') }} 480w,
-                                                    {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }} 800w,
-                                                    {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-1200.webp') }} 1200w
+                                                loading="lazy"
+                                                src="{{ asset($mainImg) }}"
+                                                @if($isResponsive)
+                                                srcset="
+                                                    {{ asset($baseImg . '-320.webp') }} 320w,
+                                                    {{ asset($baseImg . '-480.webp') }} 480w,
+                                                    {{ asset($baseImg . '-800.webp') }} 800w,
+                                                    {{ asset($baseImg . '-1200.webp') }} 1200w
                                                 "
                                                 sizes="(max-width: 600px) 45vw,
                                                     (max-width: 1200px) 25vw,
                                                     300px"
-                                                alt="{{ $product->product_img_p->alt1 }}"
+                                                @endif
+                                                alt="{{ $product->product_img_p->alt1 ?? $product->name }}"
                                                 decoding="async"
                                                 style="position: relative; z-index: 2;"
                                             >

@@ -25,6 +25,7 @@ use App\Models\Orders;
     Route::get('/product', [StoreProductController::class, 'index'])->name('product');
     Route::get('/product/{product:slug}', [StoreProductController::class, 'show'])->name('product.show');
     Route::post('/review/store', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+    Route::post('/message/store', [\App\Http\Controllers\MessageController::class, 'store'])->name('message.store');
 
 
 
@@ -135,6 +136,11 @@ Route::controller(\App\Http\Controllers\Admin\ReviewController::class)->middlewa
     Route::get('/reviews', 'index')->name('admin.reviews.index');
     Route::post('/reviews/status/{review}', 'updateStatus')->name('admin.reviews.updateStatus');
     Route::delete('/reviews/{review}', 'destroy')->name('admin.reviews.destroy');
+});
+
+Route::controller(\App\Http\Controllers\Admin\MessageController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/messages', 'index')->name('admin.messages.index');
+    Route::delete('/messages/{id}', 'destroy')->name('admin.messages.destroy');
 });
 
 

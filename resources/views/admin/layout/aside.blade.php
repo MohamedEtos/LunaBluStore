@@ -30,6 +30,8 @@
                 </li>
                 <li class=" nav-item {{ request()->routeIs('admin.reviews.index') ? 'active' : '' }}"><a href="{{ route('admin.reviews.index') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Reviews">التعليقات</span> @if($reviewsCount > 0 ) <span class="badge badge badge-primary badge-pill float-right mr-2">{{ $reviewsCount }}</span> @endif</a>
                 </li>
+                <li class=" nav-item {{ request()->routeIs('admin.messages.index') ? 'active' : '' }}"><a href="{{ route('admin.messages.index') }}"><i class="feather icon-mail"></i><span class="menu-title" data-i18n="Messages">الرسائل</span></a>
+                </li>
                 <li class=" nav-item {{ request()->routeIs('shaping_coast') ? 'active' : '' }}"><a href="{{ route('shaping_coast') }}"><i class="feather icon-credit-card"></i><span class="menu-title" data-i18n="Todo">رسوم الشحن</span></a>
                 </li>
                 <li class=" nav-item {{ request()->routeIs('fabricList') ? 'active' : '' }}"><a href="{{ route('fabricList') }}"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">انواع القماش</span></a>

@@ -403,21 +403,29 @@
 
                                 <div class="block2">
                                     <div class="block2-pic hov-img0">
-                                                    <img
-                                                    src="{{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }}"
-                                                    srcset="
-                                                        {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-320.webp') }} 320w,
-                                                        {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-480.webp') }} 480w,
-                                                        {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }} 800w,
-                                                        {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-1200.webp') }} 1200w
-                                                    "
-                                                    sizes="(max-width: 600px) 45vw,
-                                                        (max-width: 1200px) 25vw,
-                                                        300px"
-                                                    alt="{{ $product->product_img_p->alt1 }}"
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                >
+                                            @php
+                                                $mainImg = $product->product_img_p->mainImage;
+                                                $isResponsive = Str::endsWith($mainImg, '-800.webp');
+                                                $baseImg = $isResponsive ? Str::beforeLast($mainImg, '-') : null;
+                                            @endphp
+
+                                            <img
+                                                loading="lazy"
+                                                src="{{ asset($mainImg) }}"
+                                                @if($isResponsive)
+                                                srcset="
+                                                    {{ asset($baseImg . '-320.webp') }} 320w,
+                                                    {{ asset($baseImg . '-480.webp') }} 480w,
+                                                    {{ asset($baseImg . '-800.webp') }} 800w,
+                                                    {{ asset($baseImg . '-1200.webp') }} 1200w
+                                                "
+                                                sizes="(max-width: 600px) 45vw,
+                                                    (max-width: 1200px) 25vw,
+                                                    300px"
+                                                @endif
+                                                alt="{{ $product->product_img_p->alt1 ?? $product->name }}"
+                                                decoding="async"
+                                            >
 
                                         <a href="{{ route('product.show', $product->slug) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                                             نظره سريعة
