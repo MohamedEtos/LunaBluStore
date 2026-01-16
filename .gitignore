@@ -5,7 +5,7 @@
 .env.*
 !.env.example
 
-/public/storage
+public/storage
 /storage/*.key
 
 /bootstrap/cache
@@ -14,7 +14,7 @@
 !/storage/framework/.gitignore
 
 /public/hot
-/public/build
+public/build
 
 /.idea
 /.vscode
