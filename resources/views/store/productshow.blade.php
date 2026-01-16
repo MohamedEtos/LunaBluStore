@@ -61,10 +61,24 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-lg-5 p-b-30" dir="rtl">
-					<div class="p-r-50 p-t-5 p-lr-0-lg">
-						<h1 class="mtext-105 h4 cl2 js-name-detail p-b-14">
+					<div class="p-r-50 p-t-5 p-lr-0-lg h4">
 							{{ $product->name }} <span style="{{ $product->stock > 0 ? 'color:green' : 'color:red' }}">({{ $product->stock > 0 ? 'متوفر' : 'غير متوفر' }})</span>
                         </h1>
+
+                        <div class="flex-w flex-m p-b-14">
+                            <span class="fs-18 cl11 m-r-10">
+                                @for($i=1; $i<=5; $i++)
+                                    @if($i <= round($product->average_rating))
+                                        <i class="zmdi zmdi-star"></i>
+                                    @else
+                                        <i class="zmdi zmdi-star-outline"></i>
+                                    @endif
+                                @endfor
+                            </span>
+                            <span class="stext-102 cl3">
+                                ({{ $product->approved_reviews_count }} تقيمات)
+                            </span>
+                        </div>
 
 
 
@@ -173,7 +187,7 @@
 						</li>
 
 						<li class="nav-item p-b-10">
-							<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">التقيم (1)</a>
+							<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">التقيم ({{ $product->approved_reviews_count }})</a>
 						</li>
 					</ul>
 
@@ -247,35 +261,43 @@
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
 										<!-- Review -->
-
-
+                                        @foreach($product->reviews->where('is_approved', 1) as $review)
 										<div class="flex-w flex-t p-b-68">
-
 
 											<div class="size-207">
 												<div class="flex-w flex-sb-m p-b-17">
 													<span class="mtext-107 cl2 p-r-20">
-														Ariana Grande
+														{{ $review->name }}
 													</span>
 
 													<span class="fs-18 cl11">
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star-half"></i>
+                                                        @for($i=1; $i<=5; $i++)
+                                                            @if($i <= $review->rating)
+														        <i class="zmdi zmdi-star"></i>
+                                                            @else
+                                                                <i class="zmdi zmdi-star-outline"></i>
+                                                            @endif
+                                                        @endfor
 													</span>
 												</div>
 
 												<p class="stext-102 cl6">
-													Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
+													{{ $review->comment }}
 												</p>
 											</div>
-
 										</div>
+                                        @endforeach
 
 										<!-- Add review -->
-										<form class="w-full">
+                                        @if(session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+										<form class="w-full" action="{{ route('review.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
 											<h5 class="mtext-108 cl2 p-b-7">
 												Add a review
 											</h5>
@@ -302,17 +324,17 @@
 											<div class="row p-b-25">
 												<div class="col-12 p-b-5">
 													<label class="stext-102 cl3" for="review">Your review</label>
-													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
+													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="comment"></textarea>
 												</div>
 
 												<div class="col-sm-6 p-b-5">
 													<label class="stext-102 cl3" for="name">Name</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name">
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" value="{{ auth()->check() ? auth()->user()->name : '' }}">
 												</div>
 
 												<div class="col-sm-6 p-b-5">
 													<label class="stext-102 cl3" for="email">Email</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email">
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email" value="{{ auth()->check() ? auth()->user()->email : '' }}">
 												</div>
 											</div>
 
@@ -434,8 +456,6 @@
          var numProduct = Number($(this).prev().val());
          $(this).prev().val(numProduct + 1);
      });
-
-
 
 </script>
 

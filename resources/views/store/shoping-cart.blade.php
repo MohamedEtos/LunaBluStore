@@ -112,8 +112,8 @@
 			</div>
 
 			{{-- RIGHT: totals --}}
-			<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50" style="direction: rtl">
-				<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+			<div class="col-sm-12 col-lg-7 col-xl-5 m-lr-auto m-b-50" style="direction: rtl">
+				<div class="bor10 p-lr-40 p-t-30 p-b-40  m-lr-0-xl ">
 					<h4 class="mtext-109 cl2 p-b-30" >
 						مجموع السلة
 					</h4>

@@ -12,54 +12,34 @@ class SettingController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.setting.setting');
+        $setting = setting::first();
+        return view('admin.setting.setting', compact('setting'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $request)
     {
-        //
-    }
+        $setting = setting::first();
+        $data = $request->except(['_token', '_method']);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $images = [
+            'favicon', 'mainLogo', 'whiteLogo',
+            'slider1_image', 'slider1_thumb',
+            'slider2_image', 'slider2_thumb',
+            'slider3_image', 'slider3_thumb',
+            'banner1_image', 'banner2_image', 'banner3_image', 'banner4_image', 'banner5_image'
+        ];
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(setting $setting)
-    {
-        //
-    }
+        foreach ($images as $imageField) {
+            if ($request->hasFile($imageField)) {
+                $file = $request->file($imageField);
+                $filename = time() . '_' . $imageField . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/settings'), $filename);
+                $data[$imageField] = 'uploads/settings/' . $filename;
+            }
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(setting $setting)
-    {
-        //
-    }
+        $setting->update($data);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(setting $setting)
-    {
-        //
+        return redirect()->back()->with('success', 'تم تحديث الإعدادات بنجاح');
     }
 }

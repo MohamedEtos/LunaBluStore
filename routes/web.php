@@ -24,6 +24,7 @@ use App\Models\Orders;
     Route::get('/', [IndexController::class, 'index'])->name('home');
     Route::get('/product', [StoreProductController::class, 'index'])->name('product');
     Route::get('/product/{product:slug}', [StoreProductController::class, 'show'])->name('product.show');
+    Route::post('/review/store', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
 
 
 
@@ -104,7 +105,14 @@ Route::controller(VisitorController::class)->middleware('auth')->prefix('admin')
 
 Route::controller(SettingController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/setting', 'index')->name('setting');
+    Route::post('/setting/update', 'update')->name('setting.update');
 
+});
+
+Route::controller(\App\Http\Controllers\Admin\ErrorLogController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/errors', 'index')->name('admin.errors.index');
+    Route::get('/errors/delete/{id}', 'destroy')->name('admin.errors.destroy');
+    Route::post('/errors/clear', 'clear')->name('admin.errors.clear');
 });
 
 Route::controller(FabricTypeController::class)->middleware('auth')->prefix('admin')->group(function(){
@@ -121,8 +129,12 @@ Route::controller(OrdersController::class)->middleware('auth')->prefix('admin')-
     Route::post('StoreOrder', 'StoreOrder')->name('StoreOrder');
     Route::post('multideleteOrders', 'multideleteOrders')->name('multideleteOrders');
     Route::post('/destroyOrder/{productId}', 'destroyOrder')->name('destroyOrder');
+});
 
-
+Route::controller(\App\Http\Controllers\Admin\ReviewController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/reviews', 'index')->name('admin.reviews.index');
+    Route::post('/reviews/status/{review}', 'updateStatus')->name('admin.reviews.updateStatus');
+    Route::delete('/reviews/{review}', 'destroy')->name('admin.reviews.destroy');
 });
 
 

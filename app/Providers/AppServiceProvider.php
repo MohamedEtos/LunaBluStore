@@ -34,7 +34,8 @@ class AppServiceProvider extends ServiceProvider
 
     View::composer('admin.layout.aside', function ($view) {
         $ordersCount = Orders::where('payment_status', 'notaccepted')->count(); // كل الأوردرات
-        $view->with('ordersCount', $ordersCount);
+        $reviewsCount = \App\Models\Review::where('is_approved', 0)->count();
+        $view->with(['ordersCount' => $ordersCount, 'reviewsCount' => $reviewsCount]);
     });
 
     View::composer('admin.layout.navbar', function ($view) {
@@ -50,6 +51,9 @@ class AppServiceProvider extends ServiceProvider
 
         Carbon::setLocale('ar');
         Schema::defaultStringLength(191);
+
+        $setting = \App\Models\setting::first();
+        View::share('setting', $setting);
 
     }
 }

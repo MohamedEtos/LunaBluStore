@@ -61,6 +61,21 @@ protected static function booted()
         return $this->hasOne(Prodimg::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->where('is_approved', 1)->avg('rating') ?: 0;
+    }
+
+    public function getApprovedReviewsCountAttribute()
+    {
+        return $this->reviews()->where('is_approved', 1)->count();
+    }
+
     //SEO Attributes
 
         public function getSeoTitleAttribute()

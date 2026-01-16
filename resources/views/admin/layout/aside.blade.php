@@ -28,6 +28,8 @@
 
                 <li class=" nav-item {{ request()->routeIs('Categorylist') ? 'active' : '' }}"><a href="{{ route('Categorylist') }}"><i class="feather icon-link-2"></i><span class="menu-title" data-i18n="Chat">الاقسام</span></a>
                 </li>
+                <li class=" nav-item {{ request()->routeIs('admin.reviews.index') ? 'active' : '' }}"><a href="{{ route('admin.reviews.index') }}"><i class="feather icon-star"></i><span class="menu-title" data-i18n="Reviews">التعليقات</span> @if($reviewsCount > 0 ) <span class="badge badge badge-primary badge-pill float-right mr-2">{{ $reviewsCount }}</span> @endif</a>
+                </li>
                 <li class=" nav-item {{ request()->routeIs('shaping_coast') ? 'active' : '' }}"><a href="{{ route('shaping_coast') }}"><i class="feather icon-credit-card"></i><span class="menu-title" data-i18n="Todo">رسوم الشحن</span></a>
                 </li>
                 <li class=" nav-item {{ request()->routeIs('fabricList') ? 'active' : '' }}"><a href="{{ route('fabricList') }}"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo">انواع القماش</span></a>
@@ -37,6 +39,8 @@
                 <li class=" nav-item {{ request()->routeIs('visitorsList') ? 'active' : '' }}"><a href="{{ route('visitorsList') }}"><i class="feather icon-activity"></i><span class="menu-title" data-i18n="visit">الزوار</span></a>
                 </li>
                 <li class=" nav-item {{ request()->routeIs('visitorsActivities') ? 'active' : '' }}"><a href="{{ route('visitorsActivities') }}"><i class="feather icon-activity"></i><span class="menu-title" data-i18n="Settings">نشاط الزوار </span></a>
+                </li>
+                <li class=" nav-item {{ request()->routeIs('admin.errors.index') ? 'active' : '' }}"><a href="{{ route('admin.errors.index') }}"><i class="feather icon-alert-circle"></i><span class="menu-title" data-i18n="Errors">تقارير الأخطاء</span></a>
                 </li>
 
             </ul>

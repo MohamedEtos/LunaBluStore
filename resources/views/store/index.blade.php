@@ -2,9 +2,11 @@
 
 @section('head')
     <!-- ===== PRELOAD LCP IMAGES ===== -->
-    <link rel="preload" as="image" href="{{ asset('store/images/slide-05.avif') }}" type="image/avif" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ asset('store/images/slide-06.avif') }}" type="image/avif" fetchpriority="high">
-    <link rel="preload" as="image" href="{{ asset('store/images/slide-07.avif') }}" type="image/avif" fetchpriority="high">
+    @if($setting)
+    <link rel="preload" as="image" href="{{ asset($setting->slider1_image) }}" type="image/avif" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset($setting->slider2_image) }}" type="image/avif" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset($setting->slider3_image) }}" type="image/avif" fetchpriority="high">
+    @endif
 @endsection
 @section('content')
 
@@ -13,81 +15,33 @@
 		<div class="wrap-slick1 rs2-slick1">
 			<div class="slick1">
 
-				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-05.avif') }}');" role="img"
-  aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-01.avif') }}" data-caption="إطلالات الموسم الباردة">
+                @for($i = 1; $i <= 3; $i++)
+				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset($setting->{'slider'.$i.'_image'}) }}');" role="img"
+  aria-label="{{ $setting->{'slider'.$i.'_title'} }}" data-thumb="{{ asset($setting->{'slider'.$i.'_thumb'}) }}" data-caption="{{ $setting->{'slider'.$i.'_title'} }}">
 					<div class="container h-full">
 						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2 alt_1">
-إطلالات الموسم الباردة
+								<span class="ltext-202 txt-center cl0 respon2 alt_{{ $i }}">
+                                    {{ $setting->{'slider'.$i.'_title'} }}
 								</span>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
 								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
-									طرحتك… لمستك الخاصة كل يوم
+									{{ $setting->{'slider'.$i.'_caption'} }}
                                 </h1>
 							</div>
 
 							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-								<a href="{{ route('product') }}" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									اكتشف الان
+								<a href="{{ $setting->{'slider'.$i.'_link'} }}" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+									{{ $setting->{'slider'.$i.'_btn_text'} }}
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
+                @endfor
 
-				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-06.avif') }}');" role="img"
-  aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-02.avif') }}" data-caption="  تكسر حاجز المألوف.">
-					<div class="container h-full">
-						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
-							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2 alt_2">
-تفرّدي بستايلك: طرح حصرية تكسر حاجز المألوف.
-								</span>
-							</div>
-
-							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
-								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
-									{{-- Jackets & Coats --}}
-									اكتشفي أحدث صيحات الطرح
-								</h1>
-							</div>
-
-							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-								<a href="{{ route('product') }}" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									اكتشف الان
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick1 bg-overlay1" style="background-image: url('{{ asset('store/images/slide-07.avif') }}');" role="img"
-  aria-label=" طرح نسائلك: كوني الأجمل.. باختلاف" data-thumb="{{ asset('store/images/thumb-03.avif') }}" data-caption="كوني الأجمل.. باختلاف.">
-					<div class="container h-full">
-						<div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
-								<span class="ltext-202 txt-center cl0 respon2 alt_3">
-كوني الأجمل.. باختلاف.
-								</span>
-							</div>
-
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
-								<h1 class="ltext-104 txt-center cl0 p-t-22 p-b-40 respon1">
-									ضيفي لمسة فريدة لإطلالتك
-                                </h1>
-							</div>
-
-							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-								<a href="{{ route('product') }}" class="flex-c-m  stext-101 bbc cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									اكتشف الان
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 
 			<div class="wrap-slick1-dots p-lr-10"></div>
@@ -99,47 +53,21 @@
 	<div class="sec-banner bg0 p-t-95 p-b-55">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6 p-b-30 m-lr-auto">
-					<!-- Block1 -->
 
-					<div class="block1 wrap-pic-w">
-						<img
-     src="{{ asset('store/images/banner-04.avif') }}" alt="IMG-BANNER">
-
-						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Women
-								</span>
-
-								<span class="block1-info stext-102 trans-04">
-									New Trend
-								</span>
-							</div>
-
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									اكتشف الان
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
-
+                @for($i = 1; $i <= 2; $i++)
 				<div class="col-md-6 p-b-30 m-lr-auto">
 					<!-- Block1 -->
 					<div class="block1 wrap-pic-w">
-						<img
-     src="{{ asset('store/images/banner-05.avif') }}" alt="IMG-BANNER">
+						<img src="{{ asset($setting->{'banner'.$i.'_image'}) }}" alt="IMG-BANNER">
 
-						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ $setting->{'banner'.$i.'_link'} }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
-									woman
+									{{ $setting->{'banner'.$i.'_title'} }}
 								</span>
 
 								<span class="block1-info stext-102 trans-04">
-									New Trend
+									{{ $setting->{'banner'.$i.'_info'} }}
 								</span>
 							</div>
 
@@ -151,21 +79,22 @@
 						</a>
 					</div>
 				</div>
+                @endfor
 
+                @for($i = 3; $i <= 5; $i++)
 				<div class="col-md-6 col-lg-4 p-b-30 m-lr-auto">
 					<!-- Block1 -->
 					<div class="block1 wrap-pic-w">
-						<img
-     src="{{ asset('store/images/banner-07.avif') }}" alt="IMG-BANNER">
+						<img src="{{ asset($setting->{'banner'.$i.'_image'}) }}" alt="IMG-BANNER">
 
-						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+						<a href="{{ $setting->{'banner'.$i.'_link'} }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Watches
+									{{ $setting->{'banner'.$i.'_title'} }}
 								</span>
 
 								<span class="block1-info stext-102 trans-04">
-									Spring 2018
+									{{ $setting->{'banner'.$i.'_info'} }}
 								</span>
 							</div>
 
@@ -177,58 +106,8 @@
 						</a>
 					</div>
 				</div>
+                @endfor
 
-				<div class="col-md-6 col-lg-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img
-     src="{{ asset('store/images/banner-08.avif') }}" alt="IMG-BANNER">
-
-						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Bags
-								</span>
-
-								<span class="block1-info stext-102 trans-04">
-									Spring 2018
-								</span>
-							</div>
-
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									اكتشف الان
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4 p-b-30 m-lr-auto">
-					<!-- Block1 -->
-					<div class="block1 wrap-pic-w">
-						<img
-     src="{{ asset('store/images/banner-09.avif') }}" alt="IMG-BANNER">
-
-						<a href="{{ route('product') }}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Accessories
-								</span>
-
-								<span class="block1-info stext-102 trans-04">
-									Spring 2018
-								</span>
-							</div>
-
-							<div class="block1-txt-child2 p-b-4 trans-05">
-								<div class="block1-link stext-101 cl0 trans-09">
-									اكتشف الان
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -239,7 +118,7 @@
 		<div class="container">
 			<div class="p-b-10">
 				<h3 class="ltext-103 cl5">
-				اكتشفي جمال التفاصيل...
+				{{ $setting->home_section_title ?? 'اكتشفي جمال التفاصيل...' }}
 				</h3>
 			</div>
 
