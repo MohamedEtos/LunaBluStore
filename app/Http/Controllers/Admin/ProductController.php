@@ -10,7 +10,7 @@ use App\Models\Product;
 use App\Models\Prodimg;
 use App\Models\FabricType;
 use App\Models\Category;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManagerStatic ;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
