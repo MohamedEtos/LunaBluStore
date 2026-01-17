@@ -83,9 +83,7 @@ class CountVisits
             // تجاهل الخطأ
         }
 
-        // ======================
-        // ✅ تسجيل زيارة حقيقية
-        // ======================
+     
         Visit::create([
             'ip_address'  => $ip,
             'user_agent'  => $agent,
