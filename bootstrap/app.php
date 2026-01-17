@@ -16,7 +16,28 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\CountVisits::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->reportable(function (Throwable $e) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return;
+            }
+
+            try {
+                \App\Models\ErrorLog::create([
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'trace' => $e->getTraceAsString(),
+                    'url' => request()->fullUrl(),
+                    'method' => request()->method(),
+                    'ip' => request()->ip(),
+                    'user_id' => auth()->id() ?? null,
+                    'user_agent' => request()->userAgent(),
+                ]);
+            } catch (\Throwable $loggingException) {
+                // If logging fails (e.g. DB error), do nothing to avoid infinite loop
+            }
+        });
     })->create();
 
 

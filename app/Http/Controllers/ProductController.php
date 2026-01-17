@@ -14,9 +14,12 @@ class ProductController extends Controller
         $products = Product::with(['Category', 'FabricType'])->paginate(12);
         $fabrics = FabricType::get();
 
-                $query = Product::query();
+        $query = Product::query()->where('append', 1);
 
-$search = trim((string) $request->input('search', ''));
+        $search = trim((string) $request->input('search', ''));
+        $sort = $request->input('sort');
+        $min_price = $request->input('min_price');
+        $max_price = $request->input('max_price');
 
         $relations = ['category', 'fabricType'];
 
@@ -41,7 +44,44 @@ $search = trim((string) $request->input('search', ''));
             }
         });
 
-        $products = $query->latest()->paginate(12);
+        // Price Filter
+        if ($min_price !== null && $max_price !== null) {
+            $query->whereBetween('price', [(float)$min_price, (float)$max_price]);
+        } elseif ($min_price !== null) {
+            $query->where('price', '>=', (float)$min_price);
+        } elseif ($max_price !== null) {
+            $query->where('price', '<=', (float)$max_price);
+        }
+
+        // Sorting
+        switch ($sort) {
+            case 'popularity':
+                // Assuming we have a 'views' or 'sales_count' column, otherwise default to latest
+                 $query->orderBy('views', 'desc'); 
+                break;
+            case 'rating':
+                // Assuming rating column logic
+                 $query->latest();
+                break;
+            case 'newness':
+                $query->latest();
+                break;
+            case 'price_low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+
+        $products = $query->paginate(12)->appends($request->all());
+
+        if ($request->ajax()) {
+            return view('store.parts.product_loop', compact('products'));
+        }
 
         return view('store.product', [
             'products' => $products,
@@ -51,13 +91,12 @@ $search = trim((string) $request->input('search', ''));
             'image' =>  asset('store/images/icons/favicon.png'),
             'url' => url()->current(),
         ]);
-
-        // return view('store.product', compact('products'));
     }
 
     public function show(Product $product)
     {
-        $products = Product::with(['Category', 'FabricType'])->get();
+        $product->increment('views');
+        $products = Product::where('append', 1)->with(['Category', 'FabricType'])->get();
 
 
 

@@ -60,43 +60,43 @@
 					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
 						<div class="filter-col1 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Sort By
+								ترتيب حسب
 							</div>
 
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Default
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'default'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'default' || !request('sort') ? 'filter-link-active' : '' }}">
+										الإفتراضي
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Popularity
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'popularity'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'popularity' ? 'filter-link-active' : '' }}">
+										الأكثر شهرة
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Average rating
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'rating'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'rating' ? 'filter-link-active' : '' }}">
+										التقييم
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Newness
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'newness'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'newness' ? 'filter-link-active' : '' }}">
+										الأحدث
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: Low to High
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'price_low'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'price_low' ? 'filter-link-active' : '' }}">
+										السعر: من الأقل للأعلى
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										Price: High to Low
+									<a href="{{ route('product', array_merge(request()->query(), ['sort' => 'price_high'])) }}" class="filter-link stext-106 trans-04 {{ request('sort') == 'price_high' ? 'filter-link-active' : '' }}">
+										السعر: من الأعلى للأقل
 									</a>
 								</li>
 							</ul>
@@ -104,111 +104,43 @@
 
 						<div class="filter-col2 p-r-15 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Price
+								السعر
 							</div>
 
 							<ul>
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										All
+									<a href="{{ route('product', array_merge(request()->except(['min_price', 'max_price']))) }}" class="filter-link stext-106 trans-04 {{ !request('min_price') && !request('max_price') ? 'filter-link-active' : '' }}">
+										الكل
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$0.00 - $50.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 0, 'max_price' => 50])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 0 && request('max_price') == 50 ? 'filter-link-active' : '' }}">
+										0.00 ج.م - 50.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$50.00 - $100.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 50, 'max_price' => 100])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 50 && request('max_price') == 100 ? 'filter-link-active' : '' }}">
+										50.00 ج.م - 100.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$100.00 - $150.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 100, 'max_price' => 150])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 100 && request('max_price') == 150 ? 'filter-link-active' : '' }}">
+										100.00 ج.م - 150.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$150.00 - $200.00
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 150, 'max_price' => 200])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 150 && request('max_price') == 200 ? 'filter-link-active' : '' }}">
+										150.00 ج.م - 200.00 ج.م
 									</a>
 								</li>
 
 								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$200.00+
-									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="filter-col3 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								Color
-							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Black
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										Blue
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Grey
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Green
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										Red
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										White
+									<a href="{{ route('product', array_merge(request()->query(), ['min_price' => 200])) }}" class="filter-link stext-106 trans-04 {{ request('min_price') == 200 && !request('max_price') ? 'filter-link-active' : '' }}">
+										200.00+ ج.م
 									</a>
 								</li>
 							</ul>
@@ -216,7 +148,7 @@
 
 						<div class="filter-col4 p-b-27">
 							<div class="mtext-102 cl2 p-b-15">
-								Tags
+								الوسوم
 							</div>
 
 							<div class="flex-w p-t-4 m-r--5">
@@ -254,23 +186,37 @@
                             <!-- Block2 -->
                             <a href="{{ route('product.show', $product->slug) }}">
                                 <div class="block2">
-                                    <div class="block2-pic hov-img0 label-new" data-label="New">
-
-                                        <img
-                                            src="{{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }}"
-                                            srcset="
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-320.webp') }} 320w,
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-480.webp') }} 480w,
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-800.webp') }} 800w,
-                                                {{ asset(Str::before($product->product_img_p->mainImage, '-') . '-1200.webp') }} 1200w
-                                            "
-                                            sizes="(max-width: 600px) 45vw,
-                                                (max-width: 1200px) 25vw,
-                                                300px"
-                                            alt="{{ $product->product_img_p->alt1 }}"
-                                            loading="lazy"
-                                            decoding="async"
-                                        >
+                                        <div class="block2-pic hov-img0 label-new" data-label="New" style="position: relative; min-height: 300px; background-color: #f0f0f0;">
+                                            <!-- Skeleton Overlay (Hidden when loaded via JS) -->
+                                            <div class="skeleton-overlay skeleton" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+                                            
+                                            @php
+                                                $mainImg = $product->product_img_p->mainImage;
+                                                // Check if the image follows the responsive pattern (ends with -800.webp)
+                                                // We use Str::contains to be safe, assuming our generated images always have this suffix.
+                                                $isResponsive = Str::endsWith($mainImg, '-800.webp');
+                                                // Get the base name correctly (handling potential multiple hyphens)
+                                                $baseImg = $isResponsive ? Str::beforeLast($mainImg, '-') : null;
+                                            @endphp
+                                            
+                                            <img
+                                                loading="lazy"
+                                                src="{{ asset($mainImg) }}"
+                                                @if($isResponsive)
+                                                srcset="
+                                                    {{ asset($baseImg . '-320.webp') }} 320w,
+                                                    {{ asset($baseImg . '-480.webp') }} 480w,
+                                                    {{ asset($baseImg . '-800.webp') }} 800w,
+                                                    {{ asset($baseImg . '-1200.webp') }} 1200w
+                                                "
+                                                sizes="(max-width: 600px) 45vw,
+                                                    (max-width: 1200px) 25vw,
+                                                    300px"
+                                                @endif
+                                                alt="{{ $product->product_img_p->alt1 ?? $product->name }}"
+                                                decoding="async"
+                                                style="position: relative; z-index: 2;"
+                                            >
 
 
                                         <a href="{{ route('product.show', $product->slug) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
@@ -316,7 +262,50 @@
 
 @section('script')
 
+<style>
+    /* Skeleton Loading CSS */
+    .skeleton {
+        background: #f6f7f8;
+        background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+        background-size: 200% 100%; 
+        animation: shimmer 1.5s infinite linear;
+        border-radius: 4px;
+    }
 
+    @keyframes shimmer {
+        0% { background-position: 100% 0; }
+        100% { background-position: -100% 0; }
+    }
+
+    .skeleton-img {
+        width: 100%;
+        height: 300px; /* Approximate height of product image */
+        display: block;
+    }
+
+    .skeleton-text {
+        height: 14px;
+        margin-bottom: 8px;
+        width: 80%;
+    }
+
+    .skeleton-text.short {
+        width: 40%;
+    }
+    
+    .isotope-item {
+        transition: opacity 0.3s ease;
+    }
+    
+    img.lazy-load {
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
+    }
+    
+    img.lazy-load.loaded {
+        opacity: 1;
+    }
+</style>
 
 
 <script>
@@ -329,37 +318,140 @@
 </script>
 
 
-<script>
-let loading = false;
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cache Isotope container
+        var $grid = $('.isotope-grid');
 
-window.addEventListener('scroll', function () {
-    if (loading) return;
+        // 1. Lazy Loading Setup
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.dataset.src;
+                    const srcset = img.dataset.srcset;
+                    
+                    if (src) {
+                        img.src = src;
+                        img.removeAttribute('data-src');
+                    }
+                    if (srcset) {
+                        img.srcset = srcset;
+                        img.removeAttribute('data-srcset');
+                    }
+                    
+                    img.onload = () => {
+                        img.classList.remove('skeleton'); 
+                        img.classList.add('loaded');
+                        const placeholder = img.parentElement.querySelector('.skeleton-overlay');
+                        if (placeholder) {
+                            placeholder.remove();
+                        }
+                        
+                        // Trigger Isotope layout update
+                        $grid.isotope('layout');
+                    };
 
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        let cursorEl = document.getElementById('next-cursor');
-        if (!cursorEl) return;
-
-        let url = cursorEl.dataset.url;
-        loading = true;
-        document.getElementById('loading').style.display = 'block';
-
-        fetch(url, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(res => res.text())
-        .then(html => {
-            cursorEl.remove();
-            document.getElementById('products-wrapper')
-                .insertAdjacentHTML('beforeend', html);
-
-            loading = false;
-            document.getElementById('loading').style.display = 'none';
+                    observer.unobserve(img);
+                }
+            });
         });
-    }
-});
-</script>
 
+        function observeImages(container = document) {
+            const images = container.querySelectorAll('img.lazy-load');
+            images.forEach(img => imageObserver.observe(img));
+        }
+        observeImages();
+
+
+        // 2. Infinite Scroll with Skeleton
+        let loading = false;
+        let productsWrapper = document.getElementById('products-wrapper');
+
+        // Skeleton HTML Template
+        function getSkeletonHTML(count = 4) {
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                html += `
+                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 skeleton-item isotope-item">
+                    <div class="block2">
+                        <div class="block2-pic hov-img0 skeleton skeleton-img" style="position: relative;"></div>
+                        <div class="block2-txt flex-w flex-t p-t-14">
+                            <div class="block2-txt-child1 flex-col-l">
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text short"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            return html;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (loading) return;
+
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                let cursorEl = document.getElementById('next-cursor');
+                if (!cursorEl) return;
+
+                let url = cursorEl.dataset.url;
+                loading = true;
+                document.getElementById('loading').style.display = 'block';
+
+                // Append Skeletons using Isotope
+                let skeletons = $(getSkeletonHTML(4));
+                $grid.append(skeletons).isotope('appended', skeletons);
+
+                fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.text())
+                .then(html => {
+                    cursorEl.remove();
+
+                    // Remove Skeletons using Isotope
+                    $grid.isotope('remove', skeletons).isotope('layout');
+
+                    // Parse New Content
+                    let tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    
+                    let newItems = [];
+                    let nextCursor = null;
+
+                    Array.from(tempDiv.children).forEach(child => {
+                         if (child.classList.contains('col-sm-6')) { 
+                             newItems.push(child);
+                         } else if (child.id === 'next-cursor') {
+                             nextCursor = child;
+                         }
+                    });
+
+                    // Append real items via Isotope
+                    if (newItems.length > 0) {
+                        let $newItems = $(newItems);
+                        $grid.append($newItems).isotope('appended', $newItems);
+                        observeImages(productsWrapper);
+                    }
+
+                    // Re-add cursor if exists
+                    if (nextCursor) {
+                        productsWrapper.appendChild(nextCursor);
+                    }
+
+                    loading = false;
+                    document.getElementById('loading').style.display = 'none';
+                })
+                .catch(err => {
+                    console.error('Error loading products:', err);
+                    $grid.isotope('remove', skeletons).isotope('layout');
+                    loading = false;
+                    document.getElementById('loading').style.display = 'none';
+                });
+            }
+        });
+    });
+    </script>
 
 @endsection

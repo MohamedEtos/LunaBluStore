@@ -23,7 +23,18 @@
 
     @include('admin.layout.footer')
 
+    <!-- BEGIN: Vendor JS-->
+    <script src="{{ asset('admin/vendors/js/vendors.min.js') }}"></script>
+    <!-- BEGIN Vendor JS-->
+    
+    <!-- BEGIN: Theme JS-->
+    <script src="{{ asset('admin/js/core/app-menu.js') }}"></script>
+    <script src="{{ asset('admin/js/core/app.js') }}"></script>
+    <script src="{{ asset('admin/js/scripts/components.js') }}"></script>
+    <!-- END: Theme JS-->
+
     @yield('script')
+    <script src="{{ asset('admin/js/scripts/notifications.js') }}"></script>
 
         <script src="{{ asset('admin/vendors/js/extensions/toastr.min.js') }}"></script>
     	@if(Session::has('success'))

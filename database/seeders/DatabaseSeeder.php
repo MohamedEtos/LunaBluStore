@@ -21,20 +21,28 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test Admin',
+            'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Et@$2304'),
         ]);
 
 
         FabricType::create([
-            'name' => 'شيفون',
+            'name' => 'شيفون', // ID 1
+        ]);
+        FabricType::create([
+            'name' => 'كريب', // ID 2
+        ]);
+        FabricType::create([
+            'name' => 'ساتان', // ID 3
         ]);
 
         $this->call(CategorySeeder::class);
         $this->call(GovernoratesSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ProdImgSeeder::class);
+        $this->call(OrderSeeder::class);
+        $this->call(SettingsSeeder::class);
 
     }
 }

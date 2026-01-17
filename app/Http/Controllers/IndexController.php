@@ -8,6 +8,8 @@ use App\Models\FabricType;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+use App\Models\setting;
+
 class IndexController extends Controller
 {
     public function index(Request $request)
@@ -17,9 +19,9 @@ class IndexController extends Controller
         // أول تحميل للصفحة
         $products = Product::with(['Category', 'FabricType'])->paginate(12);
         $fabrics = FabricType::get();
+        $setting = setting::first();
 
-
-        $query = Product::query();
+        $query = Product::query()->where('append', 1);
         $search = trim((string) $request->input('search', ''));
 
         $relations = ['Category', 'FabricType'];
@@ -47,10 +49,14 @@ class IndexController extends Controller
 
         $products = $query->latest()->paginate(12);
 
+        if ($request->ajax()) {
+            return view('store.parts.product_loop', compact('products'));
+        }
 
         return view('store.index', [
             'products' => $products,
             'fabrics' => $fabrics,
+            'setting' => $setting,
             'title' => 'LunaBlu | متجر طرح حريمي عصرية – خامات فاخرة وأسعار مناسبة',
             'description' => 'LunaBlu متجر متخصص في بيع الطرح الحريمي العصرية بخامات عالية وجودة مميزة. اكتشفي أحدث الموديلات والألوان المناسبة لكل الإطلالات مع أسعار تنافسية وتجربة تسوق سهلة وآمنة.',
             'image' =>  asset('store/images/icons/favicon.ico'),

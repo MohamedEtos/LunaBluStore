@@ -47,6 +47,14 @@ class OrdersController extends Controller
             'payment_status' => 'accepted'
         ]);
 
+        // If it's an AJAX request, return JSON response
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'تم تحديث حالة الدفع بنجاح'
+            ]);
+        }
+
         return redirect()->route('Orders');
 
     }
@@ -160,4 +168,15 @@ class OrdersController extends Controller
     }
 
 
+    public function latestNotifications()
+    {
+        $notifications = Orders::where('payment_status', 'notaccepted')
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        return response()->json([
+            'count' => $notifications->count(),
+            'html' => view('admin.partials.notification_list', ['notifications' => $notifications])->render()
+        ]);
+    }
 }

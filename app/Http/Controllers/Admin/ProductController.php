@@ -10,7 +10,7 @@ use App\Models\Product;
 use App\Models\Prodimg;
 use App\Models\FabricType;
 use App\Models\Category;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManagerStatic ;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -56,149 +56,12 @@ class ProductController extends Controller
         ]);
 
         DB::transaction(function () use ($request) {
-
-            if ($request->hasFile('mainImage')) {
-                $file = $request->file('mainImage');
-                $sizes = [
-                    320,
-                    480,
-                    800,
-                    1200,
-                ];
-
-                $imageName = Str::random(20);
-                $paths = [];
-
-                foreach ($sizes as $width) {
-
-                    $image = Image::make($file)
-                        ->resize($width, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
-                        ->encode('webp', 70);
-
-                    $fileName = "{$imageName}-{$width}.webp";
-                    $path = "storage/images/{$fileName}";
-
-                    $image->save(public_path($path));
-
-                    $paths[$width] = $path;
-                }
-
-                // الصورة الأساسية (Fallback)
-                $main_image = $paths[800];
-
-            } else {
-                $main_image = null;
-            }
-            if ($request->hasFile('img2')) {
-                $file = $request->file('img2');
-                $sizes = [
-                    320,
-                    480,
-                    800,
-                    1200,
-                ];
-
-                $imageName = Str::random(20);
-                $paths = [];
-
-                foreach ($sizes as $width) {
-
-                    $image = Image::make($file)
-                        ->resize($width, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
-                        ->encode('webp', 70);
-
-                    $fileName = "{$imageName}-{$width}.webp";
-                    $path = "storage/images/{$fileName}";
-
-                    $image->save(public_path($path));
-
-                    $paths[$width] = $path;
-                }
-
-                // الصورة الأساسية (Fallback)
-                $img2 = $paths[800];
-
-            } else {
-                $img2 = null;
-            }
-            if ($request->hasFile('img3')) {
-                $file = $request->file('img3');
-                $sizes = [
-                    320,
-                    480,
-                    800,
-                    1200,
-                ];
-
-                $imageName = Str::random(20);
-                $paths = [];
-
-                foreach ($sizes as $width) {
-
-                    $image = Image::make($file)
-                        ->resize($width, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
-                        ->encode('webp', 70);
-
-                    $fileName = "{$imageName}-{$width}.webp";
-                    $path = "storage/images/{$fileName}";
-
-                    $image->save(public_path($path));
-
-                    $paths[$width] = $path;
-                }
-
-                // الصورة الأساسية (Fallback)
-                $img3 = $paths[800];
-
-            } else {
-                $img3 = null;
-            }
-            if ($request->hasFile('img4')) {
-                $file = $request->file('img4');
-                $sizes = [
-                    320,
-                    480,
-                    800,
-                    1200,
-                ];
-
-                $imageName = Str::random(20);
-                $paths = [];
-
-                foreach ($sizes as $width) {
-
-                    $image = Image::make($file)
-                        ->resize($width, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
-                        ->encode('webp', 70);
-
-                    $fileName = "{$imageName}-{$width}.webp";
-                    $path = "storage/images/{$fileName}";
-
-                     $image->save(public_path($path));
-
-                    $paths[$width] = $path;
-                }
-
-                // الصورة الأساسية (Fallback)
-                $img4 = $paths[800];
-
-            } else {
-                $img4 = null;
-            }
-
-
+            
+            // Helper function to process images efficiently
+            $main_image = $this->processImage($request->file('mainImage'));
+            $img2 = $request->hasFile('img2') ? $this->processImage($request->file('img2')) : null;
+            $img3 = $request->hasFile('img3') ? $this->processImage($request->file('img3')) : null;
+            $img4 = $request->hasFile('img4') ? $this->processImage($request->file('img4')) : null;
 
             $product = Product::create([
                 "name" => $request->name,
@@ -209,8 +72,6 @@ class ProductController extends Controller
                 "price" => $request->price,
                 "stock" => $request->stock,
                 "fabric_id" => $request->fabric_type,
-
-
             ]);
 
             $product->product_img_p()->create([
@@ -218,18 +79,59 @@ class ProductController extends Controller
                 "img2" => $img2,
                 "img3" => $img3,
                 "img4" => $img4,
-                'alt1' => $request->alt1,
-                'alt2' => $request->alt2,
                 'alt3' => $request->alt3,
                 'alt4' => $request->alt4,
             ]);
 
-
+            // Save Meta Data
+            $product->meta_title = $request->meta_title;
+            $product->meta_description = $request->meta_description;
+            $product->meta_keywords = $request->meta_keywords;
+            $product->save();
         });
 
         return redirect()->back()->with(['success'=>'اضافه منتج']);
+    }
 
+    // Optimized image processing method
+    private function processImage($file)
+    {
+        $sizes = [
+            1200, // Process largest first to potentially use downscaling if needed (though Image::make uses original resource)
+            800,
+            480,
+            320,
+        ];
 
+        $imageName = Str::random(20);
+        $paths = [];
+
+        // Create image instance ONCE from source
+        $image = ImageManagerStatic::make($file);
+
+        foreach ($sizes as $width) {
+            // BACKUP the current state (clone) so resizing doesn't affect next iterations
+            // (If we resize 1200 -> 800 -> 480 -> 320 sequentially on the SAME instance it's faster, 
+            // but we need to be careful about aspect ratio accumulation errors. Since we're just resizing down, sequential is fine and fastest!)
+            // However, to be safe and simple: clone.
+            $img = clone $image;
+            
+            $img->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })
+            ->encode('webp', 70);
+
+            $fileName = "{$imageName}-{$width}.webp";
+            $path = "storage/images/{$fileName}";
+
+            $img->save(public_path($path));
+
+            $paths[$width] = $path;
+        }
+
+        // Return path for main usage (800px)
+        return $paths[800];
     }
 
 
@@ -256,51 +158,26 @@ class ProductController extends Controller
 
         DB::transaction(function () use ($request) {
 
-        $oldimgname = prodimg::where('product_id',$request->product_id)->first();
+            $oldimgname = prodimg::where('product_id',$request->product_id)->first();
 
-            if($request->hasFile('mainImage')){
-                $image  = ImageManagerStatic::make($request->file('mainImage'))->encode('webp')->resize(566,700);
-                $imageName = Str::random().'.webp';
-                $image->save(public_path('storage/images/'. $imageName));
-                $main_image = 'storage/images/'. $imageName;
-            }else{
-                $main_image = $oldimgname->mainImage;
-            };
-            if($request->hasFile('img2')){
-                $image  = ImageManagerStatic::make($request->file('img2'))->encode('webp')->resize(566,700);
-                $imageName = Str::random().'.webp';
-                $image->save(public_path('storage/images/'. $imageName));
-                $img2 = 'storage/images/'. $imageName;
-            }else{
-                $img2 = $oldimgname->img2;
-            };
-            if($request->hasFile('img3')){
-                $image  = ImageManagerStatic::make($request->file('img3'))->encode('webp')->resize(566,700);
-                $imageName = Str::random().'.webp';
-                $image->save(public_path('storage/images/'. $imageName));
-                $img3 = 'storage/images/'. $imageName;
-            }else{
-                $img3 = $oldimgname->img3;
-            };
-            if($request->hasFile('img4')){
-                $image  = ImageManagerStatic::make($request->file('img4'))->encode('webp')->resize(566,700);
-                $imageName = Str::random().'.webp';
-                $image->save(public_path('storage/images/'. $imageName));
-                $img4 = 'storage/images/'. $imageName;
-            }else{
-                $img4 = $oldimgname->img4;
-            };
-
+            // Use the processImage helper for consistent responsive image generation
+            $main_image = $request->hasFile('mainImage') ? $this->processImage($request->file('mainImage')) : $oldimgname->mainImage;
+            $img2 = $request->hasFile('img2') ? $this->processImage($request->file('img2')) : $oldimgname->img2;
+            $img3 = $request->hasFile('img3') ? $this->processImage($request->file('img3')) : $oldimgname->img3;
+            $img4 = $request->hasFile('img4') ? $this->processImage($request->file('img4')) : $oldimgname->img4;
 
             $product = Product::find($request->product_id);
 
             $product->update([
                 "name" => $request->name,
                 "cat_id" => $request->cat,
-                "FabricType" => $request->fabric_type,
+                "fabric_id" => $request->fabric_type,
                 "productDetalis" => $request->desc,
                 "price" => $request->price,
                 "stock" => $request->stock,
+                "meta_title" => $request->meta_title,
+                "meta_description" => $request->meta_description,
+                "meta_keywords" => $request->meta_keywords,
             ]);
 
 
@@ -326,6 +203,20 @@ class ProductController extends Controller
         $Product->delete();
 
         return redirect()->back()->with('success', 'تم الحذف بنجاح');
+    }
+
+    public function toggleStatus($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->append = $product->append == 1 ? 0 : 1;
+        $product->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $product->append == 1 ? 'تم تفعيل المنتج بنجاح' : 'تم إيقاف المنتج بنجاح',
+            'append' => $product->append,
+            'stock' => $product->stock
+        ]);
     }
 
 

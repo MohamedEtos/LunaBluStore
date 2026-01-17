@@ -114,16 +114,14 @@
                                     <td class="product-name name{{ $Product->id }}">{{$Product->name}}</td>
                                     <td class="product-category productDetalis{{ $Product->id }}"> {{ $Product->productDetalis }} </td>
                                     <td>
-                                        <div class="progress progress-bar-success">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="40" aria-valuemax="100" style="width:97%"></div>
-                                        </div>
+                                        {{ $Product->views }}
                                     </td>
                                     <td>
-                                            <div class="chip {{
+                                            <div class="chip toggle-status {{
                                                 $Product->append == 1 && $Product->stock >= 5 ? 'chip-success' :
                                                 ($Product->append == 0 ? 'chip-warning' :
                                                 ($Product->stock < 5 ? 'chip-danger' : ''))
-                                            }}">
+                                            }}" data-id="{{ $Product->id }}" style="cursor: pointer;">
                                             <div class="chip-body">
                                                 <div class="chip-text">
                                                     {{
@@ -144,6 +142,13 @@
                                     <span class='del' data-toggle="modal" data-id_del="{{ $Product->id }}" data-target="#danger">
                                         <i class="feather icon-trash"  ></i>
                                     </span>
+                                    <!-- Hidden Meta Data for JS -->
+                                    <span class="d-none meta_title{{ $Product->id }}">{{ $Product->meta_title }}</span>
+                                    <span class="d-none meta_description{{ $Product->id }}">{{ $Product->meta_description }}</span>
+                                    <span class="d-none meta_keywords{{ $Product->id }}">{{ $Product->meta_keywords }}</span>
+                                    <!-- Hidden Data for Edit Form Population -->
+                                    <span class="d-none cat{{ $Product->id }}">{{ $Product->cat_id }}</span>
+                                    <span class="d-none fabric_type{{ $Product->id }}">{{ $Product->fabric_id }}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -247,6 +252,22 @@
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-price">تعريف الصوره 1</label>
                                                     <input  type="text" name='alt4'class="form-control" id="data-alt4">
+                                                </div>
+
+                                                <div class="col-sm-12 data-field-col">
+                                                    <h4 class="mb-1 mt-2">SEO Meta Data</h4>
+                                                </div>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="meta_title">Meta Title</label>
+                                                    <input type="text" name='meta_title' class="form-control" id="data-meta_title">
+                                                </div>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="meta_description">Meta Description</label>
+                                                    <textarea name='meta_description' class="form-control" id="data-meta_description"></textarea>
+                                                </div>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="meta_keywords">Meta Keywords</label>
+                                                    <input type="text" name='meta_keywords' class="form-control" id="data-meta_keywords" placeholder="keyword1, keyword2, ...">
                                                 </div>
                                         </div>
                                     </div>
@@ -373,13 +394,19 @@ $(document).ready(function() {
         let productId = $(this).data('id');
 
 
-        $('#data-name').val($('.name'+productId).text());
-        $('#data-price').val($('.price'+productId).text());
-        $('#data-stock').val($('.stock'+productId).text());
-        $('#data-desc').val($('.desc'+productId).text());
-        $('#data-fabric_type').val($('.fabric_type'+productId).text());
-        $('#data-cat').val($('.cat'+productId).text());
-        $('#data-desc').val($('.productDetalis'+productId).text());
+        $('#data-name').val($('.name'+productId).text().trim());
+        $('#data-price').val($('.price'+productId).text().trim());
+        $('#data-stock').val($('.stock'+productId).text().trim());
+        // $('#data-desc').val($('.desc'+productId).text().trim()); // Removed redundant call
+        $('#data-fabric_type').val($('.fabric_type'+productId).text().trim());
+        $('#data-cat').val($('.cat'+productId).text().trim());
+        $('#data-desc').val($('.productDetalis'+productId).text().trim());
+
+        // Populate Meta Data
+        $('#data-meta_title').val($('.meta_title'+productId).text());
+        $('#data-meta_description').val($('.meta_description'+productId).text());
+        $('#data-meta_keywords').val($('.meta_keywords'+productId).text());
+
         $(".add-new-data").addClass("show");
         $(".overlay-bg").addClass("show");
 
@@ -409,6 +436,49 @@ $(document).ready(function() {
 
     });
 
+});
+
+$('.toggle-status').on('click', function() {
+    var chip = $(this);
+    var productId = chip.data('id');
+    var chipText = chip.find('.chip-text');
+
+    $.ajax({
+        url: "{{ route('product.toggle_status', ':id') }}".replace(':id', productId),
+        method: 'POST',
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            if (response.success) {
+                // Remove old classes
+                chip.removeClass('chip-success chip-warning chip-danger');
+
+                // Apply new class and text based on logic
+                if (response.append == 0) {
+                    chip.addClass('chip-warning');
+                    chipText.text('متوقف');
+                } else if (response.stock < 5) {
+                    chip.addClass('chip-danger');
+                    chipText.text('المخزون اقل من 5');
+                } else {
+                    chip.addClass('chip-success');
+                    chipText.text('نشط');
+                }
+                
+                // Show toast notification
+                if (response.append == 0) {
+                     toastr.warning(response.message, 'تنبيه');
+                } else {
+                     toastr.success(response.message, 'تمت العملية');
+                }
+            }
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText);
+            toastr.error('حدث خطأ أثناء تحديث الحالة', 'خطأ');
+        }
+    });
 });
 
 

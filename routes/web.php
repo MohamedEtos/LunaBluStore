@@ -13,6 +13,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController as StoreProductController;
+use App\Http\Controllers\ShapingCoastController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Orders;
 
@@ -23,6 +24,8 @@ use App\Models\Orders;
     Route::get('/', [IndexController::class, 'index'])->name('home');
     Route::get('/product', [StoreProductController::class, 'index'])->name('product');
     Route::get('/product/{product:slug}', [StoreProductController::class, 'show'])->name('product.show');
+    Route::post('/review/store', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
+    Route::post('/message/store', [\App\Http\Controllers\MessageController::class, 'store'])->name('message.store');
 
 
 
@@ -71,6 +74,13 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 });
 
+Route::controller(ShapingCoastController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/shaping_coast', 'index')->name('shaping_coast');
+    Route::post('/shaping_coast/{id}/toggle-free-shipping', 'toggleFreeShipping')->name('toggle_free_shipping');
+    Route::post('/shaping_coast/{id}/update-shipping-cost', 'updateShippingCost')->name('update_shipping_cost');
+    Route::post('/shaping_coast/store', 'store')->name('store_shaping_coast');
+    Route::post('/shaping_coast/delete/{id}', 'destroy')->name('delete_shaping_coast');
+});
 
 Route::controller(CategoryController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/Categorylist', 'index')->name('Categorylist');
@@ -85,15 +95,25 @@ Route::controller(ProductController::class)->middleware('auth')->prefix('admin')
     Route::post('/add_product', 'create')->name('add_product');
     Route::post('/edit_product/{productId}', 'edit_product')->name('edit_product');
     Route::post('/destroy/{productId}', 'destroy')->name('destroy');
+    Route::post('/toggle_status/{id}', 'toggleStatus')->name('product.toggle_status');
 });
 
 Route::controller(VisitorController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/visitorsList', 'index')->name('visitorsList');
+    Route::get('/visitorsActivities', 'activities')->name('visitorsActivities');
+    Route::post('/visitorsActivities/store', 'storeActivity')->name('storeVisitorActivity');
 });
 
 Route::controller(SettingController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('/setting', 'index')->name('setting');
+    Route::post('/setting/update', 'update')->name('setting.update');
 
+});
+
+Route::controller(\App\Http\Controllers\Admin\ErrorLogController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/errors', 'index')->name('admin.errors.index');
+    Route::get('/errors/delete/{id}', 'destroy')->name('admin.errors.destroy');
+    Route::post('/errors/clear', 'clear')->name('admin.errors.clear');
 });
 
 Route::controller(FabricTypeController::class)->middleware('auth')->prefix('admin')->group(function(){
@@ -104,13 +124,23 @@ Route::controller(FabricTypeController::class)->middleware('auth')->prefix('admi
 
 Route::controller(OrdersController::class)->middleware('auth')->prefix('admin')->group(function(){
     Route::get('Orders', 'index')->name('Orders');
+    Route::get('notifications/latest', 'latestNotifications')->name('admin.notifications.latest');
     Route::get('/Orders/{id}/price', 'GetProductInfo')->name('GetProductInfo');
     Route::post('Send_whatsapp', 'Send_whatsapp')->name('Send_whatsapp');
     Route::post('StoreOrder', 'StoreOrder')->name('StoreOrder');
     Route::post('multideleteOrders', 'multideleteOrders')->name('multideleteOrders');
     Route::post('/destroyOrder/{productId}', 'destroyOrder')->name('destroyOrder');
+});
 
+Route::controller(\App\Http\Controllers\Admin\ReviewController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/reviews', 'index')->name('admin.reviews.index');
+    Route::post('/reviews/status/{review}', 'updateStatus')->name('admin.reviews.updateStatus');
+    Route::delete('/reviews/{review}', 'destroy')->name('admin.reviews.destroy');
+});
 
+Route::controller(\App\Http\Controllers\Admin\MessageController::class)->middleware('auth')->prefix('admin')->group(function(){
+    Route::get('/messages', 'index')->name('admin.messages.index');
+    Route::delete('/messages/{id}', 'destroy')->name('admin.messages.destroy');
 });
 
 

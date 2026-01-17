@@ -15,9 +15,11 @@
     </noscript>
 
     <link rel="stylesheet" href="{{ asset('store/vendor/slick/slick.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('store/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('store/fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    
+    <link rel="stylesheet" href="{{ asset('store/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}" 
+        media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('store/fonts/iconic/css/material-design-iconic-font.min.css') }}" 
+        media="print" onload="this.media='all'">
 
     <link rel="stylesheet" href="{{ asset('store/vendor/css-hamburgers/hamburgers.min.css') }}"
         media="print" onload="this.media='all'">
