@@ -2,27 +2,10 @@
 
 @section('css')
     <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/vendors-rtl.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/vendors/css/tables/datatable/datatables.min.css') }}">
     <!-- END: Vendor CSS-->
 
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/themes/semi-dark-layout.css') }}">
 
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/core/colors/palette-gradient.css') }}">
-    <!-- END: Page CSS-->
-
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css-rtl/custom-rtl.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/css/style-rtl.css') }}">
-    <!-- END: Custom CSS-->
 @endsection
 
 @section('content')
@@ -151,13 +134,5 @@
 @endsection
 
 @section('script')
-    <!-- BEGIN: Vendor JS-->
-    <script src="{{ asset('admin/vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
 
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('admin/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('admin/js/core/app.js') }}"></script>
-    <script src="{{ asset('admin/js/scripts/components.js') }}"></script>
-    <!-- END: Theme JS-->
 @endsection
